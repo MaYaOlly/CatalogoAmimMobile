@@ -1,11 +1,11 @@
 export class Produto {
   constructor(
-    private _id: number,
+    private _id: string,
     private _nome: string,
     private _descricao: string,
     private _preco: number,
     private _categoria: string,
-    private _imagemUrl: string,
+    private _imagemUrl: string | null,
     private _disponivel: boolean
   ) {
     this.validar();
