@@ -6,7 +6,7 @@ import { Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 
-const App = () => {
+const TelaDeLogin = () => {
   //Serve para colocar o olhinho no input de senha:
   const [senhaVisivel, setSenhaVisivel] = React.useState(false);
 
@@ -16,7 +16,7 @@ const App = () => {
   return (
     <View style={styles.container}>
       <Image 
-        source={require("../../assets/logo.png")}
+        source={require("../../assets/logo3.png")}
         style={styles.logo}
       />
       <TextInput 
@@ -75,7 +75,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fcfbfc',
     alignItems:"center",
     justifyContent: 'center',
   },
@@ -153,4 +153,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default TelaDeLogin;

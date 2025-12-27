@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import { Pressable } from 'react-native';
 
-const App = () => {
+const CarrinhoVazio = () => {
   return (
     <ScrollView
     contentContainerStyle={styles.container}
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
     paddingVertical: "12%",
     paddingHorizontal: "7%",
     width: '95%',
-  
     alignItems: 'center',
     
   },
@@ -57,6 +56,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
+
+  
 });
 
-export default App;
+export default CarrinhoVazio;

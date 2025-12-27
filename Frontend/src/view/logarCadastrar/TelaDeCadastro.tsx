@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 
-const App = () => {
+const TelaDeCadastro = () => {
   //Serve para colocar o olhinho no input de senha:
   const [senhaVisivel, setSenhaVisivel] = React.useState(false);
 
@@ -157,7 +157,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fcfbfc',
     alignItems:"center",
     justifyContent: 'flex-start',
     paddingTop: 40,
@@ -247,4 +247,4 @@ const styles = StyleSheet.create({
   
 });
 
-export default App;
+export default TelaDeCadastro;
