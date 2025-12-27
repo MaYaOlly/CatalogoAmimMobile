@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
 
 
-const App = () => {
+const CarrinhoCheio = () => {
   // serve para mudar a cor  do botão clicável
   const [pressionado2, setPressionado2] = React.useState(false); 
   const [pressionado4, setPressionado4] = React.useState(false);
@@ -228,4 +228,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default CarrinhoCheio;
