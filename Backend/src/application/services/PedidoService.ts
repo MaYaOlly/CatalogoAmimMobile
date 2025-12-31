@@ -1,0 +1,106 @@
+import { Pedido } from '../../domain/models/class/Pedido';
+import { ItemPedido } from '../../domain/models/class/ItemPedido';
+import { IPedidoRepository } from '../../domain/models/interfaces/IPedidoRepository';
+import { IProdutoRepository } from '../../domain/models/interfaces/IProdutoRepository';
+import { IUsuarioRepository } from '../../domain/models/interfaces/IUsuarioRepository';
+import { ICupomRepository } from '../../domain/models/interfaces/ICupomRepository';
+
+// DTO (Data Transfer Object) para definir a estrutura de dados para criar um pedido
+export interface CriarPedidoDTO {
+  usuarioId: string;
+  itens: Array<{
+    produtoId: string;
+    quantidade: number;
+  }>;
+  cupomCodigo?: string;
+}
+
+export class PedidoService {
+  constructor(
+    private pedidoRepository: IPedidoRepository,
+    private produtoRepository: IProdutoRepository,
+    private usuarioRepository: IUsuarioRepository,
+    private cupomRepository: ICupomRepository
+  ) {}
+
+  async criarPedido(dados: CriarPedidoDTO): Promise<Pedido> {
+    // 1. Validar a existência do usuário
+    const usuario = await this.usuarioRepository.buscarPorId(dados.usuarioId);
+    if (!usuario) {
+      throw new Error('Usuário não encontrado.');
+    }
+
+    // 2. Validar e buscar cada produto, criando os Itens do Pedido
+    const itensPedido: ItemPedido[] = [];
+    for (const item of dados.itens) {
+      const produto = await this.produtoRepository.buscarPorId(item.produtoId);
+      if (!produto) {
+        throw new Error(`Produto com ID ${item.produtoId} não encontrado.`);
+      }
+      if (!produto.disponivel) {
+        throw new Error(`O produto "${produto.nome}" não está disponível no momento.`);
+      }
+      // Criamos a entidade ItemPedido, "congelando" o preço do produto no momento da compra
+      const novoItem = new ItemPedido(
+        '', // O ID será gerado pelo banco de dados
+        produto,
+        item.quantidade,
+        produto.preco, // Preço no momento da compra
+        '' // O ID do pedido será associado pelo repositório
+      );
+      itensPedido.push(novoItem);
+    }
+
+    // 3. Criar a entidade Pedido com os dados validados
+    const novoPedido = new Pedido(
+      '', // O ID será gerado pelo banco
+      dados.usuarioId,
+      itensPedido,
+      'realizado', // Status inicial do pedido
+      new Date()
+    );
+
+    // 4. Se um código de cupom foi fornecido, buscar e aplicar
+    if (dados.cupomCodigo) {
+      const cupom = await this.cupomRepository.buscarPorCodigo(dados.cupomCodigo);
+      if (!cupom) {
+        throw new Error('O cupom de desconto informado é inválido.');
+      }
+      // A entidade Pedido é responsável por validar e aplicar o cupom
+      novoPedido.aplicarCupom(cupom);
+    }
+
+    // 5. Persistir o pedido completo usando o repositório
+    return this.pedidoRepository.criar(novoPedido);
+  }
+
+  async buscarPedidoPorId(id: string): Promise<Pedido | null> {
+    const pedido = await this.pedidoRepository.buscarPorId(id);
+    if (!pedido) {
+      throw new Error('Pedido não encontrado.');
+    }
+    return pedido;
+  }
+
+  async listarPedidosPorUsuario(usuarioId: string): Promise<Pedido[]> {
+    return this.pedidoRepository.listarPorUsuario(usuarioId);
+  }
+
+  async confirmarPedido(id: string): Promise<Pedido> {
+    const pedido = await this.pedidoRepository.buscarPorId(id);
+    if (!pedido) {
+      throw new Error('Pedido não encontrado.');
+    }
+    pedido.confirmar(); // Lógica de negócio na entidade
+    return this.pedidoRepository.atualizarStatus(id, pedido.status);
+  }
+
+  async cancelarPedido(id: string): Promise<Pedido> {
+    const pedido = await this.pedidoRepository.buscarPorId(id);
+    if (!pedido) {
+      throw new Error('Pedido não encontrado.');
+    }
+    pedido.cancelar(); // Lógica de negócio na entidade
+    return this.pedidoRepository.atualizarStatus(id, pedido.status);
+  }
+}

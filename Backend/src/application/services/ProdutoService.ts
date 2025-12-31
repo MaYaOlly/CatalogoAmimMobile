@@ -2,7 +2,7 @@ import { Produto } from "../../domain/models/class/Produto";
 import { IProdutoRepository } from "../../domain/models/interfaces/IProdutoRepository";
 
 export class ProdutoService {
-  constructor(private produtoRepository: IProdutoRepository) {}
+  constructor(private produtoRepository: IProdutoRepository) { }
 
   async listarProdutosDisponiveis(): Promise<Produto[]> {
     const todosOsProdutos = await this.produtoRepository.listarTodos();
@@ -51,7 +51,10 @@ export class ProdutoService {
   }
 
   async deletarProduto(id: string): Promise<boolean> {
-    this.produtoRepository.deletar(id);
+    const produto = await this.produtoRepository.buscarPorId(id);
+    if (!produto) return false;
+
+    await this.produtoRepository.deletar(id);
     return true;
   }
 }

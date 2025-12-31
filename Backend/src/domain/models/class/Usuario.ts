@@ -4,7 +4,8 @@ export class Usuario {
     private _nome: string,
     private _email: string,
     private _senhaHash: string,
-    private _endereco: string | null
+    private _endereco: string | null,
+    private _telefone: string | null
   ) {
     this.validar();
   }
@@ -32,15 +33,19 @@ export class Usuario {
   get endereco() {
     return this._endereco;
   }
+  get telefone() {
+    return this._telefone;
+  }
 
   verificarSenha(senha: string, comparador: (senha: string, hash: string) => Promise<boolean>) {
     return comparador(senha, this._senhaHash);
   }
 
-  atualizarPerfil(nome: string, endereco: string | null) {
+  atualizarPerfil(nome: string, endereco: string | null, telefone: string | null) {
     if (!nome) throw new Error("Nome não pode ser vazio.");
     this._nome = nome;
     this._endereco = endereco;
+    this._telefone = telefone;
   }
 
   toPersistence() {
@@ -48,8 +53,9 @@ export class Usuario {
       id: this._id,
       nome: this._nome,
       email: this._email,
-      senha: this._senhaHash, 
+      senha: this._senhaHash,
       endereco: this._endereco,
+      telefone: this._telefone
     };
   }
 
@@ -59,7 +65,8 @@ export class Usuario {
     email: string;
     senha: string;
     endereco: string | null;
+    telefone: string | null;
   }) {
-    return new Usuario(data.id, data.nome, data.email, data.senha, data.endereco);
+    return new Usuario(data.id, data.nome, data.email, data.senha, data.endereco, data.telefone);
   }
 }

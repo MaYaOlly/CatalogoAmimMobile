@@ -32,6 +32,7 @@ model Usuario {
   email   String   @unique
   senha   String
   endereco String?
+  telefone  String?
   pedidos Pedido[]
 
   @@map("usuarios")
@@ -53,7 +54,7 @@ model Pedido {
 
 model ItemPedido {
   id        String  @id @default(uuid())
-  pedido    Pedido  @relation(fields: [pedidoId], references: [id])
+  pedido    Pedido  @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
   pedidoId  String
   produto   Produto @relation(fields: [produtoId], references: [id])
   produtoId String

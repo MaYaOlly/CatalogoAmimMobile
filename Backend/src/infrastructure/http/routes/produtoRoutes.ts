@@ -1,22 +1,10 @@
 import { FastifyInstance } from 'fastify';
-import { ProdutoController } from '../controllers/ProdutoController';
-import { PrismaClient } from '@prisma/client';
-import { PrismaProdutoRepository } from '../../repository/PrismaProdutoRepository';
-import { ProdutoService } from '../../../application/services/ProdutoService';
-
-const prisma = new PrismaClient();
-const produtoRepository = new PrismaProdutoRepository(prisma);
-const produtoService = new ProdutoService(produtoRepository);
-const produtoController = new ProdutoController(produtoService);
+import { produtoController } from '../container'; // Importa o controller pronto!
 
 export async function produtoRoutes(app: FastifyInstance) {
-  app.get('/produtos', (req, reply) => produtoController.listar(req, reply));
-  
-  app.get('/produtos/:id', (req, reply) => produtoController.buscarPorId(req, reply));
-
-  app.post('/produtos', (req, reply) => produtoController.criar(req, reply));
-
-  app.patch('/produtos/:id', (req, reply) => produtoController.atualizar(req, reply));
-
-  app.delete('/produtos/:id', (req, reply) => produtoController.deletar(req, reply));
+  app.get('/produtos', produtoController.listar.bind(produtoController));
+  app.get('/produtos/:id', produtoController.buscarPorId.bind(produtoController));
+  app.post('/produtos', produtoController.criar.bind(produtoController));
+  app.patch('/produtos/:id', produtoController.atualizar.bind(produtoController));
+  app.delete('/produtos/:id', produtoController.deletar.bind(produtoController));
 }

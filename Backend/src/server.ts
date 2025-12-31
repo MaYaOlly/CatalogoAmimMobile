@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { produtoRoutes } from "./infrastructure/http/routes/produtoRoutes";
+import { pedidoRoutes } from "./infrastructure/http/routes/pedidoRoutes";
 
 const app = Fastify({ logger: true });
 
@@ -9,6 +10,7 @@ app.register(cors, {
 });
 
 app.register(produtoRoutes);
+app.register(pedidoRoutes);
 
 app.get("/", async () => {
   return { message: "Hello World" };

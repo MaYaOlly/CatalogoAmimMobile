@@ -2,7 +2,7 @@ import { ItemPedido } from "./ItemPedido";
 import { Usuario } from "./Usuario";
 import { Cupom } from "./Cupom";
 
-export type StatusPedido = "pendente" | "confirmado" | "enviado" | "entregue" | "cancelado";
+export type StatusPedido = "realizado" | "pendente" | "confirmado" | "enviado" | "entregue" | "cancelado";
 
 export class Pedido {
   private _precoTotal: number = 0;
@@ -10,7 +10,7 @@ export class Pedido {
 
   constructor(
     private _id: string,
-    private _usuario: Usuario,
+    private _usuarioID: string,
     private _itens: ItemPedido[],
     private _status: StatusPedido,
     private _data: Date
@@ -20,7 +20,7 @@ export class Pedido {
   }
 
   private validar() {
-    if (!this._usuario) throw new Error("Usuário é obrigatório");
+    if (!this._usuarioID) throw new Error("Usuário é obrigatório");
     if (!this._itens || this._itens.length === 0) {
       throw new Error("O pedido deve ter pelo menos um item");
     }
@@ -43,14 +43,14 @@ export class Pedido {
   }
 
   confirmar() {
-    if (this._status !== "pendente") {
-      throw new Error("Apenas pedidos pendentes podem ser confirmados");
+    if (this._status !== "realizado") {
+      throw new Error("Apenas pedidos realizados podem ser confirmados");
     }
     this._status = "confirmado";
   }
 
   cancelar() {
-    if (this._status !== "pendente" && this._status !== "confirmado") {
+    if (this._status !== "pendente" && this._status !== "confirmado" && this._status !== "realizado") {
       throw new Error("Este pedido não pode mais ser cancelado");
     }
     this._status = "cancelado";
@@ -60,8 +60,8 @@ export class Pedido {
     return this._id;
   }
 
-  get usuario() {
-    return this._usuario;
+  get usuarioID() {
+    return this._usuarioID;
   }
 
   get itens() {
