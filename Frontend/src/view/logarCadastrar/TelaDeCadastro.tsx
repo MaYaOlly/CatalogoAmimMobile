@@ -4,10 +4,20 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
+import { RootStackParamList } from '../App';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+type TelaDeCadastroNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'CadastrarUsuário'
+>;
 
+type Props = {
+  navigation: TelaDeCadastroNavigationProp;
+};
 
-const TelaDeCadastro = () => {
+const TelaDeCadastro = ({ navigation }: Props) => {
+
   //Serve para colocar o olhinho no input de senha:
   const [senhaVisivel, setSenhaVisivel] = React.useState(false);
 
@@ -146,6 +156,9 @@ const TelaDeCadastro = () => {
   activeOpacity={0.8}
   onPressIn={() => setPressionado2(true)}
   onPressOut={() => setPressionado2(false)}
+  onPress={() =>
+    navigation.navigate('TelaInicial', { nome: 'React Native' })
+    }
 >
   <Text style={styles.textoDoBotao}>Criar uma nova conta</Text>
 </TouchableOpacity>
