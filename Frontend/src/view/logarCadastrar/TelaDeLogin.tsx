@@ -2,11 +2,20 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
-import { Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../App';
 
+type TelaDeLoginNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Login'
+>;
 
-const TelaDeLogin = () => {
+type Props = {
+  navigation: TelaDeLoginNavigationProp;
+};
+
+const TelaDeLogin = ({ navigation }: Props) => {
   //Serve para colocar o olhinho no input de senha:
   const [senhaVisivel, setSenhaVisivel] = React.useState(false);
 
@@ -16,7 +25,7 @@ const TelaDeLogin = () => {
   return (
     <View style={styles.container}>
       <Image 
-        source={require("../../assets/logo3.png")}
+        source={require("../../../assets/logo3.png")}
         style={styles.logo}
       />
       <TextInput 
@@ -52,6 +61,8 @@ const TelaDeLogin = () => {
   activeOpacity={0.8}
   onPressIn={() => setPressionado(true)}
   onPressOut={() => setPressionado(false)}
+  onPress={() => navigation.navigate('TelaInicial', { nome: 'React Native' })
+  }
 >
   <Text style={styles.textoDoBotao}>ENTRAR</Text>
 </TouchableOpacity>
@@ -64,6 +75,9 @@ const TelaDeLogin = () => {
   activeOpacity={0.8}
   onPressIn={() => setPressionado2(true)}
   onPressOut={() => setPressionado2(false)}
+  onPress={() =>
+  navigation.navigate('CadastrarUsuário', { nome: 'React Native' })
+  }
 >
   <Text style={styles.textoDoBotao}>Criar uma nova conta</Text>
 </TouchableOpacity>
