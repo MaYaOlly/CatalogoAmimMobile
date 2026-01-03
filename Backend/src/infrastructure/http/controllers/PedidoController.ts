@@ -1,7 +1,15 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { PedidoService, CriarPedidoDTO } from '../../../application/services/PedidoService';
 
+/**
+ * Controller de pedidos.
+ * Gerencia os handlers HTTP para operações com pedidos (criar, buscar, listar, confirmar, cancelar).
+ */
 export class PedidoController {
+  /**
+   * Cria uma nova instância do PedidoController.
+   * @param pedidoService - Service de pedidos para lógica de negócio
+   */
   constructor(private pedidoService: PedidoService) {}
 
   // Handler para criar um novo pedido
@@ -21,7 +29,12 @@ export class PedidoController {
     }
   }
 
-  // Handler para buscar um pedido pelo seu ID
+  /**
+   * Handler para buscar um pedido pelo seu ID.
+   * @param request - Requisição HTTP contendo o ID do pedido
+   * @param reply - Resposta HTTP
+   * @returns Dados do pedido encontrado com status 200 ou erro 404
+   */
   async buscarPorId(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
     try {
       const { id } = request.params;
@@ -32,7 +45,12 @@ export class PedidoController {
     }
   }
 
-  // Handler para listar os pedidos de um usuário específico
+  /**
+   * Handler para listar os pedidos de um usuário específico.
+   * @param request - Requisição HTTP contendo o ID do usuário
+   * @param reply - Resposta HTTP
+   * @returns Array de pedidos do usuário com status 200 ou erro 500
+   */
   async listarPorUsuario(request: FastifyRequest<{ Params: { usuarioId: string } }>, reply: FastifyReply) {
     try {
       const { usuarioId } = request.params;
@@ -43,7 +61,12 @@ export class PedidoController {
     }
   }
 
-  // Handler para confirmar um pedido
+  /**
+   * Handler para confirmar um pedido.
+   * @param request - Requisição HTTP contendo o ID do pedido
+   * @param reply - Resposta HTTP
+   * @returns Dados do pedido confirmado com status 200 ou erro 400
+   */
   async confirmar(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
     try {
       const { id } = request.params;
@@ -54,7 +77,12 @@ export class PedidoController {
     }
   }
 
-  // Handler para cancelar um pedido
+  /**
+   * Handler para cancelar um pedido.
+   * @param request - Requisição HTTP contendo o ID do pedido
+   * @param reply - Resposta HTTP
+   * @returns Dados do pedido cancelado com status 200 ou erro 400
+   */
   async cancelar(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
     try {
       const { id } = request.params;

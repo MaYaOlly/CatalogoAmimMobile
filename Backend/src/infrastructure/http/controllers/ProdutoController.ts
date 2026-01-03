@@ -1,7 +1,15 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { ProdutoService } from '../../../application/services/ProdutoService';
 
+/**
+ * Controller de produtos.
+ * Gerencia os handlers HTTP para operações com produtos (listar, buscar, criar, atualizar, deletar).
+ */
 export class ProdutoController {
+  /**
+   * Cria uma nova instância do ProdutoController.
+   * @param produtoService - Service de produtos para lógica de negócio
+   */
   constructor(private produtoService: ProdutoService) { }
 
   async listar(_req: FastifyRequest, reply: FastifyReply) {
@@ -14,6 +22,12 @@ export class ProdutoController {
     }
   }
 
+  /**
+   * Handler para buscar um produto pelo seu ID.
+   * @param req - Requisição HTTP contendo o ID do produto
+   * @param reply - Resposta HTTP
+   * @returns Dados do produto encontrado ou erro 404/500
+   */
   async buscarPorId(req: FastifyRequest, reply: FastifyReply) {
     try {
       const { id } = req.params as { id: string };
@@ -28,7 +42,17 @@ export class ProdutoController {
       reply.status(500).send({ message: 'Erro ao buscar produto' });
     }
   }
-
+  /**
+   * Handler para listar todos os produtos disponíveis.
+   * @param _req - Requisição HTTP
+   * @param reply - Resposta HTTP
+   * @returns Array de produtos disponíveis ou erro 500
+   */  /**
+   * Handler para criar um novo produto.
+   * @param req - Requisição HTTP contendo os dados do produto
+   * @param reply - Resposta HTTP
+   * @returns Resposta com status 201 e dados do produto criado ou erro 500
+   */
   async criar(req: FastifyRequest, reply: FastifyReply) {
     try {
       const {
@@ -63,6 +87,12 @@ export class ProdutoController {
     }
   }
 
+  /**
+   * Handler para atualizar um produto existente.
+   * @param req - Requisição HTTP contendo o ID e dados a atualizar
+   * @param reply - Resposta HTTP
+   * @returns Dados do produto atualizado ou erro 404/500
+   */
   async atualizar(req: FastifyRequest, reply: FastifyReply) {
     try {
       const { id } = req.params as { id: string };
@@ -91,6 +121,12 @@ export class ProdutoController {
     }
   }
 
+  /**
+   * Handler para deletar um produto.
+   * @param req - Requisição HTTP contendo o ID do produto
+   * @param reply - Resposta HTTP
+   * @returns Resposta com status 204 ao deletar com sucesso ou erro 404/500
+   */
   async deletar(req: FastifyRequest, reply: FastifyReply) {
     try {
       const { id } = req.params as { id: string };

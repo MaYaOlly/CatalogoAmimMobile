@@ -8,7 +8,15 @@ import { Cupom } from '../../domain/models/class/Cupom';
 type PrismaPedidoCompleto = Awaited<ReturnType<PrismaPedidoRepository['findCompletoById']>>;
 
 
+/**
+ * Implementação de PrismaPedidoRepository usando Prisma ORM.
+ * Fornece acesso aos dados de pedidos no banco de dados.
+ */
 export class PrismaPedidoRepository implements IPedidoRepository {
+  /**
+   * Cria uma nova instância do repositório de pedidos.
+   * @param prisma - Cliente Prisma para acesso ao banco de dados
+   */
   constructor(private prisma: PrismaClient) {}
 
   // Método auxiliar para buscar um pedido com todas as suas relações
@@ -27,7 +35,13 @@ export class PrismaPedidoRepository implements IPedidoRepository {
     });
   }
 
-  // Método privado para mapear o resultado do Prisma para a nossa entidade de domínio
+  /**
+   * Método privado para mapear dados do Prisma para a entidade de domínio Pedido.
+   * Reconstrói todos os objetos de domínio a partir dos dados persistidos.
+   * @param prismaPedido - Dados do pedido retornados pelo Prisma
+   * @returns Entidade Pedido do domínio ou null
+   * @private
+   */
   private mapToDomain(prismaPedido : PrismaPedidoCompleto): Pedido | null {
     if (!prismaPedido) {
       return null;
@@ -70,6 +84,11 @@ export class PrismaPedidoRepository implements IPedidoRepository {
     return pedido;
   }
 
+  /**
+   * Cria um novo pedido no banco de dados.
+   * @param pedido - Entidade Pedido a ser persistida
+   * @returns Promise que resolve para o pedido criado com ID gerado
+   */
   async criar(pedido: Pedido): Promise<Pedido> {
     const novoPedidoPrisma = await this.prisma.pedido.create({
       data: {
@@ -94,11 +113,22 @@ export class PrismaPedidoRepository implements IPedidoRepository {
     return this.mapToDomain(pedidoCompleto)!;
   }
 
+  /**
+   * Busca um pedido no banco de dados pelo seu ID.
+   * @param id - ID do pedido a ser buscado
+   * @returns Promise que resolve para o pedido encontrado ou null
+   */
   async buscarPorId(id: string): Promise<Pedido | null> {
     const prismaPedido = await this.findCompletoById(id);
     return this.mapToDomain(prismaPedido);
   }
 
+  /**
+   * Lista todos os pedidos de um usuário específico.
+   * Os pedidos são ordenados por data em ordem decrescente (mais recentes primeiro).
+   * @param usuarioId - ID do usuário cujos pedidos serão listados
+   * @returns Promise que resolve para um array de pedidos do usuário
+   */
   async listarPorUsuario(usuarioId: string): Promise<Pedido[]> {
     const prismaPedidos = await this.prisma.pedido.findMany({
       where: { usuarioId },
@@ -118,6 +148,12 @@ export class PrismaPedidoRepository implements IPedidoRepository {
     return prismaPedidos.map(p => this.mapToDomain(p)).filter(p => p !== null) as Pedido[];
   }
 
+  /**
+   * Atualiza o status de um pedido existente no banco de dados.
+   * @param id - ID do pedido a ser atualizado
+   * @param status - Novo status para o pedido
+   * @returns Promise que resolve para o pedido com status atualizado
+   */
   async atualizarStatus(id: string, status: string): Promise<Pedido> {
     await this.prisma.pedido.update({
       where: { id },

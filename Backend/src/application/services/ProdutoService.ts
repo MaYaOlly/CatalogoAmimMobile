@@ -1,7 +1,15 @@
 import { Produto } from "../../domain/models/class/Produto";
 import { IProdutoRepository } from "../../domain/models/interfaces/IProdutoRepository";
 
+/**
+ * Service de gestão de produtos.
+ * Implementa a lógica de negócio para operações com produtos do catálogo.
+ */
 export class ProdutoService {
+  /**
+   * Cria uma nova instância do ProdutoService.
+   * @param produtoRepository - Repositório de produtos para persistência de dados
+   */
   constructor(private produtoRepository: IProdutoRepository) { }
 
   async listarProdutosDisponiveis(): Promise<Produto[]> {
@@ -10,10 +18,25 @@ export class ProdutoService {
     return todosOsProdutos.filter(produto => produto.disponivel);
   }
 
+  /**
+   * Busca um produto específico pelo seu ID.
+   * @param id - ID do produto a ser buscado
+   * @returns Promise que resolve para o produto encontrado ou null
+   */
   async buscarProdutoPorId(id: string): Promise<Produto | null> {
     return this.produtoRepository.buscarPorId(id);
   }
 
+  /**
+   * Cria um novo produto no catálogo.
+   * @param nome - Nome do produto
+   * @param descricao - Descrição detalhada do produto
+   * @param preco - Preço do produto
+   * @param categoria - Categoria à qual o produto pertence
+   * @param imagem - URL da imagem do produto
+   * @param disponivel - Se o produto está disponível para venda
+   * @returns Promise que resolve para o produto criado
+   */
   async criarProduto(
     nome: string,
     descricao: string,
@@ -34,6 +57,12 @@ export class ProdutoService {
     return this.produtoRepository.criar(novoProduto);
   }
 
+  /**
+   * Atualiza um produto existente com novos dados.
+   * @param id - ID do produto a ser atualizado
+   * @param dados - Objeto com os campos a serem atualizados
+   * @returns Promise que resolve para o produto atualizado ou null se não encontrado
+   */
   async atualizarProduto(
     id: string,
     dados: Partial<{ nome: string; descricao: string; preco: number; categoria: string; disponivel: boolean, imagem: string }>
@@ -50,6 +79,11 @@ export class ProdutoService {
     return this.produtoRepository.atualizar(id, produtoExistente);
   }
 
+  /**
+   * Deleta um produto do catálogo.
+   * @param id - ID do produto a ser deletado
+   * @returns Promise que resolve para true se deletado com sucesso, false se não encontrado
+   */
   async deletarProduto(id: string): Promise<boolean> {
     const produto = await this.produtoRepository.buscarPorId(id);
     if (!produto) return false;
