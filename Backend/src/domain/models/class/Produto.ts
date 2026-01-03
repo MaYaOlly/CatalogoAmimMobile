@@ -57,5 +57,44 @@ export class Produto {
   alterarDisponibilidade(status: boolean) {
     this._disponivel = status;
   }
+  static fromPersistence(data: {
+    id: string;
+    nome: string;
+    descricao: string;
+    preco: number;
+    categoria: string;
+    imagemUrl: string | null;
+    disponivel: boolean;
+  }) {
+    return new Produto(
+      data.id,
+      data.nome,
+      data.descricao,
+      data.preco,
+      data.categoria,
+      data.imagemUrl,
+      data.disponivel
+    );
+  }
+  
+  public atualizar(dados: Partial<{ nome: string; descricao: string; preco: number; categoria: string; imagem: string; disponivel: boolean }>) {
+    this._nome = dados.nome ?? this._nome;
+    this._descricao = dados.descricao ?? this._descricao;
+    this._preco = dados.preco ?? this._preco;
+    this._categoria = dados.categoria ?? this._categoria;
+    this._imagemUrl = dados.imagem ?? this._imagemUrl;
+    this._disponivel = dados.disponivel ?? this._disponivel;
+  }
+   public toPersistence() {
+    return {
+      id: this._id,
+      nome: this._nome,
+      descricao: this._descricao,
+      preco: this._preco,
+      categoria: this._categoria,
+      imagemUrl: this._imagemUrl,
+      disponivel: this._disponivel,
+    };
+  }
 }
 
