@@ -129,11 +129,13 @@ export default function BoloChocolateScreen() {
           <Text style={styles.arrow}>›</Text>
         </TouchableOpacity>
       </View>
+ 
 
       {/* CARDS */}
       <ScrollView style={styles.cardsContainer} showsVerticalScrollIndicator>
+        <Text style={styles.tituloCardapio}>Cardápio</Text>
         {bolos.map((bolo) => (
-          <View key={bolo.id} style={styles.card}>
+          <TouchableOpacity key={bolo.id} style={styles.card} activeOpacity={0.8} onPress={() => handlePressBolo(bolo)}>
             <View style={styles.textContainer}>
               <Text style={styles.title}>{bolo.nome}</Text>
               <Text style={styles.description}>{bolo.descricao}</Text>
@@ -141,7 +143,7 @@ export default function BoloChocolateScreen() {
             </View>
 
             <Image source={{ uri: bolo.imagem }} style={styles.cardImage} />
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
@@ -152,85 +154,108 @@ export default function BoloChocolateScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#fcfbfc",
   },
+
   header: {
     height: 80,
-    backgroundColor: "#fff",
+    backgroundColor: "#fce4ec", 
     justifyContent: "center",
     alignItems: "center",
-    elevation: 4, // sombra Android
-    shadowColor: "#000", // sombra iOS
+    elevation: 4,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
   },
+
   logo: {
     width: 120,
     height: 50,
   },
+
   carouselContainer: {
     position: "relative",
   },
+
   carouselImage: {
     width,
     height: 200,
   },
+
   leftButton: {
     position: "absolute",
     left: 10,
     top: "50%",
     transform: [{ translateY: -20 }],
-    backgroundColor: "rgba(20, 20, 20, 0.4)",
+    backgroundColor: "#f06292", 
     borderRadius: 20,
     padding: 10,
   },
+
   rightButton: {
     position: "absolute",
     right: 10,
     top: "50%",
     transform: [{ translateY: -20 }],
-    backgroundColor: "rgba(20, 20, 20, 0.4)",
+    backgroundColor: "#f06292",
     borderRadius: 20,
     padding: 10,
   },
+
   arrow: {
-    color: "#fff",
+    color: "#fcfbfc",
     fontSize: 24,
     fontWeight: "bold",
   },
+
   cardsContainer: {
     padding: 16,
   },
+
   card: {
     flexDirection: "row",
-    backgroundColor: "#ffd6e5ff",
+    backgroundColor: "#fce4ec", 
     borderRadius: 12,
     padding: 14,
     marginBottom: 12,
     elevation: 4,
   },
+
   textContainer: {
     flex: 1,
     paddingRight: 10,
     justifyContent: "space-between",
   },
+
   title: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "#a3214d", 
   },
+
   description: {
     fontSize: 13,
-    color: "#9c0087d5",
+    color: "#a3214d",
     marginVertical: 6,
   },
+
   price: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#9c0087d5",
+    color: "#ff4da6",
   },
+
   cardImage: {
     width: 100,
     height: 100,
     borderRadius: 10,
+  },
+
+  tituloCardapio: {
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginVertical: 16,
+    color: "#ff4da6",
   },
 });

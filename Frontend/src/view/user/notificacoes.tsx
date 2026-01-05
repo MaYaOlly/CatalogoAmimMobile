@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Alert,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, Alert, TouchableOpacity,} from "react-native";
 
 export default function SettingsScreen() {
   function handleLogout() {
@@ -28,13 +22,13 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#fcfbfc",
     padding: 16,
     justifyContent: "space-between",
   },
 
   infoBox: {
-    backgroundColor: "rgba(245, 214, 247, 1)",
+    backgroundColor: "#fce4ec", 
     padding: 14,
     borderRadius: 20,
     marginBottom: 12,
@@ -42,20 +36,19 @@ const styles = StyleSheet.create({
 
   infoText: {
     fontSize: 12,
-    color: "#b91588ff",
+    color: "#a3214d",
     textAlign: "center",
   },
 
   logoutButton: {
-    backgroundColor: "rgba(245, 214, 247, 1)",
+    backgroundColor: "#f06292", 
     padding: 16,
     borderRadius: 10,
     alignItems: "center",
   },
 
   logoutText: {
-    color: "#b91588ff",
-    fontSize: 13,
+    color: "#fcfbfc", 
     fontWeight: "bold",
   },
 });

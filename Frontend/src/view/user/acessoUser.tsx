@@ -60,58 +60,58 @@ export default function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#F5F5F5",
-        padding: 16,
-        justifyContent: "space-between",
-    },
+  container: {
+    flex: 1,
+    backgroundColor: "#fcfbfc",
+    padding: 16,
+    justifyContent: "space-between",
+  },
 
-    logo: {
-      width: 120,
-      height: 60,
-      marginBottom: "10%",
-    },
+  logo: {
+    width: 120,
+    height: 60,
+    marginBottom: "10%",
+  },
 
-    optionButton: {
-        backgroundColor: "rgba(245, 214, 247, 1)",
-        padding: 16,
-        borderRadius: 20,
-        marginBottom: 12,
-        elevation: 2, // Android
-        shadowColor: "#000", // iOS
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        shadowOffset: { width: 0, height: 2 },
-    },
+  optionButton: {
+    backgroundColor: "#251219ff", 
+    padding: 16,
+    borderRadius: 20,
+    marginBottom: 12,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+  },
 
-    optionText: {
-        fontSize: 16,
-        fontWeight: "500",
-        color: "#b91588ff",
-    },
+  optionText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#a3214d",
+  },
 
-    logoutButton: {
-        backgroundColor: "rgba(245, 214, 247, 1)",
-        padding: 16,
-        borderRadius: 10,
-        alignItems: "center",
-    },
+  logoutButton: {
+    backgroundColor: "#f06292",
+    padding: 16,
+    borderRadius: 10,
+    alignItems: "center",
+  },
 
-    logoutText: {
-        color: "#b91588ff",
-        fontSize: 16,
-        fontWeight: "bold",
-    },
+  logoutText: {
+    color: "#fcfbfc",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 
-    row: {
-        flexDirection: "row",
-        alignItems: "center",
-    },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
 
-    icon: {
-        width: 24,
-        height: 24,
-        marginRight: 12,
-    },
+  icon: {
+    width: 24,
+    height: 24,
+    marginRight: 12,
+  },
 });

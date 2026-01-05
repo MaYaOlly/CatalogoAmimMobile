@@ -8,8 +8,6 @@ export default function SettingsScreen() {
 
   return (
     <View style={styles.container}>
-
-        
       {/* RETÂNGULO INFORMATIVO */}
       <View style={styles.infoBox}>
         <Text style={styles.infoText}>
@@ -47,13 +45,13 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#fcfbfc", 
     padding: 16,
     justifyContent: "space-between",
   },
 
   infoBox: {
-    backgroundColor: "rgba(245, 214, 247, 1)",
+    backgroundColor: "#fce4ec",
     padding: 14,
     borderRadius: 20,
     marginBottom: 12,
@@ -61,11 +59,10 @@ const styles = StyleSheet.create({
 
   infoText: {
     fontSize: 12,
-    color: "#b91588ff",
+    color: "#a3214d", 
     textAlign: "center",
   },
 
-  /* === BOTÕES SOCIAIS === */
   socialContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -73,7 +70,7 @@ const styles = StyleSheet.create({
 
   socialButton: {
     flex: 1,
-    backgroundColor: "rgba(245, 214, 247, 1)",
+    backgroundColor: "#f06292",
     marginHorizontal: 4,
     height: 70,
     borderRadius: 12,
@@ -84,7 +81,7 @@ const styles = StyleSheet.create({
   socialText: {
     fontSize: 12,
     fontWeight: "bold",
-    color: "#b91588ff",
+    color: "#fcfbfc", 
     textAlign: "center",
   },
 });

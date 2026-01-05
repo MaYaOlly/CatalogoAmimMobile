@@ -7,7 +7,7 @@ export default function SettingsScreen() {
   }
 
   function handleLogout() {
-    Alert.alert("Sair", "Você saiu da conta.");
+    Alert.alert("", "Você saiu da conta.");
   }
 
   return (
@@ -57,17 +57,12 @@ const styles = StyleSheet.create({
     padding: 16,
     justifyContent: "space-between",
   },
-
   optionButton: {
     backgroundColor: "rgba(245, 214, 247, 1)",
     padding: 16,
     borderRadius: 20,
     marginBottom: 12,
-    elevation: 2, // Android
-    shadowColor: "#000", // iOS
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
   },
 
   optionText: {
@@ -79,7 +74,7 @@ const styles = StyleSheet.create({
   logoutButton: {
     backgroundColor: "rgba(245, 214, 247, 1)",
     padding: 16,
-    borderRadius: 10,
+    borderRadius: 20,
     alignItems: "center",
   },
 

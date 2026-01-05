@@ -47,71 +47,81 @@ export default function App() {
   )
 }
 
-const styles = StyleSheet.create ({
-    container: {
-        paddingVertical: 20,
-        paddingHorizontal: 16,
-        backgroundColor: "#f5f5f5",
-    },
-    card: {
-        backgroundColor: "#fdc7ff",
-        borderRadius: 12,
-        padding: 16,
-        marginBottom: 16,
-    },
-    logo: {
-        width: 120,
-        height: 60,
-        marginBottom: "10%",
-    },
-    card1: {
-        backgroundColor: "#fdc7ff",
-        borderRadius: 15,
-        padding: 8,
-        marginBottom: 16,
-    },
-    cardText: {
-        fontSize: 12,
-        color: "#333",
-        lineHeight: 18,
-    },
-    quantityPill: {
-        flexDirection: "row",
-        alignItems: "center",
-        backgroundColor: "#ff86b2",
-        borderRadius: 20,
-        paddingHorizontal: 6,
-        paddingVertical: 4,
-    },
-    buttonCircle: {
-        width: 20,
-        height: 20,
-        borderRadius: 10,
-        backgroundColor: "#ff86b2",
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    circleText: {
-        color: "#b91588ff",
-        fontSize: 18,
-        fontWeight: "bold",
-    },
-    quantity: {
-        color: "#fff",
-        fontSize: 14,
-        fontWeight: "bold",
-        marginHorizontal: 6,
-    },
-    addText: {
-        color: "#fff",
-        fontSize: 12,
-        fontWeight: "bold",
-        marginLeft: 10,
-    },
-    price: {
-        fontSize: 12,
-        fontWeight: "bold",
-        color: "#fff",
-        marginLeft: 4,
-    },
-})
+const styles = StyleSheet.create({
+  container: {
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    backgroundColor: "#fcfbfc",
+  },
+
+  card: {
+    backgroundColor: "#fce4ec", 
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+  },
+
+  logo: {
+    width: 120,
+    height: 60,
+    marginBottom: "10%",
+  },
+
+  card1: {
+    backgroundColor: "#fce4ec",
+    borderRadius: 15,
+    padding: 8,
+    marginBottom: 16,
+  },
+
+  cardText: {
+    fontSize: 12,
+    color: "#a3214d", 
+    lineHeight: 18,
+  },
+
+  quantityPill: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#ff4da6", 
+    borderRadius: 20,
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+  },
+
+  buttonCircle: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: "#f06292", 
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  circleText: {
+    color: "#fcfbfc",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+
+  quantity: {
+    color: "#fcfbfc",
+    fontSize: 14,
+    fontWeight: "bold",
+    marginHorizontal: 6,
+  },
+
+  addText: {
+    color: "#fcfbfc",
+    fontSize: 12,
+    fontWeight: "bold",
+    marginLeft: 10,
+  },
+
+  price: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "#fcfbfc",
+    marginLeft: 4,
+  },
+});
