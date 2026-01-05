@@ -9,6 +9,9 @@ import Perfil from '../view/user/perfil';
 import TrocarSenha from '../view/user/trocarSenha';
 import Notificacoes from '../view/user/notificacoes';
 import Informacoes from '../view/user/informacao';
+import TelaInicialHome from './home/telaInicial';
+import CarrinhoCheio from './carrinho/CarrinhoCheio';
+import CarrinhoVazio from './carrinho/CarrinhoVazio';
  
 export type RootStackParamList = {
   Login: undefined;
@@ -18,6 +21,9 @@ export type RootStackParamList = {
   TrocarSenha: undefined;
   Notificacoes: undefined;
   Informacoes: undefined;
+  Home: undefined;
+  Carrinho: undefined;
+  carrinhoVazio: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -29,20 +35,16 @@ const App = () => {
         <Stack.Screen name="Login" component={TelaDeLogin} />
         <Stack.Screen name="TelaInicial" component={TelaInicial} />
         <Stack.Screen name="CadastrarUsuário" component={TelaDeCadastro} />
+        <Stack.Screen name="Perfil" component={Perfil} />
+        <Stack.Screen name="TrocarSenha" component={TrocarSenha} />
+        <Stack.Screen name="Notificacoes" component={Notificacoes} />
+        <Stack.Screen name="Informacoes" component={Informacoes} />
+        <Stack.Screen name="Home" component={TelaInicialHome} />
+        <Stack.Screen name="Carrinho" component={CarrinhoCheio} />
+        <Stack.Screen name="carrinhoVazio" component={CarrinhoVazio} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-
-export function UserStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Perfil" component={Perfil} />
-      <Stack.Screen name="TrocarSenha" component={TrocarSenha} />
-      <Stack.Screen name="Notificacoes" component={Notificacoes} />
-      <Stack.Screen name="Informacoes" component={Informacoes} />
-    </Stack.Navigator>
-  )
-}
 
 export default App;

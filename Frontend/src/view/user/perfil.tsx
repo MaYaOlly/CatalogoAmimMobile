@@ -16,14 +16,14 @@ export default function SettingsScreen() {
       <View>
         <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Telefone")}>
             <View style={styles.row}>
-                <Image source={require("../assets/icons/perfil.png")} style={styles.icon}/>
+                <Image source={require("../../../assets/logo.png")} style={styles.icon}/>
                 <Text style={styles.optionText}>Telefone</Text>
             </View>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Nome")}>
             <View>
-                <Image source={require("../assets/icons/nome.png")} style={styles.icon}/>
+                <Image source={require("../../../assets/logo.png")} style={styles.icon}/>
                 <Text style={styles.optionText}>Nome</Text>
 
             </View>
@@ -56,6 +56,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     padding: 16,
     justifyContent: "space-between",
+  },
+
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  icon: {
+    width: 24,
+    height: 24,
+    marginRight: 12,
   },
 
   optionButton: {

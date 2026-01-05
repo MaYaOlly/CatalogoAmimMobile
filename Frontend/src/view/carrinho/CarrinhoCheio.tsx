@@ -13,7 +13,7 @@ const CarrinhoCheio = () => {
     contentContainerStyle={styles.container}
     showsVerticalScrollIndicator={false}>
       <Image 
-        source={require("../../assets/logo3.png")}
+        source={require("../../../assets/logo3.png")}
         style={styles.logo}
       />
       <View style={styles.suaSacolaELimpar}> 
@@ -52,7 +52,7 @@ const CarrinhoCheio = () => {
       
       <View style={styles.areaDeCupom}>
       <Image 
-        source={require("../../assets/etiquetav2.png")}
+        source={require("../../../assets/etiquetav2.png")}
         style={styles.etiqueta}
       />
       <TouchableOpacity 
@@ -61,7 +61,7 @@ const CarrinhoCheio = () => {
         </Text>
         </TouchableOpacity>
       <Image
-      source={require("../../assets/seta.png")}
+      source={require("../../../assets/seta.png")}
       style={styles.seta}
       />
       </View>

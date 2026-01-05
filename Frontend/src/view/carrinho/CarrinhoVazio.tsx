@@ -10,7 +10,7 @@ const CarrinhoVazio = () => {
     contentContainerStyle={styles.container}
     showsVerticalScrollIndicator={false}>
       <Image 
-        source={require("../../assets/logo3.png")}
+        source={require("../../../assets/logo3.png")}
         style={styles.logo}
       />
       <Text style={styles.texto}>Você não tem nenhum pedido</Text>
