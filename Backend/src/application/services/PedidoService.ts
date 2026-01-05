@@ -3,9 +3,12 @@ import { ItemPedido } from '../../domain/models/class/ItemPedido';
 import { IPedidoRepository } from '../../domain/models/interfaces/IPedidoRepository';
 import { IProdutoRepository } from '../../domain/models/interfaces/IProdutoRepository';
 import { IUsuarioRepository } from '../../domain/models/interfaces/IUsuarioRepository';
-import { ICupomRepository } from '../../domain/models/interfaces/ICupomRepository';
+import { CupomService } from './CupomService';
 
-// DTO (Data Transfer Object) para definir a estrutura de dados para criar um pedido
+/**
+ * DTO (Data Transfer Object) para definição de dados para criar um pedido.
+ * Contém o usuário, itens a serem pedidos e cupom de desconto (opcional).
+ */
 export interface CriarPedidoDTO {
   usuarioId: string;
   itens: Array<{
@@ -16,13 +19,26 @@ export interface CriarPedidoDTO {
 }
 
 export class PedidoService {
+  /**
+   * Cria uma nova instância do PedidoService.
+   * @param pedidoRepository - Repositório de pedidos para persistência de dados
+   * @param produtoRepository - Repositório de produtos para validação de itens
+   * @param usuarioRepository - Repositório de usuários para validação
+   * @param cupomService - Service de cupons para aplicação de descontos
+   */
   constructor(
     private pedidoRepository: IPedidoRepository,
     private produtoRepository: IProdutoRepository,
     private usuarioRepository: IUsuarioRepository,
-    private cupomRepository: ICupomRepository
+    private cupomService: CupomService  
   ) {}
 
+  /**
+   * Cria um novo pedido validando usuário, produtos e cupom.
+   * @param dados - Dados do pedido a ser criado
+   * @returns Promise que resolve para o pedido criado
+   * @throws {Error} Se o usuário não for encontrado, produto não existir ou não estiver disponível
+   */
   async criarPedido(dados: CriarPedidoDTO): Promise<Pedido> {
     // 1. Validar a existência do usuário
     const usuario = await this.usuarioRepository.buscarPorId(dados.usuarioId);
@@ -62,7 +78,7 @@ export class PedidoService {
 
     // 4. Se um código de cupom foi fornecido, buscar e aplicar
     if (dados.cupomCodigo) {
-      const cupom = await this.cupomRepository.buscarPorCodigo(dados.cupomCodigo);
+      const cupom = await this.cupomService.validarCupom(dados.cupomCodigo);
       if (!cupom) {
         throw new Error('O cupom de desconto informado é inválido.');
       }
@@ -74,6 +90,12 @@ export class PedidoService {
     return this.pedidoRepository.criar(novoPedido);
   }
 
+  /**
+   * Busca um pedido pelo seu ID.
+   * @param id - ID do pedido a ser buscado
+   * @returns Promise que resolve para o pedido encontrado
+   * @throws {Error} Se o pedido não for encontrado
+   */
   async buscarPedidoPorId(id: string): Promise<Pedido | null> {
     const pedido = await this.pedidoRepository.buscarPorId(id);
     if (!pedido) {
@@ -82,10 +104,21 @@ export class PedidoService {
     return pedido;
   }
 
+  /**
+   * Lista todos os pedidos de um usuário.
+   * @param usuarioId - ID do usuário cujos pedidos serão listados
+   * @returns Promise que resolve para um array de pedidos do usuário
+   */
   async listarPedidosPorUsuario(usuarioId: string): Promise<Pedido[]> {
     return this.pedidoRepository.listarPorUsuario(usuarioId);
   }
 
+  /**
+   * Confirma um pedido alterando seu status para "confirmado".
+   * @param id - ID do pedido a ser confirmado
+   * @returns Promise que resolve para o pedido confirmado
+   * @throws {Error} Se o pedido não for encontrado
+   */
   async confirmarPedido(id: string): Promise<Pedido> {
     const pedido = await this.pedidoRepository.buscarPorId(id);
     if (!pedido) {
@@ -95,6 +128,12 @@ export class PedidoService {
     return this.pedidoRepository.atualizarStatus(id, pedido.status);
   }
 
+  /**
+   * Cancela um pedido alterando seu status para "cancelado".
+   * @param id - ID do pedido a ser cancelado
+   * @returns Promise que resolve para o pedido cancelado
+   * @throws {Error} Se o pedido não for encontrado
+   */
   async cancelarPedido(id: string): Promise<Pedido> {
     const pedido = await this.pedidoRepository.buscarPorId(id);
     if (!pedido) {
