@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert, TextInput,} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert, TextInput, Image } from "react-native";
 
 export default function SettingsScreen() {
   const [senhaAtual, setSenhaAtual] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [showSenhaAtual, setShowSenhaAtual] = useState(false);
+  const [showNovaSenha, setShowNovaSenha] = useState(false);
+  const [showConfirmarSenha, setShowConfirmarSenha] = useState(false);
 
   function handleConfirmar() {
     if (!senhaAtual || !novaSenha || !confirmarSenha) {
@@ -26,35 +29,83 @@ export default function SettingsScreen() {
       <View>
         <View style={styles.optionButton}>
           <Text style={styles.optionText}>Senha Atual</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Digite sua senha atual"
-            secureTextEntry
-            value={senhaAtual}
-            onChangeText={setSenhaAtual}
-          />
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Digite sua senha atual"
+              secureTextEntry={!showSenhaAtual}
+              value={senhaAtual}
+              onChangeText={setSenhaAtual}
+            />
+            <TouchableOpacity
+              style={styles.imageButton}
+              onPress={() => setShowSenhaAtual(!showSenhaAtual)}
+            >
+              <View style={styles.imagePlaceholder}>
+                <Text style={styles.placeholderText}>
+                  {showSenhaAtual ? (
+                    <Image source={require('../assets/trocarsenha.png')}/>
+                  ) : (
+                    <Image source={require('../assets/trocarsenha.png')}/>
+                  )}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View style={styles.optionButton}>
           <Text style={styles.optionText}>Nova Senha</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Digite a nova senha"
-            secureTextEntry
-            value={novaSenha}
-            onChangeText={setNovaSenha}
-          />
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Digite a nova senha"
+              secureTextEntry={!showNovaSenha}
+              value={novaSenha}
+              onChangeText={setNovaSenha}
+            />
+            <TouchableOpacity
+              style={styles.imageButton}
+              onPress={() => setShowNovaSenha(!showNovaSenha)}
+            >
+              <View style={styles.imagePlaceholder}>
+                <Text style={styles.placeholderText}>
+                  {showNovaSenha ? (
+                    <Image source={require('../assets/trocarsenha.png')}/>
+                  ) : (
+                    <Image source={require('../assets/trocarsenha.png')}/>
+                  )}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View style={styles.optionButton}>
           <Text style={styles.optionText}>Confirmar Nova Senha</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Confirme a nova senha"
-            secureTextEntry
-            value={confirmarSenha}
-            onChangeText={setConfirmarSenha}
-          />
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Confirme a nova senha"
+              secureTextEntry={!showConfirmarSenha}
+              value={confirmarSenha}
+              onChangeText={setConfirmarSenha}
+            />
+            <TouchableOpacity
+              style={styles.imageButton}
+              onPress={() => setShowConfirmarSenha(!showConfirmarSenha)}
+            >
+              <View style={styles.imagePlaceholder}>
+                <Text style={styles.placeholderText}>
+                  {showConfirmarSenha ? (
+                    <Image source={require('../assets/trocarsenha.png')}/>
+                  ) : (
+                    <Image source={require('../assets/trocarsenha.png')}/>
+                  )}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
 
@@ -69,47 +120,76 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
-    padding: 16,
+    backgroundColor: "#fcfbfc",
+    padding: 5,
     justifyContent: "space-between",
   },
 
   optionButton: {
-    backgroundColor: "rgba(245, 214, 247, 1)",
+    backgroundColor: "#fce4ec",
+    padding: 18,
+    borderRadius: 30,
+    marginBottom: 12,
+    elevation: 2,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  optionText: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#a3214d",
+  },
+
+  logoutButton: {
+    backgroundColor: "#da4a9eff",
     padding: 16,
     borderRadius: 20,
-    marginBottom: 12,
-    elevation: 2, // Android
-    shadowColor: "#000", // iOS
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
   },
 
-  optionText: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#b91588ff",
-  },
-
-  logoutButton: {
-    backgroundColor: "rgba(245, 214, 247, 1)",
-    padding: 16,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-
   logoutText: {
-    color: "#b91588ff",
-    fontSize: 13,
+    color: "#fce4ec",
+    fontSize: 15,
     fontWeight: "bold",
   },
 
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    marginTop: 8,
+  },
+
   input: {
+    justifyContent: "flex-end",
     marginTop: 8,
     borderRadius: 10,
     paddingHorizontal: 12,
-    paddingVertical: 10,
     fontSize: 14,
+    color: "#a3214d",
+    alignItems: "center",
+  },
+
+  imageButton: {
+    marginLeft: 8,
+  },
+
+  imagePlaceholder: {
+    width: 60,
+    height: 40,
+    backgroundColor: "#da4a9e",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  placeholderText: {
+    color: "white",
+    fontSize: 12,
+    fontWeight: "500",
   },
 });
