@@ -38,7 +38,7 @@ export default function SettingsScreen() {
     <View style={styles.container}>
       {/* RETÂNGULO INFORMATIVO */}
       <View style={styles.infoBox}>
-        <Image source={require("../assets/instagram.png")} style={styles.logo} />
+        <Image source={require("../assets/logo.png")} style={styles.logo} />
         <Text style={styles.infoText}>
           Amim Doces e Salgados – A confeitaria mais querida de Piripiri! Especialistas em bolos confeitados para aniversários e eventos, a Amim também conquista pelo sabor irresistível de seus salgados, feitos com todo carinho e qualidade para tornar qualquer comemoração ainda mais especial. {'\n'}{'\n'}
 
