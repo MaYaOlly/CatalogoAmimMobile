@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import { Pressable } from 'react-native';
 
-const CarrinhoVazio = () => {
+export const TelaDeCarrinhoVazio = () => {
   return (
     <ScrollView
     contentContainerStyle={styles.container}
@@ -60,4 +60,4 @@ const styles = StyleSheet.create({
   
 });
 
-export default CarrinhoVazio;
+export default TelaDeCarrinhoVazio;

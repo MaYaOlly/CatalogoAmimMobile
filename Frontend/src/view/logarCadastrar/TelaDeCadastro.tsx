@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
-import { RootStackParamList } from '../App';
+import { RootStackParamList } from '../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type TelaDeCadastroNavigationProp = NativeStackNavigationProp<
@@ -156,9 +156,7 @@ const TelaDeCadastro = ({ navigation }: Props) => {
   activeOpacity={0.8}
   onPressIn={() => setPressionado2(true)}
   onPressOut={() => setPressionado2(false)}
-  onPress={() =>
-    navigation.navigate('TelaInicial', { nome: 'React Native' })
-    }
+  onPress={() => navigation.replace('Home')}
 >
   <Text style={styles.textoDoBotao}>Criar uma nova conta</Text>
 </TouchableOpacity>

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from './App';
+import { RootStackParamList } from '../navigation/types';
 
 type DetailsScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -15,7 +15,7 @@ type Props = {
   route: DetailsScreenRouteProp;
 };
 
-const DetailsScreen = ({ route }: Props) => {
+export const TelaInicial = ({ route }: Props) => {
   const { nome } = route.params;
   const navigation = useNavigation<NavigationProp>();
 
@@ -115,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DetailsScreen;
+export default TelaInicial;

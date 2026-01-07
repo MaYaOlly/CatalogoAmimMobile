@@ -1,7 +1,7 @@
 import React, { useState} from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from "react-native";
 
-export default function CupomScreen() {
+export const TelaDeCupom = () => {
   const [cupom, setCupom] = useState("");
 
   function handleApplyCupom() {
@@ -16,7 +16,7 @@ export default function CupomScreen() {
 
   return (
     <View style={styles.container}>
-      <Image source={require("../../assets/logo3.png")} style={styles.logo}/>
+      <Image source={require("../../../assets/logo3.png")} style={styles.logo}/>
       <TextInput style={styles.input} placeholder="Procurar cupons" value={cupom} onChangeText={setCupom} autoCapitalize="characters" />
 
       <View style={styles.card}>
@@ -86,5 +86,10 @@ const styles = StyleSheet.create({
   cardTextBold: {
     fontWeight: "bold",
     marginBottom: 8,
-  }
+  }, logo: {
+    width: 120,
+    height: 60,
+    marginBottom: "10%",
+  },
 })
+export default TelaDeCupom;

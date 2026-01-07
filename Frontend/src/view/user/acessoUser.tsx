@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, ScrollView} from "react-native";
 
-export default function SettingsScreen() {
+export const TelaDeConfiguracao = () => {
   function handlePress(option: string) {
     Alert.alert("Opção selecionada", option);
   }
@@ -13,12 +13,12 @@ export default function SettingsScreen() {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Image source={require("../../assets/logo3.png")} style={styles.logo}/>
+        <Image source={require("../../../assets/logo3.png")} style={styles.logo}/>
         {/* LISTA DE OPÇÕES */}
         <View>
           <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Perfil")}>
               <View style={styles.row}>
-                  <Image source={require("../Frontend/assets/icons/perfil.png")} style={styles.icon}/>
+                  <Image source={require("../../../assets/logo3.png")} style={styles.icon}/>
                   <Text style={styles.optionText}>Perfil</Text>
               </View>
           </TouchableOpacity>
@@ -26,21 +26,21 @@ export default function SettingsScreen() {
 
           <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Trocar Senha")}>
               <View style={styles.row}>
-                  <Image source={require("../assets/icons/senha.png")} style={styles.icon}/>
+                  <Image source={require("../../../assets/logo3.png")} style={styles.icon}/>
                   <Text style={styles.optionText}>Trocar Senha</Text>
               </View>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Notificações")}>
               <View style={styles.row}>
-                  <Image source={require("../assets/icons/notificacao.png")} style={styles.icon}/>
+                  <Image source={require("../../../assets/logo3.png")} style={styles.icon}/>
                   <Text style={styles.optionText}>Notificações</Text>
               </View>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Informações")}>
             <View style={styles.row}>
-              <Image source={require("../assets/icons/informacoes.png")} style={styles.icon}/>
+              <Image source={require("../../../assets/logo3.png")} style={styles.icon}/>
               <Text style={styles.optionText}>Informações</Text>
             </View>
           </TouchableOpacity>
@@ -49,7 +49,7 @@ export default function SettingsScreen() {
         {/* BOTÃO SAIR */}
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <View style={styles.row}>
-            <Image source={require("../assets/icons/sair.png")} style={styles.icon}/>
+            <Image source={require("../../../assets/logo3.png")} style={styles.icon}/>
             <Text style={styles.logoutText}>Sair</Text>
           </View>
         </TouchableOpacity>
@@ -115,3 +115,4 @@ const styles = StyleSheet.create({
         marginRight: 12,
     },
 });
+export default TelaDeConfiguracao;
