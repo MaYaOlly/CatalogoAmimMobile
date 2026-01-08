@@ -6,10 +6,10 @@ import CarrinhoVazio from '../view/carrinho/CarrinhoVazio';
 import TelaDeCupom from '../view/cupom/cupom';
 import TelaDeConfiguracao from '../view/user/acessoUser';
 
-import IconeDeInicio from '../../assets/navbar1Clicavel.png';
-import IconeDeCarrinho from '../../assets/navbar2Clicavel.png';
-import IconeDeCupom from '../../assets/navbar3Clicavel.png';
-import IconeDePerfil from '../../assets/navbar4Clicavel.png';
+import IconeDeInicio from '../../assets/icons/navbar1Clicavel.png';
+import IconeDeCarrinho from '../../assets/icons/navbar2Clicavel.png';
+import IconeDeCupom from '../../assets/icons/navbar3Clicavel.png';
+import IconeDePerfil from '../../assets/icons/navbar4Clicavel.png';
 
 const Tab = createBottomTabNavigator();
 

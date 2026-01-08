@@ -13,12 +13,12 @@ export const TelaDeConfiguracao = () => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Image source={require("../../../assets/logo3.png")} style={styles.logo}/>
+        <Image source={require("../../../assets/logo/logo3.png")} style={styles.logo}/>
         {/* LISTA DE OPÇÕES */}
         <View>
           <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Perfil")}>
               <View style={styles.row}>
-                  <Image source={require("../../../assets/logo3.png")} style={styles.icon}/>
+                  <Image source={require("../../../assets/logo/logo3.png")} style={styles.icon}/>
                   <Text style={styles.optionText}>Perfil</Text>
               </View>
           </TouchableOpacity>
@@ -26,21 +26,21 @@ export const TelaDeConfiguracao = () => {
 
           <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Trocar Senha")}>
               <View style={styles.row}>
-                  <Image source={require("../../../assets/logo3.png")} style={styles.icon}/>
+                  <Image source={require("../../../assets/logo/logo3.png")} style={styles.icon}/>
                   <Text style={styles.optionText}>Trocar Senha</Text>
               </View>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Notificações")}>
               <View style={styles.row}>
-                  <Image source={require("../../../assets/logo3.png")} style={styles.icon}/>
+                  <Image source={require("../../../assets/logo/logo3.png")} style={styles.icon}/>
                   <Text style={styles.optionText}>Notificações</Text>
               </View>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Informações")}>
             <View style={styles.row}>
-              <Image source={require("../../../assets/logo3.png")} style={styles.icon}/>
+              <Image source={require("../../../assets/logo/logo3.png")} style={styles.icon}/>
               <Text style={styles.optionText}>Informações</Text>
             </View>
           </TouchableOpacity>
@@ -49,7 +49,7 @@ export const TelaDeConfiguracao = () => {
         {/* BOTÃO SAIR */}
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <View style={styles.row}>
-            <Image source={require("../../../assets/logo3.png")} style={styles.icon}/>
+            <Image source={require("../../../assets/logo/logo3.png")} style={styles.icon}/>
             <Text style={styles.logoutText}>Sair</Text>
           </View>
         </TouchableOpacity>

@@ -25,7 +25,7 @@ const TelaDeLogin = ({ navigation }: Props) => {
   return (
     <View style={styles.container}>
       <Image 
-        source={require("../../../assets/logo3.png")}
+        source={require("../../../assets/logo/logo3.png")}
         style={styles.logo}
       />
       <TextInput 

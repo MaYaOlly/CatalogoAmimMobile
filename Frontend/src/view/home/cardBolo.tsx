@@ -14,7 +14,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-        <Image source={require("../../assets/logo3.png")} style={styles.logo}/>
+        <Image source={require("../../assets/logo/logo3.png")} style={styles.logo}/>
       <View style={styles.card}>
         <Text style={styles.cardText}>
           <Text style={{fontWeight: "bold"}}>Bolo de Chocolate</Text>

@@ -7,7 +7,7 @@ const { width } = Dimensions.get("window");
 const Header = () => {
   <View style={styles.header}>
     <Image
-      source={require("../../../assets/logo.png")}
+      source={require("../../../assets/logo/logo3.png")}
       style={styles.logo}
       resizeMode="contain"
     />

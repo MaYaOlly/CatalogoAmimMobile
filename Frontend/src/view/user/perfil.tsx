@@ -16,14 +16,14 @@ export default function SettingsScreen() {
       <View>
         <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Telefone")}>
             <View style={styles.row}>
-                <Image source={require("../../../assets/logo.png")} style={styles.icon}/>
+                <Image source={require("../../../assets/logo/logo.png")} style={styles.icon}/>
                 <Text style={styles.optionText}>Telefone</Text>
             </View>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Nome")}>
             <View>
-                <Image source={require("../../../assets/logo.png")} style={styles.icon}/>
+                <Image source={require("../../../assets/logo/logo.png")} style={styles.icon}/>
                 <Text style={styles.optionText}>Nome</Text>
 
             </View>

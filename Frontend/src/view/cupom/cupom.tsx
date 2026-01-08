@@ -16,7 +16,7 @@ export const TelaDeCupom = () => {
 
   return (
     <View style={styles.container}>
-      <Image source={require("../../../assets/logo3.png")} style={styles.logo}/>
+      <Image source={require("../../../assets/logo/logo3.png")} style={styles.logo}/>
       <TextInput style={styles.input} placeholder="Procurar cupons" value={cupom} onChangeText={setCupom} autoCapitalize="characters" />
 
       <View style={styles.card}>
