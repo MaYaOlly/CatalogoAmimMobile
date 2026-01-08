@@ -2,9 +2,19 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from "../../navigation/types";
 
+type CarrinhoCheioNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'CarrinhoCheio'
+>;
 
-const CarrinhoCheio = () => {
+type Props = {
+  navigation: CarrinhoCheioNavigationProp;
+};
+
+export const CarrinhoCheio = ({ navigation }: Props) => {
   // serve para mudar a cor  do botão clicável
   const [pressionado2, setPressionado2] = React.useState(false); 
   const [pressionado4, setPressionado4] = React.useState(false);
@@ -114,6 +124,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 6,
+    
   },
   textoDoBotao: {
     fontWeight: 'bold',
@@ -139,7 +150,7 @@ const styles = StyleSheet.create({
   valoresDoProduto: {
     backgroundColor: '#fce4ec',
     width: '95%',
-    marginTop: "30%",
+    marginTop: "5%",
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
     padding:"5%",

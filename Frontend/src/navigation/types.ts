@@ -8,7 +8,8 @@ export type RootStackParamList = {
     Informacoes: undefined;
     Home: undefined;
     Carrinho: undefined;
-    carrinhoVazio: undefined;
+    CarrinhoVazio: undefined;
+    CarrinhoCheio: undefined;
     Cadastrar: undefined;
   };
   
