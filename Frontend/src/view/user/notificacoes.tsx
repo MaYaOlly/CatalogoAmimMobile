@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Alert, TouchableOpacity,} from "react-native";
+import { View, Text, StyleSheet, Alert, Image} from "react-native";
 
 export default function SettingsScreen() {
   function handleLogout() {
@@ -8,6 +8,7 @@ export default function SettingsScreen() {
 
   return (
     <View style={styles.container}>
+      <Image source={require("../../../assets/logo.png")} style={styles.logo} />
       {/* RETÂNGULO INFORMATIVO */}
       <View style={styles.infoBox}>
         <Text style={styles.infoText}>
