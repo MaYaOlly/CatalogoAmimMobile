@@ -10,6 +10,10 @@ export type RootStackParamList = {
     Carrinho: undefined;
     CarrinhoVazio: undefined;
     CarrinhoCheio: undefined;
+    TelaDeCheckout1: undefined;
+    TelaDeCheckout2: undefined;
+    TelaDeCheckout3: undefined;
     Cadastrar: undefined;
+    
   };
   

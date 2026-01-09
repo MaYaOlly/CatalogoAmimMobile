@@ -81,6 +81,7 @@ export const CarrinhoCheio = ({ navigation }: Props) => {
             activeOpacity={0.8}
             onPressIn={() => setPressionado4(true)}
             onPressOut={() => setPressionado4(false)}
+            onPress={() => navigation.navigate('TelaDeCheckout1')}
         >
         <Text style={styles.textoDoBotao}>CONTINUAR PEDIDO </Text>
         </TouchableOpacity>

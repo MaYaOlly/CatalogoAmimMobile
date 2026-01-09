@@ -5,7 +5,11 @@ import TelaDeLogin from '../view/logarCadastrar/TelaDeLogin';
 import TelaDeCadastro from '../view/logarCadastrar/TelaDeCadastro';
 import CarrinhoVazio from "../view/carrinho/CarrinhoVazio";
 import CarrinhoCheio from './carrinho/CarrinhoCheio';
+import TelaDeCheckout1 from "./carrinho/TelaDeCheckout1";
 import { BottomTabs } from '../navigation/BottomTabs';
+import { StackScreen } from 'react-native-screens';
+import TelaDeCheckout2 from './carrinho/TelaDeCheckout2';
+import TelaDeCheckout3 from './carrinho/TelaDeCheckout3';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,18 +17,44 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={TelaDeLogin} />
-        <Stack.Screen name="Cadastrar" component={TelaDeCadastro} />
-        <Stack.Screen name="Home" component={BottomTabs} />
+        <Stack.Screen 
+          name="Login" 
+          component={TelaDeLogin} />
+
+        <Stack.Screen 
+          name="Cadastrar" 
+          component={TelaDeCadastro} />
+
+        <Stack.Screen 
+          name="Home" 
+          component={BottomTabs} />
+
         <Stack.Screen 
           name="CarrinhoVazio" 
           component={CarrinhoVazio}
           options={{headerShown: true, title: "Carrinho vazio"}} />
+
         <Stack.Screen 
           name="CarrinhoCheio" 
           component={CarrinhoCheio}
           options={{headerShown: true, title: "Carrinho cheio"}} />
-      </Stack.Navigator>
+        
+        <Stack.Screen
+          name="TelaDeCheckout1"
+          component={TelaDeCheckout1}
+          options={{headerShown: true, title: "Tela De Checkout 1"}} />
+
+        <Stack.Screen
+          name="TelaDeCheckout2"
+          component={TelaDeCheckout2}
+          options={{headerShown: true, title: "Tela De Checkout 2"}} />
+          
+        <Stack.Screen
+          name="TelaDeCheckout3"
+          component={TelaDeCheckout3}
+          options={{headerShown: true, title: "Tela De Checkout 3"}} />
+          
+        </Stack.Navigator>
     </NavigationContainer>
   );
 }
