@@ -4,6 +4,7 @@ import { Cupom } from "./Cupom";
 
 /** Representa os possíveis status de um pedido durante seu ciclo de vida */
 export type StatusPedido = "realizado" | "pendente" | "confirmado" | "enviado" | "entregue" | "cancelado";
+export type FormaPagamento = "pix" | "especie";
 
 /**
  * Representa um pedido do sistema com seus itens, status e validações.
@@ -26,6 +27,7 @@ export class Pedido {
     private _id: string,
     private _usuarioID: string,
     private _itens: ItemPedido[],
+    private _pagamento: FormaPagamento,
     private _status: StatusPedido,
     private _data: Date
   ) {
@@ -125,5 +127,9 @@ export class Pedido {
   /** Retorna o cupom aplicado ao pedido (se houver) */
   get cupom() {
     return this._cupom;
+  }
+
+  get pagamento(){
+    return this._pagamento
   }
 }

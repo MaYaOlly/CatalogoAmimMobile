@@ -30,11 +30,11 @@ export class Usuario {
    * @private
    */
   private validar() {
-    if (!this._nome || this._nome.trim().length < 2) throw new Error("Nome invalido");
+    if (!this._nome || this._nome.trim().length < 2 || this._nome.trim().length > 100) throw new Error("Nome invalido");
     if (!this._email || !/\S+@\S+\.\S+/.test(this._email)) {
       throw new Error("Email inválido");
     }
-    if (!this._senhaHash) throw new Error("Senha inválida");
+    if (!this._senhaHash || this._senhaHash.trim().length < 4) throw new Error("Senha inválida");
   }
 
   /** Retorna o ID do usuário */
@@ -80,7 +80,7 @@ export class Usuario {
    * @throws {Error} Se o nome fornecido for vazio
    */
   atualizarPerfil(nome: string, endereco: string | null, telefone: string | null) {
-    if (!nome) throw new Error("Nome não pode ser vazio.");
+    if (!nome || nome.trim().length < 2 || nome.trim().length > 100) throw new Error("Nome invalido");
     this._nome = nome;
     this._endereco = endereco;
     this._telefone = telefone;
