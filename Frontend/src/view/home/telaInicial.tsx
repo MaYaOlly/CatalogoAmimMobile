@@ -3,21 +3,10 @@ import { Dimensions, Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacit
 
 const { width } = Dimensions.get("window");
 
-{/* HEADER COM LOGO */}
-const Header = () => {
-  <View style={styles.header}>
-    <Image
-      source={require("../assets/logo.png")}
-      style={styles.logo}
-      resizeMode="contain"
-    />
-  </View>
-}
-
-{/* CARROSSEL DE IMAGENS - Imagens maiores para melhor qualidade */}
+{/* CARROSSEL DE IMAGENS */}
 const imagensCarrossel = [  
-  "https://picsum.photos/id/1015/1000/500", // Imagem maior (1000x500)
-  "https://picsum.photos/id/20/1000/500",   // Imagem maior (1000x500)
+  "https://picsum.photos/id/1015/1000/500",
+  "https://picsum.photos/id/20/1000/500",  
 ];
 
 const bolos = [
@@ -27,8 +16,8 @@ const bolos = [
     descricao: "Sabor: Chocolate intenso. Recheio: Nutella",
     descricaoDetalhada: "Delicioso bolo de chocolate feito com cacau 100% puro, massa úmida e fofinha, coberto com ganache de chocolate meio amargo. Perfeito para qualquer ocasião!",
     preco: "R$ 25,00",
-    imagem: "https://picsum.photos/id/16/300/300", // Imagem maior para nitidez
-    imagemDetalhada: "https://picsum.photos/id/16/600/400" // Imagem maior
+    imagem: "https://picsum.photos/id/16/300/300",
+    imagemDetalhada: "https://picsum.photos/id/16/600/400"
   },
   {
     id: 2,
@@ -152,6 +141,7 @@ export default function BoloChocolateScreen() {
 
   return (
     <View style={styles.container}>
+      <Image source={require("../../../assets/logo.png")} style={styles.logo} />
       {/* CARROSSEL */}
       <View style={styles.carouselContainer}>
         <ScrollView
@@ -289,7 +279,7 @@ export default function BoloChocolateScreen() {
                         </TouchableOpacity>
                       </View>
                       
-                      {/* BOTÃO DE ADICIONAR NO CANTO INFERIOR DIREITO */}
+                      {/* BOTÃO DE ADICIONAR */}
                       <TouchableOpacity 
                         style={styles.botaoAdicionarCarrinho}
                         onPress={() => adicionarItem(boloSelecionado.id)}
@@ -325,8 +315,10 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 120,
-    height: 50,
+    width: 150,
+    height: 100,
+    alignSelf: "center",
+    marginBottom: 10 
   },
 
   carouselContainer: {
