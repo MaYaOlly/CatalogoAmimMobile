@@ -1,12 +1,26 @@
 import React from "react";
-import { View, Text, StyleSheet, Alert, TouchableOpacity, Image, Linking } from "react-native";
+import { View, Text, StyleSheet, Alert, TouchableOpacity, Image, Linking, Clipboard } from "react-native";
 
 export default function SettingsScreen() {
+   const copiarParaAreaTransferencia = (text: string) => {
+    Clipboard.setString(text);
+    Alert.alert("Copiado!", "Texto copiado para área de tranferência.");
+  };
+
   function handlePress(option: string) {
   if (option === "WhatsApp") {
     Alert.alert(
       "WhatsApp",
       " +55 (86) 9 9918-3229\n\nEntre em contato conosco para encomendas.",
+      [
+          { text: "Fechar", style: "cancel" },
+          {
+            text: "Copiar Número",
+            onPress: () => copiarParaAreaTransferencia(
+              "+55 (86) 9 9918-3229"
+            )
+          },
+        ]
     );
   }
 
@@ -29,6 +43,15 @@ export default function SettingsScreen() {
     Alert.alert(
       "Localização",
       "Av. João Bandeira Monte\n, Nº 637 - Recreio\nPiripiri - PI, 64260-000",
+      [
+          { text: "Fechar", style: "cancel" },
+          {
+            text: "Copiar Endereço",
+            onPress: () => copiarParaAreaTransferencia(
+              "Av. João Bandeira Monte, Nº 637 - Recreio, Piripiri - PI, 64260-000"
+            )
+          },
+        ]
     );
   }
 }
