@@ -1,18 +1,19 @@
 import { Produto } from "../../domain/models/class/Produto";
 import { IProdutoRepository } from "../../domain/models/interfaces/IProdutoRepository";
+import { IProdutoService } from "../interfaces/IProdutoService";
 
 /**
  * Service de gestão de produtos.
  * Implementa a lógica de negócio para operações com produtos do catálogo.
  */
-export class ProdutoService {
+export class ProdutoService implements IProdutoService {
   /**
    * Cria uma nova instância do ProdutoService.
    * @param produtoRepository - Repositório de produtos para persistência de dados
    */
   constructor(private produtoRepository: IProdutoRepository) { }
 
-  async listarProdutosDisponiveis(): Promise<Produto[]> {
+  async listarProdutos(): Promise<Produto[]> {
     const todosOsProdutos = await this.produtoRepository.listarTodos();
     // Futuramente, podemos adicionar lógicas como filtrar por estoque, etc.
     return todosOsProdutos.filter(produto => produto.disponivel);

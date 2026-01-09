@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { PedidoService, CriarPedidoDTO } from '../../../application/services/PedidoService';
+import { PedidoService } from '../../../application/services/PedidoService';
+import { CriarPedidoDTO } from '../../../application/interfaces/IPedidoService';
 
 /**
  * Controller de pedidos.

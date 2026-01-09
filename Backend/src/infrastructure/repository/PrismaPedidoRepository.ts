@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { IPedidoRepository } from '../../domain/models/interfaces/IPedidoRepository';
-import { Pedido, StatusPedido } from '../../domain/models/class/Pedido';
+import { FormaPagamento, Pedido, StatusPedido } from '../../domain/models/class/Pedido';
 import { ItemPedido } from '../../domain/models/class/ItemPedido';
 import { Produto } from '../../domain/models/class/Produto';
 import { Cupom } from '../../domain/models/class/Cupom';
@@ -65,6 +65,7 @@ export class PrismaPedidoRepository implements IPedidoRepository {
       prismaPedido.id,
       prismaPedido.usuarioId, // Alterado de objeto para ID
       itens,
+      prismaPedido.formaPagamento as FormaPagamento,
       prismaPedido.status as StatusPedido,
       prismaPedido.data
     );
@@ -89,12 +90,13 @@ export class PrismaPedidoRepository implements IPedidoRepository {
    * @param pedido - Entidade Pedido a ser persistida
    * @returns Promise que resolve para o pedido criado com ID gerado
    */
-  async criar(pedido: Pedido): Promise<Pedido> {
+  async criarPedido(pedido: Pedido): Promise<Pedido> {
     const novoPedidoPrisma = await this.prisma.pedido.create({
       data: {
         // Conectamos usando o `usuarioId` da entidade Pedido
         usuario: { connect: { id: pedido.usuarioID } }, // Supondo que o getter seja `usuarioID`
         status: pedido.status,
+        formaPagamento: pedido.pagamento,
         precoTotal: pedido.precoTotal,
         data: pedido.data,
         cupom: pedido.cupom ? { connect: { id: pedido.cupom.id } } : undefined,

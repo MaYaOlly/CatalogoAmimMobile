@@ -1,24 +1,13 @@
-import { Pedido } from '../../domain/models/class/Pedido';
+import { FormaPagamento, Pedido } from '../../domain/models/class/Pedido';
 import { ItemPedido } from '../../domain/models/class/ItemPedido';
 import { IPedidoRepository } from '../../domain/models/interfaces/IPedidoRepository';
 import { IProdutoRepository } from '../../domain/models/interfaces/IProdutoRepository';
 import { IUsuarioRepository } from '../../domain/models/interfaces/IUsuarioRepository';
 import { CupomService } from './CupomService';
+import { CriarPedidoDTO, IPedidoService } from '../interfaces/IPedidoService';
 
-/**
- * DTO (Data Transfer Object) para definição de dados para criar um pedido.
- * Contém o usuário, itens a serem pedidos e cupom de desconto (opcional).
- */
-export interface CriarPedidoDTO {
-  usuarioId: string;
-  itens: Array<{
-    produtoId: string;
-    quantidade: number;
-  }>;
-  cupomCodigo?: string;
-}
 
-export class PedidoService {
+export class PedidoService implements IPedidoService {
   /**
    * Cria uma nova instância do PedidoService.
    * @param pedidoRepository - Repositório de pedidos para persistência de dados
@@ -72,6 +61,7 @@ export class PedidoService {
       '', // O ID será gerado pelo banco
       dados.usuarioId,
       itensPedido,
+      dados.formaPagamento,
       'realizado', // Status inicial do pedido
       new Date()
     );
@@ -87,7 +77,7 @@ export class PedidoService {
     }
 
     // 5. Persistir o pedido completo usando o repositório
-    return this.pedidoRepository.criar(novoPedido);
+    return this.pedidoRepository.criarPedido(novoPedido);
   }
 
   /**
