@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
+
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -14,47 +15,133 @@ type TelaDeCheckout2NavigationProp = NativeStackNavigationProp<
 
 type Props = {
   navigation: TelaDeCheckout2NavigationProp;
+  
 };
 
 export const TelaDeCheckout2 = ({ navigation }: Props) => {
-
-  
-
   // serve para mudar a cor  do botão clicável
+  const [pressionadoBotaoContinuar, setPressionadoBotaoContinuar] = React.useState(false);
   const [pressionado2, setPressionado2] = React.useState(false); 
+
+  //Serve para mudar cor dos itens de pagamento
+  const [pagamentoSelecionado, setPagamentoSelecionado] = React.useState<string | null>(null);
 
   return (
     <ScrollView
     contentContainerStyle={styles.container}
     showsVerticalScrollIndicator={false}>
-      <Text style ={styles.texto}>Insira as seguintes informações para criar uma conta</Text>
-      <TextInput
-        style={styles.textInput}
-          placeholder='Nome'
-          placeholderTextColor={"#a3214d"}>
-      </TextInput>
-      <TextInput 
-        style={styles.textInput} 
-          placeholder='E-mail'
-          placeholderTextColor="#a3214d">
-      </TextInput>
-  <View style={styles.containerSenha}>
-  
+    
 
-  
-</View>
+    <View style={styles.balao}>
+      <View style={styles.ConteudoDoBalao}>
+    
+        {/* Área do item 1*/}
+          <View style={styles.areaDoNumero1}>
+            <View style={styles.bolaDoNumero1}>
+              <Text style ={styles.texto1}>1</Text>
+            </View>
+            <View style={styles.blocoDeTexto}>
+              <Text style ={styles.textoDaEntrega}>Entrega</Text>
+            </View>
+          </View>
+        {/* Área do item 2*/}
+        <View style={styles.areaDoNumero2}>
+            <View style={styles.bolaDoNumero2}>
+              <Text style ={styles.texto2}>2</Text>
+            </View>
+
+            <View style={styles.blocoDeTexto}>
+              <Text style ={styles.textoDoPagamento}>Pagamento</Text>
+            </View>
+          </View>
+          {/* Área do item 3*/}
+        <View style={styles.areaDoNumero3}>
+            <View style={styles.bolaDoNumero1}>
+              <Text style ={styles.texto2}>3</Text>
+            </View>
+            <View style={styles.blocoDeTexto}>
+              <Text style ={styles.textoDaConfirmação}>Confirmação</Text>
+            </View>
+          </View>
+        </View>
+    </View>
+    <View style={styles.areaDoTextoSolto}>
+      <Text style ={styles.texto}>Formas de pagamento</Text>
+    </View>
+
+  <View style={styles.areaDoPagamento}>
+  <TouchableOpacity
+  style={[
+    styles.itemPagamento,
+    pagamentoSelecionado === 'pix' && styles.itemPagamentoSelecionado
+  ]}
+  onPress={() => setPagamentoSelecionado('pix')}
+>
+  <Image
+    source={require("../../../assets/icons/mobile.png")}
+    style={styles.figura1}
+  />
+  <Text style={styles.textoPix}>Pix</Text>
+</TouchableOpacity>
+
 
 <TouchableOpacity
   style={[
-    styles.botao2,
-    pressionado2 && styles.botaoPressionado
+    styles.itemPagamento,
+    pagamentoSelecionado === 'dinheiro' && styles.itemPagamentoSelecionado
+  ]}
+  onPress={() => setPagamentoSelecionado('dinheiro')}
+>
+  <Image
+    source={require("../../../assets/icons/money.png")}
+    style={styles.figura1}
+  />
+  <Text style={styles.textoPix}>Dinheiro</Text>
+</TouchableOpacity>
+
+
+<TouchableOpacity
+  style={[
+    styles.itemPagamento,
+    pagamentoSelecionado === 'debito' && styles.itemPagamentoSelecionado
+  ]}
+  onPress={() => setPagamentoSelecionado('debito')}
+>
+  <Image
+    source={require("../../../assets/icons/credit-card.png")}
+    style={styles.figura1}
+  />
+  <Text style={styles.textoPix}>Cartão de débito</Text>
+</TouchableOpacity>
+
+
+<TouchableOpacity
+  style={[
+    styles.itemPagamento,
+    pagamentoSelecionado === 'credito' && styles.itemPagamentoSelecionado
+  ]}
+  onPress={() => setPagamentoSelecionado('credito')}
+>
+  <Image
+    source={require("../../../assets/icons/credit-card.png")}
+    style={styles.figura1}
+  />
+  <Text style={styles.textoPix}>Cartão de crédito</Text>
+</TouchableOpacity>
+</View>
+
+
+<TouchableOpacity
+  style={[
+    styles.botaoContinuar,
+    pressionadoBotaoContinuar && styles.botaoPressionadoContinuar
   ]}
   activeOpacity={0.8}
-  onPressIn={() => setPressionado2(true)}
-  onPressOut={() => setPressionado2(false)}
+  onPressIn={() => setPressionadoBotaoContinuar(true)}
+  onPressOut={() => setPressionadoBotaoContinuar(false)}
   onPress={() => navigation.navigate('TelaDeCheckout3')}
 >
-  <Text style={styles.textoDoBotao}>Criar uma nova conta</Text>
+  <Text style={styles.textoDoBotaoContinuar}>CONTINUAR</Text>
 </TouchableOpacity>
 
     </ScrollView>
@@ -69,22 +156,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingTop: 40,
   },
+  areaDoTextoSolto:{
+    alignSelf: 'flex-start',
+  },
   texto: {
     color:"#a3214d",
     fontWeight:"bold",
     padding:20,
+    marginBottom:-10,
   },
-  textInput: {
-    width: "95%",
-    height:"8%",
-    backgroundColor: '#fce4ec',
-    borderRadius: 30,
-    padding: 20,
-    marginVertical: 6,
-    color: '#a3214d',
-    fontWeight: 'bold',
-  },
-  botao2: {
+  botaoContinuar: {
     backgroundColor: "#ff4da6", 
     width: "95%",
     height:"8%",
@@ -98,59 +179,166 @@ const styles = StyleSheet.create({
     elevation: 6,
     marginTop: 20,
   },
-  textoDoBotao: {
+  textoDoBotaoContinuar: {
     fontWeight: 'bold',
     color: "#ffffff",
   },
-  botaoPressionado: {
+  botaoPressionadoContinuar: {
     backgroundColor: "#ff9ebf",
   },
-  textoSeletorDeIdade: {
-    color: '#a3214d',
-    opacity: 0.6,
-    fontWeight: 'bold',
-  },
-  textoData: {
-    color: '#a3214d',
-    fontWeight: 'bold',
-  },
-  containerGenero: {
-    width: '95%',
-    backgroundColor: '#fce4ec',
-    borderRadius: 20,
-    marginTop: 5,
-    paddingVertical: 5,
-  },
-  opcaoGenero: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-  },
-  textoGenero: {
-    color: '#a3214d',
-    fontWeight: 'bold',
-  },
-  containerSenha: {
-    width: '95%',
-    height: '8%',
+  balao: {
     backgroundColor: '#fce4ec',
     borderRadius: 30,
-    marginVertical: 6,
+    paddingVertical: 24,
+    width: '95%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    marginTop:-10,
+  },
+
+  areaDoNumero1: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1, 
+  },
+  texto1: {
+    color: "#a3214d",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  bolaDoNumero1: {
+    width: 60,
+    height: 60,
+    backgroundColor: '#fcfbfc',
+    borderRadius: 30, // metade do width/height
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textoDaEntrega: {
+    color:"#a3214d",
+    fontWeight:"bold",
+    marginTop: 10,
+    fontSize: 13,
+    textAlign: 'center',
+    width: '100%',
+    minHeight: 22,
   },
   
-  inputSenha: {
+  areaDoNumero2: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1, 
+  },
+  texto2: {
+    color: "#a3214d",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  bolaDoNumero2: {
+    width: 60,
+    height: 60,
+    backgroundColor: '#ff9ebf',
+    borderRadius: 30, // metade do width/height
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textoDoPagamento: {
+    color:"#a3214d",
+    fontWeight:"bold",
+    marginTop:10,
+    textAlign: 'center',
+    fontSize: 13,
+    width: '100%',
+    minHeight: 22,
+  },
+  areaDoNumero3: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1, 
+  },
+  textoDaConfirmação: {
+    color:"#a3214d",
+    fontWeight:"bold",
+    marginTop: 10,
+    fontSize: 13,
+    textAlign: 'center',
+    width: '100%',
+    minHeight: 22,
+  },
+  ConteudoDoBalao: {
+    flexDirection: 'row',
     flex: 1,
-    color: '#a3214d',
-    fontWeight: 'bold',
+    paddingHorizontal: 16,
+  },
+  blocoDeTexto:{
+    width: 90,          
+    alignItems: 'center',
+  },
+
+
+
+  areaDoPagamento1:{
+    borderRadius: 30,
+    paddingVertical: 20,
+    width: '95%',
+    flexDirection: 'row',
+    justifyContent: 'space-between', // 🔥 distribui os itens
+    alignItems: 'center',
+    marginBottom: 10,
+    backgroundColor:"yellow",
   },
   
-  botaoOlho: {
-    paddingLeft: 10,
+  item1:{
+    backgroundColor: '#fce4ec',
+    borderRadius: 30,
+    width: '40%',            // 🔥 dois itens por linha
+    alignItems: 'center',
+    paddingVertical: 16,
+    margin:20,
   },
   
+  figura1:{
+    width: 70,
+    height: 70,
+  },
+  textoPix:{
+    color:"#a3214d",
+    fontWeight:"bold",
+    marginTop: 10,
+    textAlign: 'center',
+    width: '100%', 
+  },
+  areaDoPagamento2:{
+    backgroundColor: 'green',
+    borderRadius: 30,
+    paddingVertical: 24,
+    width: '95%',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  areaDoPagamento:{
+    borderRadius: 30,
+    paddingVertical: 10,
+    width: '95%',
+    flexDirection: 'row',
+    flexWrap: 'wrap',              
+    justifyContent: 'center',
+    gap: 22, 
+  },
   
+  itemPagamento:{
+    backgroundColor: '#fce4ec',
+    borderRadius: 30,
+    width: '45%',                  
+    alignItems: 'center',
+    paddingVertical: 26,
+    paddingHorizontal: 21,    
+  },
+  itemPagamentoSelecionado:{
+    borderWidth: 2,
+    borderColor: '#ff4da6',   
+    backgroundColor: '#ff9ebf',
+  }
   
 });
 

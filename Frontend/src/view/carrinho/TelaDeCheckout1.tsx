@@ -7,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { FloatingInput } from "../../components/FloatingInput";
+import { FloatingInput } from "../../components/TextoFlutuante";
 
 type TelaDeCheckout1NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     color:"#a3214d",
     fontWeight:"bold",
     padding:20,
+    marginBottom:-10,
   },
   botaoContinuar: {
     backgroundColor: "#ff4da6", 
@@ -133,6 +134,7 @@ const styles = StyleSheet.create({
     width: '95%',
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop:-10,
   },
 
   areaDoNumero1: {

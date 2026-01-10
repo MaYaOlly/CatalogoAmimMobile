@@ -58,7 +58,7 @@ export function FloatingInput({ label }: Props) {
 const styles = StyleSheet.create({
   container: {
     width: '95%',
-    marginVertical: 10,
+    marginVertical: 6,
   },
   label: {
     position: 'absolute',
