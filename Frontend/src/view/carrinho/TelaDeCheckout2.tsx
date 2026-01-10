@@ -52,7 +52,7 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
   activeOpacity={0.8}
   onPressIn={() => setPressionado2(true)}
   onPressOut={() => setPressionado2(false)}
-  onPress={() => navigation.replace('TelaDeCheckout3')}
+  onPress={() => navigation.navigate('TelaDeCheckout3')}
 >
   <Text style={styles.textoDoBotao}>Criar uma nova conta</Text>
 </TouchableOpacity>

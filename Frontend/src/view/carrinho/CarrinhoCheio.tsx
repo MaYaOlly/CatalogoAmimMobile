@@ -67,7 +67,7 @@ export const CarrinhoCheio = ({ navigation }: Props) => {
       />
       <TouchableOpacity 
           style={ styles.botao3}>
-        <Text style={styles.textoDoBotao3}>Você tem um cupom? Clique e insira o código.
+        <Text style={styles.textoDoBotao3}>Você tem um cupom? Clique e use aqui.
         </Text>
         </TouchableOpacity>
       <Image

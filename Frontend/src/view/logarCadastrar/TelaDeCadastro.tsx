@@ -96,57 +96,17 @@ const TelaDeCadastro = ({ navigation }: Props) => {
   </TouchableOpacity>
 </View>
      
-      <TouchableOpacity
-  style={styles.textInput}
-  onPress={() => setMostrarPicker(true)}
->
-  <Text style={dataNascimento ? styles.textoData : styles.textoSeletorDeIdade}>
-    {dataNascimento
-      ? dataNascimento.toLocaleDateString('pt-BR')
-      : 'dd/mm/aaaa'}
-  </Text>
-</TouchableOpacity>
+<TextInput 
+        style={styles.textInput} 
+          placeholder='Endereço'
+          placeholderTextColor="#a3214d">
+      </TextInput>
 
-      {mostrarPicker && (
-        <DateTimePicker
-          value={dataNascimento || new Date()}
-          mode="date"
-          display="default"
-          maximumDate={new Date()} // impede datas futuras
-          onChange={aoMudarData}
-      />
-)}
-
-<TouchableOpacity
-  style={styles.textInput}
-  onPress={() => setMostrarGenero(!mostrarGenero)}
->
-  <Text
-    style={{
-      color: genero ? '#a3214d' : '#a3214d80',
-      fontWeight: 'bold',
-    }}
-  >
-    {genero ? genero : 'Gênero'}
-  </Text>
-</TouchableOpacity>
-
-{mostrarGenero && (
-  <View style={styles.containerGenero}>
-    {['Masculino', 'Feminino', 'Outro'].map(item => (
-      <TouchableOpacity
-        key={item}
-        style={styles.opcaoGenero}
-        onPress={() => {
-          setGenero(item);
-          setMostrarGenero(false);
-        }}
-      >
-        <Text style={styles.textoGenero}>{item}</Text>
-      </TouchableOpacity>
-    ))}
-  </View>
-)}
+      <TextInput 
+        style={styles.textInput} 
+          placeholder='Telefone'
+          placeholderTextColor="#a3214d">
+      </TextInput>
 
 <TouchableOpacity
   style={[
