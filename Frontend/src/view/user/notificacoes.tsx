@@ -1,19 +1,22 @@
 import React from "react";
-import { View, Text, StyleSheet, Alert, Image} from "react-native";
+import { View, Text, StyleSheet, Alert, TouchableOpacity,} from "react-native";
 
-export default function SettingsScreen() {
+export default function Notificacoes() {
   function handleLogout() {
     Alert.alert("Confirmado", "Ação realizada com sucesso.");
   }
 
   return (
     <View style={styles.container}>
-      <Image source={require("../../../assets/logo.png")} style={styles.logo} />
       {/* RETÂNGULO INFORMATIVO */}
       <View style={styles.infoBox}>
         <Text style={styles.infoText}>
+          Para trocar os status das notificações em seu dispositivo vá em  Configurações / Amim / Notificações.
+        </Text>
+        <Text style={styles.infoText}>
           Para alterar sua senha, utilize a opção de recuperação ou entre em
-          contato com o suporte.
+          contato com o suporte.{'\n'}{'\n'}
+          Notificações: Ativadas
         </Text>
       </View>
     </View>

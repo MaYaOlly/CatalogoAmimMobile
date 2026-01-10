@@ -1,93 +1,83 @@
 import React from "react";
 import { View, Text, StyleSheet, Alert, TouchableOpacity, Image, Linking, Clipboard } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 
-export default function SettingsScreen() {
-   const copiarParaAreaTransferencia = (text: string) => {
+export default function Informacao() {
+  const copiarParaAreaTransferencia = (text: string) => {
     Clipboard.setString(text);
     Alert.alert("Copiado!", "Texto copiado para área de tranferência.");
   };
 
   function handlePress(option: string) {
-  if (option === "WhatsApp") {
-    Alert.alert(
-      "WhatsApp",
-      " +55 (86) 9 9918-3229\n\nEntre em contato conosco para encomendas.",
-      [
+    if (option === "WhatsApp") {
+      Alert.alert(
+        "WhatsApp",
+        " +55 (86) 9 9918-3229\n\nEntre em contato conosco para encomendas.",
+        [
           { text: "Fechar", style: "cancel" },
           {
             text: "Copiar Número",
-            onPress: () => copiarParaAreaTransferencia(
-              "+55 (86) 9 9918-3229"
-            )
+            onPress: () => copiarParaAreaTransferencia("+55 (86) 9 9918-3229")
           },
         ]
-    );
-  }
-
-  else if (option === "Instagram") {
-    Alert.alert(
-      "Instagram",
-      "@amimdocesesalgados\n\nAcompanhe nossas novidades, bolos e promoções ",
-      [
-        { text: "Fechar", style: "cancel" },
-        {
-          text: "Abrir Instagram",
-          onPress: () =>
-            Linking.openURL("https://www.instagram.com/amimdocesesalgados?igsh=MTU1M3VrZzN3NXJzcg==")
-        }
-      ]
-    );
-  }
-
-  else if (option === "Localização") {
-    Alert.alert(
-      "Localização",
-      "Av. João Bandeira Monte\n, Nº 637 - Recreio\nPiripiri - PI, 64260-000",
-      [
+      );
+    } else if (option === "Instagram") {
+      Alert.alert(
+        "Instagram",
+        "@amimdocesesalgados\n\nAcompanhe nossas novidades, bolos e promoções ",
+        [
+          { text: "Fechar", style: "cancel" },
+          {
+            text: "Abrir Instagram",
+            onPress: () => Linking.openURL("https://www.instagram.com/amimdocesesalgados?igsh=MTU1M3VrZzN3NXJzcg==")
+          }
+        ]
+      );
+    } else if (option === "Localização") {
+      Alert.alert(
+        "Localização",
+        "Av. João Bandeira Monte\n, Nº 637 - Recreio\nPiripiri - PI, 64260-000",
+        [
           { text: "Fechar", style: "cancel" },
           {
             text: "Copiar Endereço",
-            onPress: () => (
-              Linking.openURL("https://share.google/N8P8KyKMZfONjzSOQ")
-            )
+            onPress: () => copiarParaAreaTransferencia("Av. João Bandeira Monte, Nº 637 - Recreio, Piripiri - PI, 64260-000")
           },
         ]
-    );
+      );
+    }
   }
-}
-
 
   return (
     <View style={styles.container}>
       {/* RETÂNGULO INFORMATIVO */}
       <View style={styles.infoBox}>
-        <Image source={require("../../../assets/logo.png")} style={styles.logo} />
+        <Image source={require("../assets/logo.png")} style={styles.logo} />
         <Text style={styles.infoText}>
           Amim Doces e Salgados – A confeitaria mais querida de Piripiri! Especialistas em bolos confeitados para aniversários e eventos, a Amim também conquista pelo sabor irresistível de seus salgados, feitos com todo carinho e qualidade para tornar qualquer comemoração ainda mais especial. {'\n'}{'\n'}
 
           Seja para celebrar momentos importantes ou adoçar o seu dia, cada produto é preparado de forma artesanal, com atenção aos detalhes e muito sabor.{'\n'}
           Nossa missão é levar alegria e sabor para a sua mesa, com produtos que encantam os olhos e o paladar. Venha nos visitar e descubra por que somos a escolha favorita da comunidade!
-
         </Text>
         
         {/* BOTÕES SOCIAIS */}
         <View style={styles.socialContainer}>
+          {/* WhatsApp */}
           <TouchableOpacity style={styles.socialButton} onPress={() => handlePress("WhatsApp")}>
-            <View style={styles.socialButton}>
-              <Image source={require("../../../assets/WhatsZapp.png")} style={styles.socialImage} />
-            </View>
+            <Ionicons name="logo-whatsapp" size={40} color="#fcfbfc" />
+            <Text style={styles.socialText}>WhatsApp</Text>
           </TouchableOpacity>
 
+          {/* Instagram */}
           <TouchableOpacity style={styles.socialButton} onPress={() => handlePress("Instagram")}>
-            <View style={styles.socialButton}>
-              <Image source={require("../../../assets/instagram.png")} style={styles.socialImage} />
-            </View>
+            <Ionicons name="logo-instagram" size={40} color="#fcfbfc" />
+            <Text style={styles.socialText}>Instagram</Text>
           </TouchableOpacity>
 
+          {/* Localização */}
           <TouchableOpacity style={styles.socialButton} onPress={() => handlePress("Localização")}>
-            <View style={styles.socialButton}>
-              <Image source={require("../../../assets/Localização.png")} style={styles.socialImage} />
-            </View>
+            <Ionicons name="location" size={40} color="#fcfbfc" />
+            <Text style={styles.socialText}>Localização</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -116,39 +106,34 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginBottom: 12,
   },
-
   infoText: {
     fontSize: 17,
     color: "#a3214d", 
     textAlign: "justify",
   },
-
   socialContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
-    marginTop: "auto"
+    marginTop: "auto",
+    paddingHorizontal: 10, // Adicionado para dar um pouco de espaçamento nas laterais
   },
-
   socialButton: {
     flex: 1,
     backgroundColor: "#f06292",
-    marginHorizontal: 17,
-    height: 70,
+    marginHorizontal: 8,
+    height: 90,
     borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
+    paddingVertical: 10,
   },
-
   socialText: {
     fontSize: 12,
     fontWeight: "bold",
     color: "#fcfbfc", 
     textAlign: "center",
+    marginTop: 5, 
   },
-
-  socialImage: {
-    width: 40,
-    height: 40,
-  }
+ 
 });

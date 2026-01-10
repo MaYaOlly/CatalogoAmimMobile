@@ -13,7 +13,7 @@ const bolos = [
   {
     id: 1,
     nome: "Bolo de Chocolate",
-    descricao: "Sabor: Chocolate intenso. Recheio: Nutella",
+    categoria: "Bolo",
     descricaoDetalhada: "Delicioso bolo de chocolate feito com cacau 100% puro, massa úmida e fofinha, coberto com ganache de chocolate meio amargo. Perfeito para qualquer ocasião!",
     preco: "R$ 25,00",
     imagem: "https://picsum.photos/id/16/300/300",
@@ -22,7 +22,7 @@ const bolos = [
   {
     id: 2,
     nome: "Chocolate Trufado",
-    descricao: "Recheio trufado gourmet.",
+    categoria: "Bolo.",
     descricaoDetalhada: "Bolo de chocolate trufado com recheio de ganache cremoso e pedaços de chocolate belga. Finalizado com raspas de chocolate e ouro comestível.",
     preco: "R$ 35,00",
     imagem: "https://picsum.photos/id/17/300/300",
@@ -31,7 +31,7 @@ const bolos = [
   {
     id: 3,
     nome: "Chocolate com Morango",
-    descricao: "Combinação perfeita.",
+    categoria: "Bolo",
     descricaoDetalhada: "Massa de chocolate com recheio de creme de morango fresco e cobertura de chocolate branco. Decorado com morangos inteiros.",
     preco: "R$ 30,00",
     imagem: "https://picsum.photos/id/18/300/300",
@@ -40,7 +40,7 @@ const bolos = [
   {
     id: 4,
     nome: "Chocolate Simples",
-    descricao: "Clássico e fofinho.",
+    categoria: "Bolo",
     descricaoDetalhada: "Nosso tradicional bolo de chocolate simples, perfeito para o café da tarde. Macio, fofinho e com aquele sabor de chocolate que todo mundo adora.",
     preco: "R$ 20,00",
     imagem: "https://picsum.photos/id/19/300/300",
@@ -49,7 +49,7 @@ const bolos = [
   {
     id: 5,
     nome: "Cenoura com Chocolate",
-    descricao: "Clássico e fofinho.",
+    categoria: "Bolo",
     descricaoDetalhada: "Massa de cenoura com chocolate, úmida e saborosa, coberta com brigadeiro de chocolate. A combinação perfeita entre doce e saudável.",
     preco: "R$ 20,00",
     imagem: "https://picsum.photos/id/20/300/300",
@@ -60,14 +60,14 @@ const bolos = [
 interface Bolo {
   id: number;
   nome: string;
-  descricao: string;
+  categoria: string;
   descricaoDetalhada: string;
   preco: string;
   imagem: string;
   imagemDetalhada: string;
 }
 
-export default function BoloChocolateScreen() {
+export default function TelaInicial() {
   const scrollRef = useRef<ScrollView>(null);
   const [indexAtual, setIndexAtual] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
@@ -210,7 +210,7 @@ export default function BoloChocolateScreen() {
           >
             <View style={styles.textContainer}>
               <Text style={styles.title}>{bolo.nome}</Text>
-              <Text style={styles.description}>{bolo.descricao}</Text>
+              <Text style={styles.description}>{bolo.categoria}</Text>
               <Text style={styles.price}>{bolo.preco}</Text>
             </View>
 

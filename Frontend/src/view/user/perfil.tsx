@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert, Modal, TextInput, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 
-export default function SettingsScreen() {
+export default function Perfil() {
   // Estado para os dados do usuário
   const [userInfo, setUserInfo] = useState({
     telefone: "(11) 99999-9999",
     nome: "João Silva",
     email: "joao.silva@email.com",
     endereço: "Rua das Flores, 123 - São Paulo, SP",
-    contato: "Maria Silva - (11) 98888-7777"
   });
 
   // Estado para o modal
@@ -18,14 +17,16 @@ export default function SettingsScreen() {
   const [editingData, setEditingData] = useState({
     telefone: "",
     nome: "",
-    email: "",
     endereço: "",
-    contato: ""
   });
 
   // Abre o modal com os dados atuais
   const openEditModal = () => {
-    setEditingData({...userInfo});
+    setEditingData({
+      telefone: userInfo.telefone,
+      nome: userInfo.nome,
+      endereço: userInfo.endereço
+    });
     setModalVisible(true);
   };
 
@@ -41,14 +42,12 @@ export default function SettingsScreen() {
       Alert.alert("Erro", "O nome é obrigatório");
       return;
     }
-    
-    if (!editingData.email.trim()) {
-      Alert.alert("Erro", "O e-mail é obrigatório");
-      return;
-    }
-    
+
     // Atualiza os dados
-    setUserInfo({...editingData});
+    setUserInfo({
+      ...editingData,
+      email: userInfo.email
+    });
     setModalVisible(false);
     Alert.alert("Sucesso", "Cadastro atualizado com sucesso!");
   };
@@ -89,15 +88,6 @@ export default function SettingsScreen() {
             <View style={styles.infoContainer}>
               <Text style={styles.infoLabel}>Endereço</Text>
               <Text style={styles.infoValue}>{userInfo.endereço}</Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.infoItem}>
-          <View style={styles.row}>
-            <View style={styles.infoContainer}>
-              <Text style={styles.infoLabel}>Contato de Emergência</Text>
-              <Text style={styles.infoValue}>{userInfo.contato}</Text>
             </View>
           </View>
         </View>
@@ -148,19 +138,7 @@ export default function SettingsScreen() {
                   placeholder="Digite seu nome completo"
                 />
               </View>
-              
-              <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>E-mail *</Text>
-                <TextInput
-                  style={styles.textInput}
-                  value={editingData.email}
-                  onChangeText={(text) => setEditingData({...editingData, email: text})}
-                  placeholder="Digite seu e-mail"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                />
-              </View>
-              
+
               <View style={styles.inputGroup}>
                 <Text style={styles.inputLabel}>Endereço</Text>
                 <TextInput
@@ -172,19 +150,7 @@ export default function SettingsScreen() {
                   numberOfLines={2}
                 />
               </View>
-              
-              <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Contato</Text>
-                <TextInput
-                  style={styles.textInput}
-                  value={editingData.contato}
-                  onChangeText={(text) => setEditingData({...editingData, contato: text})}
-                  placeholder="Nome e telefone do contato"
-                  multiline={true}
-                  numberOfLines={2}
-                />
-              </View>
-              
+
               <Text style={styles.requiredText}>* Campos obrigatórios</Text>
             </ScrollView>
             
