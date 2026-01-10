@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, ScrollView} from "react-native";
 
-export default function SettingsScreen() {
+export default function AcessoUser() {
   function handlePress(option: string) {
     Alert.alert("Opção selecionada", option);
   }

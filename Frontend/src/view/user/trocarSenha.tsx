@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert, TextInput, Image } from "react-native";
 
-export default function SettingsScreen() {
+export default function TrocarSenha() {
   const [senhaAtual, setSenhaAtual] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
@@ -41,12 +41,13 @@ export default function SettingsScreen() {
               style={styles.imageButton}
               onPress={() => setShowSenhaAtual(!showSenhaAtual)}
             >
+              {/* ÁREA PARA IMAGEM - substitua a View por <Image> com sua imagem */}
               <View style={styles.imagePlaceholder}>
                 <Text style={styles.placeholderText}>
                   {showSenhaAtual ? (
-                    <Image source={require('../assets/trocarsenha.png')}/>
+                    <Image source={require('../assets/instagram.png')}/>
                   ) : (
-                    <Image source={require('../assets/trocarsenha.png')}/>
+                    <Image source={require('../assets/WhatsZapp.png')}/>
                   )}
                 </Text>
               </View>
@@ -68,12 +69,13 @@ export default function SettingsScreen() {
               style={styles.imageButton}
               onPress={() => setShowNovaSenha(!showNovaSenha)}
             >
+              {/* ÁREA PARA IMAGEM - substitua a View por <Image> com sua imagem */}
               <View style={styles.imagePlaceholder}>
                 <Text style={styles.placeholderText}>
                   {showNovaSenha ? (
-                    <Image source={require('../assets/trocarsenha.png')}/>
+                    <Image source={require('../assets/instagram.png')}/>
                   ) : (
-                    <Image source={require('../assets/trocarsenha.png')}/>
+                    <Image source={require('../assets/WhatsZapp.png')}/>
                   )}
                 </Text>
               </View>
@@ -95,12 +97,13 @@ export default function SettingsScreen() {
               style={styles.imageButton}
               onPress={() => setShowConfirmarSenha(!showConfirmarSenha)}
             >
+              {/* ÁREA PARA IMAGEM - substitua a View por <Image> com sua imagem */}
               <View style={styles.imagePlaceholder}>
                 <Text style={styles.placeholderText}>
                   {showConfirmarSenha ? (
-                    <Image source={require('../assets/trocarsenha.png')}/>
+                    <Image source={require('../assets/instagram.png')}/>
                   ) : (
-                    <Image source={require('../assets/trocarsenha.png')}/>
+                    <Image source={require('../assets/WhatsZapp.png')}/>
                   )}
                 </Text>
               </View>
@@ -179,8 +182,8 @@ const styles = StyleSheet.create({
   },
 
   imagePlaceholder: {
-    width: 60,
-    height: 40,
+    width: 1,
+    height: 1,
     backgroundColor: "#da4a9e",
     borderRadius: 10,
     justifyContent: "center",
