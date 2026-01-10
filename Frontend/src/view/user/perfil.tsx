@@ -186,7 +186,6 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 20,
     marginBottom: 12,
-    elevation: 2,
   },
   
   row: {
@@ -194,16 +193,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   
-  icon: {
-    width: 40,
-    height: 24,
-    marginRight: 12,
-  },
-  
   infoContainer: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
   },
   
@@ -211,15 +204,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     color: "#a3214d",
-    flex: 1,
   },
   
   infoValue: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#a3214d",
+    color: "#835c68ff",
     flex: 1,
-    textAlign: "right",
     marginLeft: 16,
   },
   
