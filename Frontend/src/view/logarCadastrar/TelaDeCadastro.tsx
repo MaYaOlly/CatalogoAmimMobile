@@ -2,10 +2,11 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { FloatingInput } from "../../components/TextoFlutuante";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type TelaDeCadastroNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -24,104 +25,73 @@ const TelaDeCadastro = ({ navigation }: Props) => {
   // serve para mudar a cor  do botão clicável
   const [pressionado2, setPressionado2] = React.useState(false); 
 
-  // Serve para colocar o seletor de data de nascimento do usuário:
-  const [dataNascimento, setDataNascimento] = React.useState<Date | null>(null);
-  const [mostrarPicker, setMostrarPicker] = React.useState(false);
-
-  function aoMudarData(event: any, dataSelecionada?: Date) {
-    setMostrarPicker(false);
-  
-    if (dataSelecionada) {
-      setDataNascimento(dataSelecionada);
-    }
-  }
-  // Serve para colocar o seletor de gênero:
-  const [genero, setGenero] = React.useState<string | null>(null);
-  const [mostrarGenero, setMostrarGenero] = React.useState(false);
-
-
   return (
+  <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc'  }}>
     <ScrollView
     contentContainerStyle={styles.container}
     showsVerticalScrollIndicator={false}>
       <Text style ={styles.texto}>Insira as seguintes informações para criar uma conta</Text>
+      <FloatingInput label="Nome" />
+      <FloatingInput label="E-mail" />
+    <View style={styles.containerSenha}>
       <TextInput
-        style={styles.textInput}
-          placeholder='Nome'
-          placeholderTextColor={"#a3214d"}>
-      </TextInput>
-      <TextInput 
-        style={styles.textInput} 
-          placeholder='E-mail'
-          placeholderTextColor="#a3214d">
-      </TextInput>
-  <View style={styles.containerSenha}>
-  <TextInput
-    style={styles.inputSenha}
-    placeholder="Senha"
-    placeholderTextColor="#a3214d"
-    secureTextEntry={!senhaVisivel}
-  />
+        style={styles.inputSenha}
+        placeholder="Senha"
+        placeholderTextColor="#a3214d"
+        secureTextEntry={!senhaVisivel}
+      />
 
-  <TouchableOpacity
-    onPress={() => setSenhaVisivel(!senhaVisivel)}
-    style={styles.botaoOlho}
-  >
-    <Ionicons
-      name={senhaVisivel ? 'eye-off' : 'eye'}
-      size={22}
-      color="#a3214d"
-    />
-  </TouchableOpacity>
-</View>
+        <TouchableOpacity
+          onPress={() => setSenhaVisivel(!senhaVisivel)}
+          style={styles.botaoOlho}
+        >
+          <Ionicons
+            name={senhaVisivel ? 'eye-off' : 'eye'}
+            size={22}
+            color="#a3214d"
+          />
+        </TouchableOpacity>
+    </View>
 
 
-<View style={styles.containerSenha}>
-  <TextInput
-    style={styles.inputSenha}
-    placeholder="Confirmar senha"
-    placeholderTextColor="#a3214d"
-    secureTextEntry={!senhaVisivel}
-  />
+      <View style={styles.containerSenha}>
+        <TextInput
+          style={styles.inputSenha}
+          placeholder="Confirmar senha"
+          placeholderTextColor="#a3214d"
+          secureTextEntry={!senhaVisivel}
+        />
 
-  <TouchableOpacity
-    onPress={() => setSenhaVisivel(!senhaVisivel)}
-    style={styles.botaoOlho}
-  >
-    <Ionicons
-      name={senhaVisivel ? 'eye-off' : 'eye'}
-      size={22}
-      color="#a3214d"
-    />
-  </TouchableOpacity>
-</View>
-     
-<TextInput 
-        style={styles.textInput} 
-          placeholder='Endereço'
-          placeholderTextColor="#a3214d">
-      </TextInput>
+        <TouchableOpacity
+          onPress={() => setSenhaVisivel(!senhaVisivel)}
+          style={styles.botaoOlho}
+        >
+          <Ionicons
+            name={senhaVisivel ? 'eye-off' : 'eye'}
+            size={22}
+            color="#a3214d"
+          />
+        </TouchableOpacity>
+      </View>
 
-      <TextInput 
-        style={styles.textInput} 
-          placeholder='Telefone'
-          placeholderTextColor="#a3214d">
-      </TextInput>
+      <FloatingInput label="Endereço" />  
+     <FloatingInput label="Telefone" /> 
 
 <TouchableOpacity
   style={[
     styles.botao2,
-    pressionado2 && styles.botaoPressionado
+    pressionado2 && styles.botaoPressionado2
   ]}
   activeOpacity={0.8}
   onPressIn={() => setPressionado2(true)}
   onPressOut={() => setPressionado2(false)}
   onPress={() => navigation.replace('Home')}
 >
-  <Text style={styles.textoDoBotao}>Criar uma nova conta</Text>
+  <Text style={styles.textoDoBotao}>CADASTRAR</Text>
 </TouchableOpacity>
 
     </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -130,8 +100,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: '#fcfbfc',
     alignItems:"center",
-    justifyContent: 'flex-start',
-    paddingTop: 40,
+    paddingTop: 20,
   },
   texto: {
     color:"#a3214d",
@@ -160,13 +129,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 6,
-    marginTop: 20,
+    marginTop: 5,
+    position:"absolute",
+    bottom:30,
+
   },
   textoDoBotao: {
     fontWeight: 'bold',
     color: "#ffffff",
   },
-  botaoPressionado: {
+  botaoPressionado2: {
     backgroundColor: "#ff9ebf",
   },
   textoSeletorDeIdade: {

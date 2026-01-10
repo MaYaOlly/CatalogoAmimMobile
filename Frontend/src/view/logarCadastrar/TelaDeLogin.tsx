@@ -5,6 +5,8 @@ import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity 
 import { Ionicons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { FloatingInput } from "../../components/TextoFlutuante";
 
 type TelaDeLoginNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -23,16 +25,17 @@ const TelaDeLogin = ({ navigation }: Props) => {
   const [pressionado, setPressionado] = React.useState(false);
   const [pressionado2, setPressionado2] = React.useState(false);
   return (
-    <View style={styles.container}>
+    
+<SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc'  }}>
+  <ScrollView
+    contentContainerStyle={styles.container}
+    showsVerticalScrollIndicator={false}
+  >
       <Image 
         source={require("../../../assets/logo/logo3.png")}
         style={styles.logo}
       />
-      <TextInput 
-      style={styles.textInput} 
-      placeholder='E-mail'
-      placeholderTextColor="#a3214d">
-      </TextInput>
+      <FloatingInput label="E-mail" />
       <View style={styles.containerSenha}>
   <TextInput
     style={styles.inputSenha}
@@ -70,7 +73,7 @@ const TelaDeLogin = ({ navigation }: Props) => {
 <TouchableOpacity
   style={[
     styles.botao2,
-    pressionado2 && styles.botaoPressionado
+    pressionado2 && styles.botaoPressionado2
   ]}
   activeOpacity={0.8}
   onPressIn={() => setPressionado2(true)}
@@ -80,7 +83,8 @@ const TelaDeLogin = ({ navigation }: Props) => {
   <Text style={styles.textoDoBotao}>Criar uma nova conta</Text>
 </TouchableOpacity>
       
-    </View>
+</ScrollView>
+</SafeAreaView>
   );
 }
 
@@ -89,11 +93,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fcfbfc',
     alignItems:"center",
-    justifyContent: 'center',
+    paddingTop:20,
   },
   logo: {
-    width: 300,
-    height: 150,
+    width: 220,
+    height: 120,
+    marginBottom:30,
   },
   textInput: {
     width: "95%",
@@ -117,7 +122,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 6,
-    marginTop: 20,
+    marginTop: 5,
   },
   botao2: {
     backgroundColor: "#ff4da6", 
@@ -131,16 +136,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 6,
-    marginTop: 20,
-    
+    marginTop: 5,
+    position:"absolute",
+    bottom:30,
+
   },
 
   textoDoBotao: {
     fontWeight: 'bold',
     color: "#ffffff",
+
   },
 
   botaoPressionado: {
+    backgroundColor: "#ff9ebf",
+  },
+  botaoPressionado2: {
     backgroundColor: "#ff9ebf",
   },
   containerSenha: {
