@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { Produto } from "../entities/typeProduto"
+import { ProdutoService } from "./produtoService";
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 describe('ProdutoService', () => {
@@ -28,13 +29,14 @@ describe('ProdutoService', () => {
         // Mock para simular a resposta do axios
         const mockedAxios = {
             get : jest.fn().mockResolvedValue({data: mockProdutos})
-        } as Partial<AxiosInstance>;
+        } as unknown as AxiosInstance;
         // Injeção de dependência do axios mockado
         const produtoService = new ProdutoService(mockedAxios);
         // Chamada do método a ser testado 
         const response = await produtoService.getProdutos();
         // Verificações
         expect(response).toEqual(mockProdutos);
+        console.log(mockProdutos)
         expect(mockedAxios.get).toHaveBeenCalledWith('/produtos');
     });
 })
