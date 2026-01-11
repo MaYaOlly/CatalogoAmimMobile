@@ -1,142 +1,61 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Dimensions, Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { useTelaInicialViewModel } from "../../ViewModel/useTelaInicialViewModel";
 
 const { width } = Dimensions.get("window");
 
-{/* CARROSSEL DE IMAGENS */}
+// CARROSSEL DE IMAGENS
 const imagensCarrossel = [  
   "https://picsum.photos/id/1015/1000/500",
   "https://picsum.photos/id/20/1000/500",  
 ];
 
-const bolos = [
-  {
-    id: 1,
-    nome: "Bolo de Chocolate",
-    categoria: "Bolo",
-    descricao: "Delicioso bolo de chocolate feito com cacau 100% puro, massa úmida e fofinha, coberto com ganache de chocolate meio amargo. Perfeito para qualquer ocasião!",
-    preco: "R$ 25,00",
-    imagem: "https://picsum.photos/id/16/300/300",
-    imagemPopup: "https://picsum.photos/id/16/600/400"
-  },
-  {
-    id: 2,
-    nome: "Chocolate Trufado",
-    categoria: "Bolo.",
-    descricao: "Bolo de chocolate trufado com recheio de ganache cremoso e pedaços de chocolate belga. Finalizado com raspas de chocolate e ouro comestível.",
-    preco: "R$ 35,00",
-    imagem: "https://picsum.photos/id/17/300/300",
-    imagemPopup: "https://picsum.photos/id/17/600/400"
-  },
-  {
-    id: 3,
-    nome: "Chocolate com Morango",
-    categoria: "Bolo",
-    descricao: "Massa de chocolate com recheio de creme de morango fresco e cobertura de chocolate branco. Decorado com morangos inteiros.",
-    preco: "R$ 30,00",
-    imagem: "https://picsum.photos/id/18/300/300",
-    imagemPopup: "https://picsum.photos/id/18/600/400"
-  },
-  {
-    id: 4,
-    nome: "Chocolate Simples",
-    categoria: "Bolo",
-    descricaoDetalhada: "Nosso tradicional bolo de chocolate simples, perfeito para o café da tarde. Macio, fofinho e com aquele sabor de chocolate que todo mundo adora.",
-    preco: "R$ 20,00",
-    imagem: "https://picsum.photos/id/19/300/300",
-    imagemDetalhada: "https://picsum.photos/id/19/600/400"
-  },
-  {
-    id: 5,
-    nome: "Cenoura com Chocolate",
-    categoria: "Bolo",
-    descricaoDetalhada: "Massa de cenoura com chocolate, úmida e saborosa, coberta com brigadeiro de chocolate. A combinação perfeita entre doce e saudável.",
-    preco: "R$ 20,00",
-    imagem: "https://picsum.photos/id/20/300/300",
-    imagemDetalhada: "https://picsum.photos/id/20/600/400"
-  },
-];
-
-interface Bolo {
-  id: number;
-  nome: string;
-  categoria: string;
-  descricaoDetalhada: string;
-  preco: string;
-  imagem: string;
-  imagemDetalhada: string;
-}
-
 export default function TelaInicial() {
   const scrollRef = useRef<ScrollView>(null);
-  const [indexAtual, setIndexAtual] = useState(0);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [boloSelecionado, setBoloSelecionado] = useState<Bolo | null>(null);
-  const [quantidades, setQuantidades] = useState<{[key: number]: number}>({});
+  
+  // ViewModel
+  const {
+    produtos,
+    carregando,
+    indexCarrossel,
+    modalVisible,
+    produtoSelecionado,
+    quantidades,
+    abrirDetalhesProduto,
+    fecharModal,
+    adicionarItem,
+    removerItem,
+    adicionarAoCarrinho,
+    avancarCarrossel,
+    voltarCarrossel,
+    irParaIndiceCarrossel,
+  } = useTelaInicialViewModel();
 
-  /* Autoplay com loop */
+  // Autoplay do carrossel com loop
   useEffect(() => {
     const intervalo = setInterval(() => {
-      const proximo =
-        indexAtual === imagensCarrossel.length - 1
-          ? 0
-          : indexAtual + 1;
-
+      avancarCarrossel();
+      const proximo = (indexCarrossel + 1) % imagensCarrossel.length;
       scrollRef.current?.scrollTo({
         x: proximo * width,
         animated: true,
       });
-
-      setIndexAtual(proximo);
     }, 3000);
 
     return () => clearInterval(intervalo);
-  }, [indexAtual]);
+  }, [indexCarrossel]);
 
-  function proximo() {
-    const novo =
-      indexAtual === imagensCarrossel.length - 1 ? 0 : indexAtual + 1;
+  // Funções de navegação do carrossel
+  const proximo = () => {
+    const novo = (indexCarrossel + 1) % imagensCarrossel.length;
     scrollRef.current?.scrollTo({ x: novo * width, animated: true });
-    setIndexAtual(novo);
-  }
+    avancarCarrossel();
+  };
 
-  function anterior() {
-    const novo =
-      indexAtual === 0 ? imagensCarrossel.length - 1 : indexAtual - 1;
+  const anterior = () => {
+    const novo = indexCarrossel === 0 ? imagensCarrossel.length - 1 : indexCarrossel - 1;
     scrollRef.current?.scrollTo({ x: novo * width, animated: true });
-    setIndexAtual(novo);
-  }
-
-  // Função para abrir o modal com os detalhes do bolo
-  const abrirDetalhesBolo = (bolo: React.SetStateAction<Bolo | null>) => {
-    setBoloSelecionado(bolo);
-    setModalVisible(true);
-  };
-
-  // Função para fechar o modal
-  const fecharModal = () => {
-    setModalVisible(false);
-    setBoloSelecionado(null);
-  };
-
-  // Função para adicionar item
-  const adicionarItem = (boloId: number) => {
-    setQuantidades(prev => ({
-      ...prev,
-      [boloId]: (prev[boloId] || 0) + 1
-    }));
-    console.log(`Adicionado bolo ${boloId}. Quantidade atual: ${(quantidades[boloId] || 0) + 1}`);
-  };
-
-  // Função para remover item
-  const removerItem = (boloId: number) => {
-    if (quantidades[boloId] && quantidades[boloId] > 0) {
-      setQuantidades(prev => ({
-        ...prev,
-        [boloId]: prev[boloId] - 1
-      }));
-      console.log(`Removido bolo ${boloId}. Quantidade atual: ${quantidades[boloId] - 1}`);
-    }
+    voltarCarrossel();
   };
 
   return (
@@ -153,7 +72,7 @@ export default function TelaInicial() {
             const novoIndex = Math.round(
               e.nativeEvent.contentOffset.x / width
             );
-            setIndexAtual(novoIndex);
+            irParaIndiceCarrossel(novoIndex);
           }}
           snapToInterval={width}
           decelerationRate="fast"
@@ -187,7 +106,7 @@ export default function TelaInicial() {
               key={index}
               style={[
                 styles.indicator,
-                index === indexAtual ? styles.indicatorActive : styles.indicatorInactive
+                index === indexCarrossel ? styles.indicatorActive : styles.indicatorInactive
               ]}
             />
           ))}
@@ -201,26 +120,30 @@ export default function TelaInicial() {
         contentContainerStyle={styles.cardsContentContainer}
       >
         <Text style={styles.tituloCardapio}>Cardápio</Text>
-        {bolos.map((bolo) => (
-          <TouchableOpacity 
-            key={bolo.id} 
-            style={styles.card}
-            onPress={() => abrirDetalhesBolo(bolo)}
-            activeOpacity={0.7}
-          >
-            <View style={styles.textContainer}>
-              <Text style={styles.title}>{bolo.nome}</Text>
-              <Text style={styles.description}>{bolo.categoria}</Text>
-              <Text style={styles.price}>{bolo.preco}</Text>
-            </View>
+        {carregando ? (
+          <Text style={styles.carregandoTexto}>Carregando produtos...</Text>
+        ) : (
+          produtos.map((produto) => (
+            <TouchableOpacity 
+              key={produto.id} 
+              style={styles.card}
+              onPress={() => abrirDetalhesProduto(produto)}
+              activeOpacity={0.7}
+            >
+              <View style={styles.textContainer}>
+                <Text style={styles.title}>{produto.nome}</Text>
+                <Text style={styles.description}>{produto.categoria}</Text>
+                <Text style={styles.price}>{produto.preco}</Text>
+              </View>
 
-            <Image 
-              source={{ uri: bolo.imagem }} 
-              style={styles.cardImage}
-              resizeMode="cover"
-            />
-          </TouchableOpacity>
-        ))}
+              <Image 
+                source={{ uri: produto.imagem }} 
+                style={styles.cardImage}
+                resizeMode="cover"
+              />
+            </TouchableOpacity>
+          ))
+        )}
       </ScrollView>
 
       {/* MODAL DE DETALHES */}
@@ -234,58 +157,54 @@ export default function TelaInicial() {
           <View style={styles.modalOverlay}>
             <TouchableWithoutFeedback>
               <View style={styles.modalContent}>
-                {boloSelecionado && (
+                {produtoSelecionado && (
                   <>
                     <Image 
-                      source={{ uri: boloSelecionado.imagemDetalhada || boloSelecionado.imagem }} 
+                      source={{ uri: produtoSelecionado.imagem }} 
                       style={styles.modalImage}
                       resizeMode="cover"
                     />
                     
-                    <Text style={styles.modalTitle}>{boloSelecionado.nome}</Text>
+                    <Text style={styles.modalTitle}>{produtoSelecionado.nome}</Text>
                     
                     <Text style={styles.modalDescription}>
-                      {boloSelecionado.descricaoDetalhada}
+                      {produtoSelecionado.descricao}
                     </Text>
                     
-                    {/* PREÇO ABAIXO DA DESCRIÇÃO */}
                     <View style={styles.precoContainer}>
-                      <Text style={styles.modalPreco}>{boloSelecionado.preco}</Text>
+                      <Text style={styles.modalPreco}>{produtoSelecionado.preco}</Text>
                     </View>
                     
-                    {/* CONTROLE DE QUANTIDADE E BOTÃO DE ADICIONAR */}
                     <View style={styles.bottomContainer}>
-                      {/* BOTÃO DE QUANTIDADE */}
                       <View style={styles.botaoQuantidadeWrapper}>
                         <TouchableOpacity 
                           style={styles.botaoQuantidadeMenos}
-                          onPress={() => removerItem(boloSelecionado.id)}
-                          disabled={!quantidades[boloSelecionado.id] || quantidades[boloSelecionado.id] === 0}
+                          onPress={() => removerItem(produtoSelecionado.id)}
+                          disabled={!quantidades[produtoSelecionado.id] || quantidades[produtoSelecionado.id] === 0}
                         >
                           <Text style={styles.botaoQuantidadeTexto}>-</Text>
                         </TouchableOpacity>
                         
                         <View style={styles.quantidadeDisplay}>
                           <Text style={styles.quantidadeNumero}>
-                            {quantidades[boloSelecionado.id] || 0}
+                            {quantidades[produtoSelecionado.id] || 0}
                           </Text>
                         </View>
                         
                         <TouchableOpacity 
                           style={styles.botaoQuantidadeMais}
-                          onPress={() => adicionarItem(boloSelecionado.id)}
+                          onPress={() => adicionarItem(produtoSelecionado.id)}
                         >
                           <Text style={styles.botaoQuantidadeTexto}>+</Text>
                         </TouchableOpacity>
                       </View>
                       
-                      {/* BOTÃO DE ADICIONAR */}
                       <TouchableOpacity 
                         style={styles.botaoAdicionarCarrinho}
-                        onPress={() => adicionarItem(boloSelecionado.id)}
+                        onPress={adicionarAoCarrinho}
                       >
                         <Text style={styles.botaoAdicionarCarrinhoTexto}>
-                          Adicionar
+                          Adicionar ao Carrinho
                         </Text>
                       </TouchableOpacity>
                     </View>
@@ -456,6 +375,13 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginVertical: 16,
     color: "#a3214d",
+  },
+
+  carregandoTexto: {
+    fontSize: 16,
+    color: "#a3214d",
+    textAlign: "center",
+    marginTop: 20,
   },
 
   /* Estilos do Modal */

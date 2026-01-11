@@ -1,9 +1,9 @@
 export type Produto ={
-    id: string;
-    nome: string;
-    descricao: string;
-    preco: number;
-    categoria: string;
-    imagem: string | null;
-    disponivel: boolean;
+    _id: string;
+    _nome: string;
+    _descricao: string;
+    _preco: number;
+    _categoria: string;
+    _imagemUrl: string | null;
+    _disponivel: boolean;
 }

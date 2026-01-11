@@ -8,27 +8,27 @@ describe('ProdutoService', () => {
         // Dados simulados
         const mockProdutos: Produto[] = [
             {
-               id: '1',
-               nome: 'Produto 1',
-               descricao: 'Descrição do Produto 1',
-               preco: 10.0,
-               categoria: 'Categoria A',
-               imagem: 'imagem1.png',
-               disponivel: true
+                _id: '1',
+                _nome: 'Produto 1',
+                _descricao: 'Descrição do Produto 1',
+                _preco: 10.0,
+                _categoria: 'Categoria A',
+                _imagemUrl: 'imagem1.png',
+                _disponivel: true
             },
             {
-                id: '2',
-                nome: 'Produto 2',
-                descricao: 'Descrição do Produto 2',
-                preco: 20.0,
-                categoria: 'Categoria B',
-                imagem: null,
-                disponivel: false
+                _id: '2',
+                _nome: 'Produto 2',
+                _descricao: 'Descrição do Produto 2',
+                _preco: 20.0,
+                _categoria: 'Categoria B',
+                _imagemUrl: null,
+                _disponivel: false
             }
         ];
         // Mock para simular a resposta do axios
         const mockedAxios = {
-            get : jest.fn().mockResolvedValue({data: mockProdutos})
+            get: jest.fn().mockResolvedValue({ data: mockProdutos })
         } as unknown as AxiosInstance;
         // Injeção de dependência do axios mockado
         const produtoService = new ProdutoService(mockedAxios);

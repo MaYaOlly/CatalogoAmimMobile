@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from './App';
+import TelaInicial from './home/telaInicial';
 
 type DetailsScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -16,10 +17,7 @@ const DetailsScreen = ({ route }: Props) => {
   const { nome } = route.params;
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Bem-vindo à tela Inicial da Amim.</Text>
-      <Text>Ainda estamos em construção!</Text>
-    </View>
+    <TelaInicial />
   );
 };
 

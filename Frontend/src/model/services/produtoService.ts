@@ -8,8 +8,8 @@ export class ProdutoService {
     }
     async getProdutos(): Promise<Produto[]> {
         try {
-            const result = await this.url.get<Produto[]>('/produtos');
-            return result.data;
+            const { data } = await this.url.get<Produto[]>('/produtos');
+            return data;
         }catch(err: any){
             throw new Error(err.message);
         }
