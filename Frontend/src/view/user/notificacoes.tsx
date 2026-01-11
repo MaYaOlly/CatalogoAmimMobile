@@ -36,18 +36,7 @@ export const TelaDeNotificacoes = ({ navigation }: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* HEADER COM BOTÃO VOLTAR */}
-      <View style={styles.header}>
-        <TouchableOpacity 
-          onPress={() => navigation.goBack()} 
-          style={styles.backButton}
-        >
-          <Text style={styles.backButtonText}>‹</Text>
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Notificações</Text>
-        <View style={styles.headerPlaceholder} />
-      </View>
-
+      
       <ScrollView 
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -59,12 +48,13 @@ export const TelaDeNotificacoes = ({ navigation }: Props) => {
             <Text style={styles.infoTitle}>Configurações de Notificação</Text>
           </View>
           <Text style={styles.infoText}>
-            Gerencie como você deseja receber notificações do aplicativo Amim.
-            Para configurações do sistema, acesse as configurações do seu dispositivo.
+            Para gerenciar como você deseja receber as notificações do aplicativo Amim.
+            Acesse as configurações do seu dispositivo em 
+            Configurações / Amim / Notificações.
           </Text>
         </View>
 
-        {/* OPÇÕES DE NOTIFICAÇÃO */}
+        {/* OPÇÕES DE NOTIFICAÇÃO 
         <View style={styles.optionsContainer}>
           <Text style={styles.sectionTitle}>Notificações do App</Text>
           
@@ -162,7 +152,7 @@ export const TelaDeNotificacoes = ({ navigation }: Props) => {
               ios_backgroundColor="#e8c4d4"
             />
           </View>
-        </View>
+        </View> */}
 
         {/* STATUS ATUAL */}
         <View style={styles.statusContainer}>
@@ -182,7 +172,7 @@ export const TelaDeNotificacoes = ({ navigation }: Props) => {
         </View>
       </ScrollView>
 
-      {/* BOTÃO SALVAR */}
+      {/* BOTÃO SALVAR 
       <View style={styles.footer}>
         <TouchableOpacity 
           style={styles.saveButton} 
@@ -190,7 +180,7 @@ export const TelaDeNotificacoes = ({ navigation }: Props) => {
         >
           <Text style={styles.saveButtonText}>SALVAR CONFIGURAÇÕES</Text>
         </TouchableOpacity>
-      </View>
+      </View>*/}
     </SafeAreaView>
   );
 }
@@ -239,14 +229,9 @@ const styles = StyleSheet.create({
   
   infoBox: {
     backgroundColor: "#fce4ec",
-    padding: 16,
-    borderRadius: 15,
-    marginBottom: 20,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    padding: 20,
+    borderRadius: 30,
+    marginBottom: 10,
   },
   
   infoHeader: {
@@ -265,7 +250,7 @@ const styles = StyleSheet.create({
   infoText: {
     fontSize: 14,
     color: "#a3214d",
-    textAlign: "left",
+    textAlign: "justify",
     lineHeight: 20,
     opacity: 0.9,
   },
@@ -302,7 +287,7 @@ const styles = StyleSheet.create({
   optionIconContainer: {
     width: 36,
     height: 36,
-    borderRadius: 18,
+    borderRadius: 30,
     backgroundColor: "rgba(255, 255, 255, 0.7)",
     justifyContent: "center",
     alignItems: "center",
@@ -342,8 +327,8 @@ const styles = StyleSheet.create({
   
   statusContainer: {
     backgroundColor: "#fce4ec",
-    padding: 16,
-    borderRadius: 15,
+    padding: 20,
+    borderRadius: 30,
     marginBottom: 20,
   },
   
