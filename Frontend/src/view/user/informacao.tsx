@@ -1,9 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, Alert, TouchableOpacity, Image, Linking, Clipboard } from "react-native";
+import { View, Text, StyleSheet, Alert, TouchableOpacity, Image, Linking, Clipboard, ScrollView } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../../navigation/types";
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+//import { ScrollView } from "react-native/types_generated/index";
 
 
 type QuemSomosNavigationProp = NativeStackNavigationProp<
@@ -62,7 +64,10 @@ export const QuemSomos = ({ navigation }: Props) => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc'  }}>
+    <ScrollView
+    contentContainerStyle={styles.container}
+    showsVerticalScrollIndicator={false}>
       {/* RETÂNGULO INFORMATIVO */}
       <View style={styles.infoBox}>
         <Image source={require("../../../assets/logo/logo3.png")} style={styles.logo} />
@@ -94,33 +99,36 @@ export const QuemSomos = ({ navigation }: Props) => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fcfbfc", 
     paddingHorizontal: 16,
-    paddingTop: 10,
+    //paddingTop: 10,
     justifyContent: "space-between",
+    paddingBottom: 5,
   },
   logo: {
-    width: 150,
-    height: 100,
+    width: 220,
+    height: 120,
     alignSelf: "center",
-    marginBottom: 10 
+    marginBottom: 20, 
+    marginTop:-20,
   },
   infoBox: {
     flex: 1,
-    backgroundColor: "#fce4ec",
+    backgroundColor: "#fcfbfc",
     padding: 14,
-    borderRadius: 20,
+    //borderRadius: 20,
     marginBottom: 12,
+    paddingHorizontal: 5,
   },
   infoText: {
-    fontSize: 17,
+    fontSize: 18,
     color: "#a3214d", 
     textAlign: "justify",
   },
@@ -128,18 +136,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
-    marginTop: "auto",
-    paddingHorizontal: 10, // Adicionado para dar um pouco de espaçamento nas laterais
+    paddingHorizontal: 5, // Adicionado para dar um pouco de espaçamento nas laterais
+  
   },
   socialButton: {
     flex: 1,
     backgroundColor: "#f06292",
     marginHorizontal: 8,
+    marginTop: 20,
     height: 90,
-    borderRadius: 12,
+    borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 6,
   },
   socialText: {
     fontSize: 12,
