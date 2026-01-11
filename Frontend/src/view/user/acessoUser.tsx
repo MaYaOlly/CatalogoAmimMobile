@@ -1,297 +1,281 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, ScrollView,SafeAreaView} from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, ScrollView} from "react-native";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../../navigation/types";
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+type TelaDeConfiguracaoNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'TelaDeConfiguracao'
+>;
 
-export default function AcessoUser() {
-  const navigation = useNavigation<NavigationProp>();
+type Props = {
+  navigation: TelaDeConfiguracaoNavigationProp;
+};
 
-  // Funções de navegação para telas específicas
-  const irParaPerfil = () => {
-    navigation.navigate('Perfil')
-  };
+export const TelaDeConfiguracao = ({ navigation }: Props) => {
+    // serve para mudar a cor  do botão clicável
+    const [pressionado4, setPressionado4] = React.useState(false);
+    const [pressionado3, setPressionado3] = React.useState(false);
+    const [pressionado2, setPressionado2] = React.useState(false);
 
-  const irParaTrocarSenha = () => {
-    navigation.navigate('TrocarSenha');
-  };
+  function handlePress(option: string) {
+    Alert.alert("Opção selecionada", option);
+  }
 
-  const irParaNotificacoes = () => {
-    navigation.navigate('Notificacao');
-  };
-
-  const irParaInformacoes = () => {
-    navigation.navigate('Informacao');
-  };
-
-  const handleLogout = () => {
-    Alert.alert(
-      "Sair da conta",
-      "Deseja realmente sair?",
-      [
-        {
-          text: "Cancelar",
-          style: "cancel"
-        },
-        { 
-          text: "Sair", 
-          onPress: () => {
-            // Navega de volta para TelaInicial e reseta a pilha
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'TelaInicial' }],
-            });
-          }
-        }
-      ]
-    );
-  };
-
-  // Botão de voltar
-  const voltarParaInicio = () => {
-    navigation.goBack();
-  };
+  function handleLogout() {
+    Alert.alert("Sair", "Você saiu da conta.");
+  }
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* HEADER COM BOTÃO VOLTAR */}
-      <View style={styles.header}>
-        <TouchableOpacity 
-          onPress={voltarParaInicio} 
-          style={styles.backButton}
-        >
-          <Text style={styles.backButtonText}>‹</Text>
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Perfil</Text>
-        <View style={styles.headerPlaceholder} />
-      </View>
-
-      <ScrollView 
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* LOGO */}
-        <Image 
-          source={require("../assets/logo.png")} 
-          style={styles.logo}
-        />
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Image source={require("../../../assets/logo/logo3.png")} style={styles.logo}/>
         
-        {/* INFORMAÇÕES DO USUÁRIO */}
-        <View style={styles.userInfo}>
-          <View style={styles.avatarContainer}>
-          </View>
-          <Text style={styles.userName}>Usuário Convidado</Text>
-          <Text style={styles.userEmail}>usuario@exemplo.com</Text>
-        </View>
-
         {/* LISTA DE OPÇÕES */}
-        <View style={styles.optionsContainer}>
-          <TouchableOpacity 
-            style={styles.optionButton} 
-            onPress={irParaPerfil}
-          >
-            <View style={styles.optionRow}>
-              <Text style={styles.optionText}>Meu Perfil</Text>
-            </View>
-            <Text style={styles.optionArrow}>›</Text>
+        
+          <TouchableOpacity
+            style={[ styles.botao4, pressionado4 && styles.botaoPressionado4
+            ]}
+              activeOpacity={0.8}
+              onPressIn={() => setPressionado4(true)}
+              onPressOut={() => setPressionado4(false)}
+              onPress={() => navigation.navigate('TelaDePerfil')}
+                  >
+          <View style={styles.balao}>
+              <View style={styles.iconeETexto}>
+                <Image
+                  source={require("../../../assets/icons/user.png")}
+                  style={styles.figura1}
+                />
+                  <View style={styles.areaDoTexto}>
+                    <Text style={styles.nomeDoMeioDePagamento}>Perfil</Text>
+                  </View>
+               </View>
+          </View>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={styles.optionButton} 
-            onPress={irParaTrocarSenha}
-          >
-            <View style={styles.optionRow}>
-              <Text style={styles.optionText}>Trocar Senha</Text>
-            </View>
-            <Text style={styles.optionArrow}>›</Text>
+          <TouchableOpacity
+            style={[ styles.botao4, pressionado3 && styles.botaoPressionado4
+            ]}
+              activeOpacity={0.8}
+              onPressIn={() => setPressionado3(true)}
+              onPressOut={() => setPressionado3(false)}
+              onPress={() => navigation.navigate('TelaDeNotificacoes')}
+                  >
+          <View style={styles.balao}>
+              <View style={styles.iconeETexto}>
+                <Image
+                  source={require("../../../assets/icons/sino.png")}
+                  style={styles.figura1}
+                />
+                  <View style={styles.areaDoTexto}>
+                    <Text style={styles.nomeDoMeioDePagamento}>Notificações</Text>
+                  </View>
+               </View>
+          </View>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={styles.optionButton} 
-            onPress={irParaNotificacoes}
-          >
-            <View style={styles.optionRow}>
-              <Text style={styles.optionText}>Notificações</Text>
-            </View>
-            <Text style={styles.optionArrow}>›</Text>
+          <TouchableOpacity
+            style={[ styles.botao4, pressionado2 && styles.botaoPressionado4
+            ]}
+              activeOpacity={0.8}
+              onPressIn={() => setPressionado2(true)}
+              onPressOut={() => setPressionado2(false)}
+              onPress={() => navigation.navigate('QuemSomos')}
+                  >
+          <View style={styles.balao}>
+              <View style={styles.iconeETexto}>
+                <Image
+                  source={require("../../../assets/icons/information.png")}
+                  style={styles.figura1}
+                />
+                  <View style={styles.areaDoTexto}>
+                    <Text style={styles.nomeDoMeioDePagamento}>Quem somos</Text>
+                  </View>
+               </View>
+          </View>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={styles.optionButton} 
-            onPress={irParaInformacoes}
-          >
-            <View style={styles.optionRow}>
-              <Text style={styles.optionText}>Informações do App</Text>
-            </View>
-            <Text style={styles.optionArrow}>›</Text>
+
+
+          {/*<TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Perfil")}>
+              <View style={styles.row}>
+                  <Image source={require("../../../assets/icons/user.png")} style={styles.icon}/>
+                  <Text style={styles.optionText}>Perfil</Text>
+              </View>
           </TouchableOpacity>
-        </View>
+
+          <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Trocar Senha")}>
+              <View style={styles.row}>
+                  <Image source={require("../../../assets/icons/trocarsenha.png")} style={styles.icon}/>
+                  <Text style={styles.optionText}>Trocar Senha</Text>
+              </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Notificações")}>
+              <View style={styles.row}>
+                  <Image source={require("../../../assets/icons/sino.png")} style={styles.icon}/>
+                  <Text style={styles.optionText}>Notificações</Text>
+              </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Informações")}>
+            <View style={styles.row}>
+              <Image source={require("../../../assets/icons/information.png")} style={styles.icon}/>
+              <Text style={styles.optionText}>Informações</Text>
+            </View>
+          </TouchableOpacity>*/}
+      
       </ScrollView>
 
-      {/* BOTÃO SAIR */}
+      {/* BOTÃO SAIR (FIXO NO FINAL) */}
       <View style={styles.footer}>
-        <TouchableOpacity 
-          style={styles.logoutButton} 
-          onPress={handleLogout}
-        >
-          <View style={styles.logoutRow}>
-            <Text style={styles.logoutIcon}>🚪</Text>
-            <Text style={styles.logoutText}>Sair da Conta</Text>
+        <TouchableOpacity style={styles.BotaodeSair} onPress={handleLogout}>
+          <View style={styles.DetalhesDoBotaodeSair}>
+          <View style={styles.containerEsquerdo2}>
+            <Image source={require("../../../assets/icons/saida.png")} style={styles.icon}/>
+            <Text style={styles.TextoDoBotaoDeSair}>Sair</Text>
+            </View>
+            <View style={styles.containerDireito2}>
+              <Image source={require("../../../assets/icons/seta.png")}style={styles.icon2}/>
+            </View>
           </View>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fcfbfc",
+    flexGrow: 1,
+    backgroundColor: '#fcfbfc',
+    justifyContent: 'flex-start',
+    paddingTop: 10,
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: "#fce4ec",
-    borderBottomWidth: 1,
-    borderBottomColor: '#e8c4d4',
-  },
-  backButton: {
-    padding: 8,
-  },
-  backButtonText: {
-    fontSize: 24,
-    color: "#a3214d",
-    fontWeight: "bold",
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#a3214d",
-  },
-  headerPlaceholder: {
-    width: 40,
-  },
+  
   scrollContent: {
     padding: 16,
     paddingBottom: 20,
+    width:"100%",
+    alignItems:"center",
   },
+
   logo: {
     width: 120,
     height: 60,
-    alignSelf: "center",
-    marginBottom: 24,
+    marginBottom: "10%",
   },
-  userInfo: {
-    alignItems: "center",
-    marginBottom: 32,
-  },
-  avatarContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: "#fce4ec",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 12,
-    borderWidth: 3,
-    borderColor: '#a3214d',
-  },
-  avatarText: {
-    fontSize: 36,
-  },
-  userName: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#a3214d",
-    marginBottom: 4,
-  },
-  userEmail: {
-    fontSize: 14,
-    color: "#a3214d",
-    opacity: 0.8,
-  },
-  optionsContainer: {
-    marginBottom: 24,
-  },
-  optionButton: {
+
+  DetalhesDoBotaodeSair: {
     backgroundColor: "#fce4ec", 
-    padding: 16,
-    borderRadius: 15,
-    marginBottom: 12,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    paddingVertical: 25,
+    borderRadius: 30,
+    
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent:"space-between",
   },
-  optionRow: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  optionIcon: {
-    fontSize: 20,
-    marginRight: 12,
-  },
+
   optionText: {
     fontSize: 16,
     color: "#a3214d",
     fontWeight: "bold",
   },
-  optionArrow: {
-    fontSize: 20,
-    color: "#a3214d",
-    fontWeight: "bold",
-  },
-  versionContainer: {
-    alignItems: "center",
-    marginTop: 8,
-    marginBottom: 20,
-  },
-  versionText: {
-    fontSize: 12,
-    color: "#a3214d",
-    opacity: 0.6,
-  },
-  footer: {
-    backgroundColor: "#fcfbfc",
-    paddingTop: 8,
-    borderTopWidth: 1,
-    borderTopColor: "#f0f0f0",
-  },
-  logoutButton: {
+
+  BotaodeSair: {
     backgroundColor: "#fce4ec",
-    padding: 16,
+    padding: 22,
+    borderRadius: 30,
     marginHorizontal: 16,
     marginBottom: 16,
-    borderRadius: 15,
-    alignItems: "center",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    justifyContent:"center",
   },
-  logoutRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logoutIcon: {
-    fontSize: 20,
-    marginRight: 8,
-  },
-  logoutText: {
+
+  TextoDoBotaoDeSair: {
     color: "#a3214d",
     fontSize: 16,
     fontWeight: "bold",
   },
+
+  icon: {
+    width: 44,
+    height: 44,
+    marginRight: 25,
+  },
+  icon2: {
+    width: 25,
+    height: 25,
+
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 34,
+  },
+
+  footer: {
+    backgroundColor: "#fcfbfc",
+    paddingTop: 8,
+    
+  },
+  botao4: {
+    width: '105%',
+    borderRadius: 30,
+    alignSelf: 'center',
+    marginBottom:20,
+    marginTop:-10,
+  },
+  
+  botaoPressionado4: {
+    backgroundColor: "#ff9ebf",
+  },
+  
+  textoDoBotao: {
+    fontWeight: 'bold',
+    color: "#ffffff",
+    textAlign:"justify",
+  },
+  balao: {
+    backgroundColor: '#fce4ec',
+    borderRadius: 30,
+    paddingVertical: 24,
+    //marginBottom:20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    //marginTop:-10,
+  },
+  
+  nomeDoMeioDePagamento:{
+    color: "#a3214d",
+    fontWeight: "bold",
+    fontSize: 16,  
+  },
+  containerEsquerdo2:{
+    backgroundColor: '#fce4ec',
+    flexDirection: 'row',
+    alignItems: 'center', // 🔥 ícone e texto alinhados no meio
+  },
+  containerDireito2:{
+    backgroundColor: '#fce4ec',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconeETexto:{
+
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+  },
+
+ areaDoTexto:{
+  flex: 1,
+  marginLeft: 16,
+},
+  figura1:{
+    width: 25,
+    height: 25,
+  },
+
 });
+export default TelaDeConfiguracao;

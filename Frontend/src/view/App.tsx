@@ -10,6 +10,9 @@ import { BottomTabs } from '../navigation/BottomTabs';
 import { StackScreen } from 'react-native-screens';
 import TelaDeCheckout2 from './carrinho/TelaDeCheckout2';
 import TelaDeCheckout3 from './carrinho/TelaDeCheckout3';
+import QuemSomos from './user/informacao';
+import Perfil, { TelaDePerfil } from './user/perfil';
+import TelaDeNotificacoes from './user/notificacoes';
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +57,21 @@ export default function App() {
           component={TelaDeCheckout3}
           options={{headerShown: true, title: "Tela De Checkout 3"}} />
           
+        <Stack.Screen
+          name="QuemSomos"
+          component={QuemSomos}
+          options={{headerShown: true, title:"QuemSomos"}} />
+
+        <Stack.Screen
+          name="TelaDePerfil"
+          component={TelaDePerfil}
+          options={{headerShown: true, title:"Perfil"}} />
+
+        <Stack.Screen
+          name="TelaDeNotificacoes"
+          component={TelaDeNotificacoes}
+          options={{headerShown: true,
+          title:"TelaDeNotificacoes"}} />
         </Stack.Navigator>
     </NavigationContainer>
   );

@@ -97,7 +97,7 @@ export default function Cupom() {
       <View style={styles.searchContainer}>
         <View style={styles.searchWithImage}>
           <Image 
-            source={require('../assets/logo.png')} 
+            source={require("../../../assets/icons/lupa.png")} 
             style={styles.searchIconImage} 
             resizeMode="cover"
           />
@@ -132,7 +132,7 @@ export default function Cupom() {
               {/* Imagem centralizada verticalmente */}
               <View style={styles.imageContainer}>
                 <Image 
-                  source={require('../assets/bolo.png')} 
+                  source={require("../../../assets/icons/bolo.png")} 
                   style={[
                     styles.cupomImage, 
                     cupomItem.utilizado && styles.imageUsed

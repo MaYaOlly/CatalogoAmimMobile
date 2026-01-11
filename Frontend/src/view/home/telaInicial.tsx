@@ -120,7 +120,7 @@ export default function TelaInicial() {
     <SafeAreaView style={styles.container}>
       {/* CABEÇALHO */}
       <View style={styles.header}>
-        <Image source={require("../assets/logo.png")} style={styles.logo} />
+        <Image source={require("../../../assets/logo/logo3.png")} style={styles.logo} />
         <Text style={styles.headerTitle}>Amim Doces</Text>
       </View>
 

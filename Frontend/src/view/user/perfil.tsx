@@ -1,9 +1,20 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert, Modal, TextInput, ScrollView, KeyboardAvoidingView, Platform, SafeAreaView } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from "../../navigation/types";
 
-export default function Perfil() {
-  const navigation = useNavigation();
+type TelaDePerfilNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'TelaDePerfil'
+>;
+
+type Props = {
+  navigation: TelaDePerfilNavigationProp;
+};
+
+export const TelaDePerfil = ({ navigation }: Props) => {
+  //const navigation = useNavigation();
   
   // Estado para os dados do usuário
   const [userInfo, setUserInfo] = useState({
@@ -408,3 +419,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+export default TelaDePerfil;

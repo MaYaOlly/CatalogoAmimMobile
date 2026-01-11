@@ -1,20 +1,21 @@
 export type RootStackParamList = {
-    Login: undefined;
-    TelaInicial: { nome: string };
-    CadastrarUsuário: { nome: string };
-    Perfil: undefined;
-    TrocarSenha: undefined;
-    Notificacoes: undefined;
-    Informacoes: undefined;
-    Home: undefined;
-    Carrinho: undefined;
-    CarrinhoVazio: undefined;
-    CarrinhoCheio: undefined;
-    TelaDeCheckout1: undefined;
-    TelaDeCheckout2: undefined;
-    TelaDeCheckout3: undefined;
-    Cadastrar: undefined;
-    Cupom: undefined;
-    
-  };
-  
+  Login: undefined;
+  TelaInicial: { nome: string };
+  CadastrarUsuário: { nome: string };
+  Perfil: undefined;
+  TrocarSenha: undefined;
+  Notificacoes: undefined;
+  Informacoes: undefined;
+  Home: undefined;
+  Carrinho: undefined;
+  CarrinhoVazio: undefined;
+  CarrinhoCheio: undefined;
+  TelaDeCheckout1: undefined;
+  TelaDeCheckout2: undefined;
+  TelaDeCheckout3: undefined;
+  Cadastrar: undefined;
+  TelaDeConfiguracao: undefined;
+  QuemSomos: undefined;
+  TelaDePerfil: undefined;
+  TelaDeNotificacoes: undefined;
+};

@@ -2,9 +2,20 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Alert, TouchableOpacity, SafeAreaView, ScrollView, Switch } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from "../../navigation/types";
 
-export default function Notificacao() {
-  const navigation = useNavigation();
+type TelaDeNotificacoesNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'TelaDeNotificacoes'
+>;
+
+type Props = {
+  navigation: TelaDeNotificacoesNavigationProp;
+};
+
+export const TelaDeNotificacoes = ({ navigation }: Props) => {
+  //const navigation = useNavigation();
   
   // Estado para as configurações de notificação
   const [notifications, setNotifications] = useState({
@@ -380,3 +391,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+export default TelaDeNotificacoes;
