@@ -14,6 +14,7 @@ export type RootStackParamList = {
     TelaDeCheckout2: undefined;
     TelaDeCheckout3: undefined;
     Cadastrar: undefined;
+    Cupom: undefined;
     
   };
   
