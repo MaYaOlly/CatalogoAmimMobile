@@ -18,4 +18,5 @@ export type RootStackParamList = {
   QuemSomos: undefined;
   TelaDePerfil: undefined;
   TelaDeNotificacoes: undefined;
+  Cupom: undefined;
 };

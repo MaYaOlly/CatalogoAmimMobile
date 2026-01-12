@@ -82,7 +82,17 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
   onPressOut={() => setPressionadoBotaoContinuar(false)}
   onPress={() => navigation.navigate('TelaDeCheckout2')}
 >
+  <View style={styles.AreaInternaDoBotao}>
+  <View style={styles.areaDoContinuar}>
   <Text style={styles.textoDoBotaoContinuar}>CONTINUAR</Text>
+  </View>
+  <View style={styles.areaDaSeta}>
+  <Image 
+        source={require("../../../assets/icons/setaBranca.png")}
+        style={styles.seta}
+      />
+  </View>
+  </View>
 </TouchableOpacity>
 
     </ScrollView>
@@ -118,7 +128,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 6,
-    marginTop: 20,
+    marginTop: 90,
   },
   textoDoBotaoContinuar: {
     fontWeight: 'bold',
@@ -215,8 +225,31 @@ const styles = StyleSheet.create({
     width: 90,          
     alignItems: 'center',
   },
-
-  
+  seta: {
+    width: 24,
+    height: 24,
+    resizeMode: "contain",
+    marginRight:20,
+  },
+  areaDoContinuar:{
+    backgroundColor: '#ff4da6',
+    width: '85%',
+    flexDirection: 'column',
+    alignItems: 'center',   
+    marginLeft: 16,  
+  },
+  areaDaSeta:{
+    //backgroundColor: '#ff4da6',
+  },
+  AreaInternaDoBotao:{
+    backgroundColor: '#ff4da6',
+    borderRadius: 30,
+    //width: '95%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical:24,
+    
+  },
 });
 
 export default TelaDeCheckout1;

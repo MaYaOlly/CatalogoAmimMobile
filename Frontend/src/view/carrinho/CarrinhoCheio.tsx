@@ -69,7 +69,7 @@ export const CarrinhoCheio = ({ navigation }: Props) => {
             activeOpacity={0.8}
             onPressIn={() => setPressionado5(true)}
             onPressOut={() => setPressionado5(false)}
-            onPress={() => navigation.navigate('TelaDeCheckout1')} //Aqui deve-se colocar para redirecionar a tela de cupons
+            onPress={() => navigation.navigate('Cupom')} //Aqui deve-se colocar para redirecionar a tela de cupons
         >
       <View style={styles.areaDeCupom}>
       <Image 
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   botao4: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    height:"8%",
+    height:"10%",
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",

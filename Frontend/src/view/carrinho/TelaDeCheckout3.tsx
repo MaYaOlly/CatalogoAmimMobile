@@ -167,7 +167,7 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
   activeOpacity={0.8}
   onPressIn={() => setPressionadoBotaoContinuar(true)}
   onPressOut={() => setPressionadoBotaoContinuar(false)}
-  onPress={() => navigation.navigate('TelaDeCheckout2')} // Bem aqui é para a página redirecionar para o zap do usuário os dados!
+  onPress={() => navigation.navigate('Home')} // Bem aqui é para a página redirecionar para o zap do usuário os dados!
 >
   <Text style={styles.textoDoBotaoContinuar}>ENVIAR PEDIDO</Text>
 </TouchableOpacity>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   botaoContinuar: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    height:"8%",
+    height:"10%",
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -209,6 +209,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 6,
     marginTop: 20,
+  
   },
   textoDoBotaoContinuar: {
     fontWeight: 'bold',

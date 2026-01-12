@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  ScrollView,
-  Image,
-  SafeAreaView,
-} from "react-native";
+import {View, Text, TextInput, TouchableOpacity, StyleSheet,  Alert,ScrollView, Image, SafeAreaView } from "react-native";
+import { RootStackParamList } from '../../navigation/types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-export default function Cupom() {
+type CupomNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Cupom'
+>;
+
+type Props = {
+  navigation: CupomNavigationProp;
+  
+};
+
+export const Cupom = ({ navigation}: Props) => {
   const [cupom, setCupom] = useState("");
 
   const [cuponsDisponiveis, setCuponsDisponiveis] = useState([
@@ -227,3 +229,4 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
 });
+export default Cupom;

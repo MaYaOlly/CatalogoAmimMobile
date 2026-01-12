@@ -13,6 +13,7 @@ import TelaDeCheckout3 from './carrinho/TelaDeCheckout3';
 import QuemSomos from './user/informacao';
 import Perfil, { TelaDePerfil } from './user/perfil';
 import TelaDeNotificacoes from './user/notificacoes';
+import Cupom from './cupom/cupom';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +73,12 @@ export default function App() {
           component={TelaDeNotificacoes}
           options={{headerShown: true,
           title:"TelaDeNotificacoes"}} />
+
+        <Stack.Screen
+          name="Cupom"
+          component={Cupom}
+          options={{headerShown:true,
+          title:"Cupom"}} />
         </Stack.Navigator>
     </NavigationContainer>
   );
