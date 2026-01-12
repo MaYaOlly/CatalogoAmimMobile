@@ -1,70 +1,42 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView, Image, SafeAreaView } from "react-native";
-import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from "../../navigation/types";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  ScrollView,
+  Image,
+  SafeAreaView,
+} from "react-native";
 
 export default function Cupom() {
-  const navigation = useNavigation();
   const [cupom, setCupom] = useState("");
+
   const [cuponsDisponiveis, setCuponsDisponiveis] = useState([
-    { 
-      id: 1, 
-      codigo: "HALLOWEEN19", 
-      titulo: "Cupom de 19% OFF", 
-      descricao: "para pedidos de dia das bruxas.", 
-      condicoes: "Compras acima de $810,00",
+    {
+      id: 1,
+      codigo: "HALLOWEEN19",
+      titulo: "Cupom de 19% OFF",
+      descricao: "para pedidos de dia das bruxas.",
+      condicoes: "Compras acima de R$100,00",
       utilizado: false,
-      cor: "#fce4ec",
     },
-    { 
-      id: 2, 
-      codigo: "PRIMEIRA5", 
-      titulo: "Cupom de 5% OFF", 
-      descricao: "para primeira compra.", 
+    {
+      id: 2,
+      codigo: "PRIMEIRA5",
+      titulo: "Cupom de 5% OFF",
+      descricao: "para primeira compra.",
       condicoes: "Válido apenas uma vez",
       utilizado: false,
-      cor: "#fce4ec",
     },
   ]);
 
-  function handleApplyCupom(codigoCupom: string) {
-    if (!codigoCupom.trim()) {
-      Alert.alert("Erro", "Digite um cupom válido.");
-      return;
-    }
-
-    const cupomEncontrado = cuponsDisponiveis.find(c => 
-      c.codigo.toLowerCase() === codigoCupom.toLowerCase()
-    );
-
-    if (!cupomEncontrado) {
-      Alert.alert("Cupom inválido", "O cupom digitado não existe.");
-      return;
-    }
-
-    if (cupomEncontrado.utilizado) {
-      Alert.alert("Cupom já utilizado", "Este cupom já foi utilizado e não está mais disponível.");
-      return;
-    }
-
-    const novosCupons = cuponsDisponiveis.map(c => {
-      if (c.id === cupomEncontrado.id) {
-        return { ...c, utilizado: true };
-      }
-      return c;
-    });
-
-    setCuponsDisponiveis(novosCupons);
-    
-    Alert.alert(
-      "Sucesso!", 
-      `Cupom ${cupomEncontrado.codigo} aplicado!\n${cupomEncontrado.titulo}\n${cupomEncontrado.descricao}`
-    );
-    setCupom("");
-  }
-
   function usarCupomDireto(idCupom: number) {
-    const cupomEncontrado = cuponsDisponiveis.find(c => c.id === idCupom);
+    const cupomEncontrado = cuponsDisponiveis.find(
+      c => c.id === idCupom
+    );
 
     if (!cupomEncontrado) {
       Alert.alert("Erro", "Cupom não encontrado.");
@@ -72,131 +44,85 @@ export default function Cupom() {
     }
 
     if (cupomEncontrado.utilizado) {
-      Alert.alert("Cupom já utilizado", "Este cupom já foi utilizado e não está mais disponível.");
+      Alert.alert("Cupom já utilizado", "Este cupom já foi utilizado.");
       return;
     }
 
-    const novosCupons = cuponsDisponiveis.map(c => {
-      if (c.id === idCupom) {
-        return { ...c, utilizado: true };
-      }
-      return c;
-    });
+    setCuponsDisponiveis(prev =>
+      prev.map(c =>
+        c.id === idCupom ? { ...c, utilizado: true } : c
+      )
+    );
 
-    setCuponsDisponiveis(novosCupons);
-    
     Alert.alert(
-      "Sucesso!", 
-      `Cupom ${cupomEncontrado.codigo} aplicado!\n${cupomEncontrado.titulo}\n${cupomEncontrado.descricao}`
+      "Sucesso!",
+      `Cupom ${cupomEncontrado.codigo} aplicado!`
     );
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Campo de busca com imagem */}
-      <View style={styles.searchContainer}>
-        <View style={styles.searchWithImage}>
-          <Image 
-            source={require("../../../assets/icons/lupa.png")} 
-            style={styles.searchIconImage} 
-            resizeMode="cover"
-          />
-          <TextInput 
-            style={styles.searchInput} 
-            placeholder="Procurar cupons..." 
-            placeholderTextColor="#a3214d"
-            value={cupom}
-            onChangeText={setCupom}
-            autoCapitalize="characters"
-            onSubmitEditing={() => handleApplyCupom(cupom)}
-          />
-        </View>
+      {/* LOGO */}
+      <Image
+        source={require("../../../assets/logo/logo3.png")}
+        style={styles.logo}
+        resizeMode="contain"
+      />
+
+      {/* SEARCH */}
+      <View style={styles.searchBox}>
+        <Image
+          source={require("../../../assets/icons/lupa.png")}
+          style={styles.searchIcon}
+        />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Procurar cupons"
+          placeholderTextColor="#a3214d"
+          value={cupom}
+          onChangeText={setCupom}
+        />
       </View>
 
-      {/* Lista de cupons */}
-      <ScrollView 
-        style={styles.scrollView} 
+      {/* CUPONS */}
+      <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {cuponsDisponiveis.map((cupomItem) => (
-          <View 
-            key={cupomItem.id} 
-            style={[
-              styles.cupomCard,
-              { backgroundColor: cupomItem.cor },
-              cupomItem.utilizado && styles.cardUsed
-            ]}
-          >
-            <View style={styles.cupomRow}>
-              {/* Imagem centralizada verticalmente */}
-              <View style={styles.imageContainer}>
-                <Image 
-                  source={require("../../../assets/icons/bolo.png")} 
-                  style={[
-                    styles.cupomImage, 
-                    cupomItem.utilizado && styles.imageUsed
-                  ]} 
-                  resizeMode="contain"
-                />
-              </View>
-              
-              {/* Conteúdo do cupom */}
-              <View style={styles.cupomContent}>
-                {/* Título principal */}
-                <Text style={[
-                  styles.cupomTitle,
-                  cupomItem.utilizado && styles.textUsed
-                ]}>
-                  {cupomItem.titulo}
-                </Text>
+        {cuponsDisponiveis.map(item => (
+          <View key={item.id} style={styles.cupomCard}>
+            <Image
+              source={require("../../../assets/icons/bolo.png")}
+              style={styles.cupomImage}
+            />
 
-                {/* Descrição */}
-                <Text style={[
-                  styles.cupomDescription,
-                  cupomItem.utilizado && styles.textUsed
-                ]}>
-                  {cupomItem.descricao}
-                </Text>
-
-                {/* Condições */}
-                <Text style={[
-                  styles.cupomConditions,
-                  cupomItem.utilizado && styles.textUsed
-                ]}>
-                  {cupomItem.condicoes}
-                </Text>
-
-                {/* Container botão */}
-                <View style={styles.bottomContainer}>
-                  {/* Badge de utilizado (se aplicável) */}
-                  {cupomItem.utilizado && (
-                    <View style={styles.usedBadge}>
-                      <Text style={styles.usedText}>UTILIZADO</Text>
-                    </View>
-                  )}
-                  
-                  {/* Botão USAR */}
-                  <TouchableOpacity 
-                    style={[
-                      styles.useButton, 
-                      cupomItem.utilizado && styles.useButtonDisabled
-                    ]} 
-                    onPress={() => usarCupomDireto(cupomItem.id)}
-                    disabled={cupomItem.utilizado}
-                  >
-                    <Text style={styles.useButtonText}>
-                      {cupomItem.utilizado ? "Usado" : "Usar"}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+            <View style={styles.cupomText}>
+              <Text style={styles.cupomTitle}>
+                {item.titulo}
+              </Text>
+              <Text style={styles.cupomDescription}>
+                {item.descricao}
+                {"\n"}
+                {item.condicoes}
+              </Text>
             </View>
+
+            <TouchableOpacity
+              style={[
+                styles.botao,
+                item.utilizado && styles.botaoDesativado,
+              ]}
+              disabled={item.utilizado}
+              onPress={() => usarCupomDireto(item.id)}
+            >
+              <Text style={styles.textoBotao}>
+                {item.utilizado ? "Usado" : "Copiar"}
+              </Text>
+            </TouchableOpacity>
           </View>
         ))}
-        
-        {/* Espaço final */}
-        <View style={styles.bottomSpace} />
+
+        <View style={{ height: 20 }} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -207,130 +133,97 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fcfbfc",
   },
-  searchContainer: {
-    paddingHorizontal: 16,
-    marginBottom: 15,
-    marginTop: 10,
+
+  /* LOGO */
+  logo: {
+    width: 120,
+    height: 60,
+    alignSelf: "center",
+    marginTop: 40,
+    marginBottom: 20,
   },
-  searchWithImage: {
+
+  /* SEARCH */
+  searchBox: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fce4ec",
-    borderRadius: 15,
-    borderWidth: 1,
-    borderColor: "#f8bbd9",
-    overflow: "hidden",
+    borderRadius: 30,
+    paddingHorizontal: 16,
+    height: 48,
+    width: "95%",
+    alignSelf: "center",
+    marginBottom: 16,
   },
-  searchIconImage: {
-    width: 40,
-    height: 40,
-    marginLeft: 8,
-    borderRadius: 8,
+
+  searchIcon: {
+    width: 20,
+    height: 20,
+    tintColor: "#a3214d",
+    marginRight: 10,
   },
+
   searchInput: {
     flex: 1,
-    height: 45,
-    paddingHorizontal: 12,
-    fontSize: 15,
+    fontSize: 14,
     color: "#a3214d",
   },
-  scrollView: {
-    flex: 1,
-  },
+
+  /* LISTA */
   scrollContent: {
-    paddingHorizontal: 16,
     paddingBottom: 20,
   },
+
+  /* CARD CUPOM */
   cupomCard: {
-    borderRadius: 15,
-    marginBottom: 12,
-    minHeight: 130,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-  },
-  cupomRow: {
     flexDirection: "row",
-    flex: 1,
-  },
-  imageContainer: {
-    justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 12,
-    paddingVertical: 10,
+    backgroundColor: "#fce4ec",
+    borderRadius: 30,
+    padding: 16,
+    marginBottom: 12,
+    width: "95%",
+    alignSelf: "center",
   },
+
   cupomImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 8,
+    width: 45,
+    height: 45,
+    marginRight: 12,
   },
-  imageUsed: {
-    opacity: 0.6,
-  },
-  cupomContent: {
+
+  cupomText: {
     flex: 1,
-    padding: 12,
-    paddingLeft: 0,
-    justifyContent: "space-between",
   },
+
   cupomTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "bold",
     color: "#a3214d",
     marginBottom: 4,
   },
+
   cupomDescription: {
-    fontSize: 14,
+    fontSize: 13,
     color: "#a3214d",
-    marginBottom: 6,
     lineHeight: 18,
   },
-  cupomConditions: {
-    fontSize: 12,
-    color: "#a3214d",
-    marginBottom: 8,
-    fontWeight: "600",
-  },
-  bottomContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 4,
-  },
-  useButton: {
-    backgroundColor: "#a3214d",
-    paddingHorizontal: 20,
+
+  /* BOTÃO */
+  botao: {
+    backgroundColor: "#f06292",
+    paddingHorizontal: 16,
     paddingVertical: 6,
-    borderRadius: 15,
+    borderRadius: 30,
   },
-  useButtonDisabled: {
-    backgroundColor: "#cccccc",
+
+  botaoDesativado: {
+    opacity: 0.6,
   },
-  useButtonText: {
-    color: "#fff",
-    fontSize: 13,
+
+  textoBotao: {
+    color: "#ffffff",
     fontWeight: "bold",
-  },
-  usedBadge: {
-    backgroundColor: "#ff6b6b",
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
-  usedText: {
-    color: "#fff",
-    fontSize: 9,
-    fontWeight: "bold",
-  },
-  cardUsed: {
-    opacity: 0.8,
-  },
-  textUsed: {
-    color: "#888888",
-  },
-  bottomSpace: {
-    height: 20,
+    fontSize: 12,
   },
 });
