@@ -60,6 +60,11 @@ export default function TelaInicial() {
 
   return (
     <View style={styles.container}>
+            <ScrollView 
+        style={styles.cardsContainer} 
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.cardsContentContainer}
+      >
       <Image source={require("../../../assets/logo/logo3.png")} style={styles.logo} />
       {/* CARROSSEL */}
       <View style={styles.carouselContainer}>
@@ -114,11 +119,7 @@ export default function TelaInicial() {
       </View>
 
       {/* CARDS */}
-      <ScrollView 
-        style={styles.cardsContainer} 
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.cardsContentContainer}
-      >
+
         <Text style={styles.tituloCardapio}>Cardápio</Text>
         {carregando ? (
           <Text style={styles.carregandoTexto}>Carregando produtos...</Text>
@@ -234,10 +235,11 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 150,
-    height: 100,
+    width: 120,
+    height: 60,
     alignSelf: "center",
-    marginBottom: 10 
+    marginBottom: 10,
+    marginTop:10, 
   },
 
   carouselContainer: {
