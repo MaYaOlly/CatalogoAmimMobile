@@ -60,7 +60,7 @@ export default function TelaInicial() {
 
   return (
     <View style={styles.container}>
-      <Image source={require("../../../assets/logo.png")} style={styles.logo} />
+      <Image source={require("../../../assets/logo/logo3.png")} style={styles.logo} />
       {/* CARROSSEL */}
       <View style={styles.carouselContainer}>
         <ScrollView
