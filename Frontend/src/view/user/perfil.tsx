@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert, Modal, TextInput, ScrollView, KeyboardAvoidingView, Platform, SafeAreaView } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Modal, TextInput, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../../navigation/types";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type TelaDePerfilNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -66,27 +67,18 @@ export const TelaDePerfil = ({ navigation }: Props) => {
     Alert.alert("Sucesso", "Cadastro atualizado com sucesso!");
   };
 
-  return (
-    <SafeAreaView style={styles.container}>
-      {/* HEADER COM BOTÃO VOLTAR */}
-      <View style={styles.header}>
-        <TouchableOpacity 
-          onPress={() => navigation.goBack()} 
-          style={styles.backButton}
-        >
-          <Text style={styles.backButtonText}>‹</Text>
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Perfil</Text>
-        <View style={styles.headerPlaceholder} />
-      </View>
+    // serve para mudar a cor  do botão clicável
+    const [pressionado2, setPressionado2] = React.useState(false); 
 
-      <ScrollView 
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
+  return (
+
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc'  }}>
+    <ScrollView
+    contentContainerStyle={styles.container}
+    showsVerticalScrollIndicator={false}>
         {/* LISTA DE INFORMAÇÕES DO USUÁRIO */}
         <View style={styles.infoSection}>
-          <Text style={styles.sectionTitle}>Informações Pessoais</Text>
+          {/*<Text style={styles.sectionTitle}>Informações Pessoais</Text>*/}
           
           <View style={styles.infoItem}>
             <View style={styles.infoRow}>
@@ -116,12 +108,14 @@ export const TelaDePerfil = ({ navigation }: Props) => {
             </View>
           </View>
         </View>
-
+        </ScrollView>
         {/* BOTÃO ATUALIZAR CADASTRO */}
         <TouchableOpacity style={styles.updateButton} onPress={openEditModal}>
           <Text style={styles.updateText}>ATUALIZAR CADASTRO</Text>
         </TouchableOpacity>
-      </ScrollView>
+      
+
+      
 
       {/* MODAL DE EDIÇÃO */}
       <Modal
@@ -184,60 +178,35 @@ export const TelaDePerfil = ({ navigation }: Props) => {
                 <Text style={styles.cancelText}>Cancelar</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.saveButton} onPress={saveChanges}>
-                <Text style={styles.saveText}>SALVAR ALTERAÇÕES</Text>
+                <Text style={styles.saveText}>SALVAR </Text>
               </TouchableOpacity>
             </View>
           </View>
         </KeyboardAvoidingView>
       </Modal>
+
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fcfbfc",
-  },
-  
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: "#fce4ec",
-    borderBottomWidth: 1,
-    borderBottomColor: '#e8c4d4',
-  },
-  
-  backButton: {
-    padding: 8,
-  },
-  
-  backButtonText: {
-    fontSize: 24,
-    color: "#a3214d",
-    fontWeight: "bold",
-  },
-  
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#a3214d",
-  },
-  
-  headerPlaceholder: {
-    width: 40,
+    flexGrow: 1,
+    paddingHorizontal: 10,
+    backgroundColor: '#fcfbfc',
+    //paddingTop: 20,
+    justifyContent: 'flex-start',
   },
   
   scrollContent: {
     padding: 16,
     paddingBottom: 20,
+    
   },
   
   infoSection: {
     marginBottom: 24,
+    width: "100%", // 🔥 essencial
   },
   
   sectionTitle: {
@@ -251,13 +220,9 @@ const styles = StyleSheet.create({
   infoItem: {
     backgroundColor: "#fce4ec",
     padding: 16,
-    borderRadius: 15,
+    borderRadius: 30,
     marginBottom: 12,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+
   },
   
   infoRow: {
@@ -268,7 +233,7 @@ const styles = StyleSheet.create({
   
   infoLabel: {
     fontSize: 14,
-    fontWeight: "600",
+    fontWeight: "bold",
     color: "#a3214d",
     opacity: 0.8,
   },
@@ -276,23 +241,28 @@ const styles = StyleSheet.create({
   infoValue: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#a3214d",
+    color: "#a97989",
     flex: 1,
-    textAlign: "right",
-    marginLeft: 16,
+    textAlign: "left",
+    paddingLeft:20,
+    
   },
   
   updateButton: {
-    backgroundColor: "#a3214d",
-    padding: 16,
-    borderRadius: 15,
+    backgroundColor: "#ff4da6",
+    marginHorizontal:5,
+    height: 56,           // 🔥 altura fixa
+    borderRadius: 30,
     alignItems: "center",
-    elevation: 2,
+    justifyContent: "center",
+    marginTop: 20,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 6,
   },
+  
   
   updateText: {
     color: "#fcfbfc",
@@ -325,9 +295,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#fce4ec",
-    borderBottomWidth: 1,
-    borderBottomColor: "#e8c4d4",
+    backgroundColor: "#fcfbfc",
+
   },
   
   modalTitle: {
@@ -363,10 +332,8 @@ const styles = StyleSheet.create({
   },
   
   textInput: {
-    backgroundColor: "#ffffff",
-    borderWidth: 1,
-    borderColor: "#e8c4d4",
-    borderRadius: 10,
+    backgroundColor: "#fce4ec",
+    borderRadius: 30,
     padding: 12,
     fontSize: 16,
     color: "#a3214d",
@@ -384,20 +351,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 20,
-    backgroundColor: "#fce4ec",
-    borderTopWidth: 1,
-    borderTopColor: "#e8c4d4",
+    backgroundColor: "#fcfbfc",
+
   },
   
   cancelButton: {
     paddingVertical: 12,
     paddingHorizontal: 24,
-    borderRadius: 10,
-    backgroundColor: "#ffffff",
+    borderRadius: 30,
+    backgroundColor: "#fcfbfc",
     borderWidth: 1,
     borderColor: "#a3214d",
     minWidth: 100,
     alignItems: "center",
+    //shadowColor: "#000",
+    //shadowOffset: { width: 0, height: 4 },
+    //shadowOpacity: 0.2,
+    //shadowRadius: 5,
+    //elevation: 6,
   },
   
   cancelText: {
@@ -408,15 +379,39 @@ const styles = StyleSheet.create({
   saveButton: {
     paddingVertical: 12,
     paddingHorizontal: 24,
-    borderRadius: 10,
-    backgroundColor: "#a3214d",
+    borderRadius: 30,
+    backgroundColor: "#ff4da6",
     minWidth: 160,
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 6,
   },
   
   saveText: {
     color: "#ffffff",
     fontWeight: "bold",
+  },
+botao2: {
+  position: "absolute",
+  bottom: 20,
+  left: 16,
+  right: 16,
+  height: 56,
+  paddingHorizontal:"5%",
+  borderRadius: 30,
+  alignItems: "center",
+  justifyContent: "center",
+},
+
+  textoDoBotao: {
+    fontWeight: 'bold',
+    color: "#ffffff",
+  },
+  botaoPressionado2: {
+    backgroundColor: "#ff9ebf",
   },
 });
 export default TelaDePerfil;
