@@ -48,7 +48,7 @@ export const TelaDeConfiguracao = ({ navigation }: Props) => {
                   style={styles.figura1}
                 />
                   <View style={styles.areaDoTexto}>
-                    <Text style={styles.nomeDoMeioDePagamento}>Perfil</Text>
+                    <Text style={styles.nomeDoMeioDePagamento}>Dados da conta</Text>
                   </View>
                </View>
           </View>

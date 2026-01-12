@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
   updateButton: {
     backgroundColor: "#ff4da6",
     marginHorizontal:5,
-    height: 56,           // 🔥 altura fixa
+    height:"10%",          // 🔥 altura fixa
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
