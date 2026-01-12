@@ -7,6 +7,8 @@ import { cupomController } from '../container';
  * @param fastify - Instância do Fastify para registrar as rotas
  */
 export async function cupomRoutes(fastify: FastifyInstance) {
+  /** GET /cupons - Lista todos os cupons de desconto */
+  fastify.get('/cupons', cupomController.listarCupons.bind(cupomController));
   /** POST /cupons - Cria um novo cupom de desconto */
   fastify.post('/cupons', cupomController.criarCupom.bind(cupomController));
 }

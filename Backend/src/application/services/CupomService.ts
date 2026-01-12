@@ -47,6 +47,14 @@ export class CupomService {
 
     return this.cupomRepository.criar(novoCupom);
   }
+  /**
+   * Lista todos os cupons cadastrados.
+   * @returns Promise que resolve para um array de cupons
+   */
+  
+  async buscarCupons(): Promise<Cupom[]> {
+    return await this.cupomRepository.listarCupons();
+  }
 
   /**
    * Valida um cupom verificando sua existência e validade.
