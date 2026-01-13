@@ -1,6 +1,6 @@
-import { PedidoController } from './PedidoController';
-import { PedidoService } from '../../../application/services/PedidoService';
-import { Pedido } from '../../../domain/models/class/Pedido';
+import { PedidoController } from '../PedidoController';
+import { PedidoService } from '../../../../application/services/PedidoService';
+import { Pedido } from '../../../../domain/models/class/Pedido';
 import { FastifyRequest, FastifyReply } from 'fastify';
 
 describe('PedidoController', () => {

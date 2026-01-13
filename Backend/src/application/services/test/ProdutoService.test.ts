@@ -1,6 +1,6 @@
-import { ProdutoService } from './ProdutoService';
-import { IProdutoRepository } from '../../domain/models/interfaces/IProdutoRepository';
-import { Produto } from '../../domain/models/class/Produto';
+import { ProdutoService } from '../ProdutoService';
+import { IProdutoRepository } from '../../../domain/models/interfaces/IProdutoRepository';
+import { Produto } from '../../../domain/models/class/Produto';
 
 describe('ProdutoService', () => {
   let produtoService: ProdutoService;

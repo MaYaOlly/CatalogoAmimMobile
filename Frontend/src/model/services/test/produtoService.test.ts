@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
-import { Produto } from "../entities/typeProduto"
-import { ProdutoService } from "./produtoService";
+import { Produto } from "../../entities/typeProduto"
+import { ProdutoService } from "../produtoService";
 
 describe('ProdutoService', () => {
     it('deve retornar uma lista de produtos', async () => {

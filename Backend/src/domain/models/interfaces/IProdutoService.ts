@@ -1,4 +1,4 @@
-import { Produto } from "../../domain/models/class/Produto";
+import { Produto } from "../class/Produto";
 
 export interface IProdutoService {
   listarProdutos(): Promise<Produto[]>;

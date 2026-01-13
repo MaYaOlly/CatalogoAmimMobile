@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { PedidoService } from '../../../application/services/PedidoService';
-import { CriarPedidoDTO } from '../../../application/interfaces/IPedidoService';
+import { CriarPedidoDTO } from '../../../domain/models/interfaces/IPedidoService';
 
 /**
  * Controller de pedidos.

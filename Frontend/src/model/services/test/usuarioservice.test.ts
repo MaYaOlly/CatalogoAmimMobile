@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
-import { Usuario, UsuarioRespostaAPI } from "../entities/typeUsuario";
-import { UsuarioService } from "./usuarioService";
+import { Usuario, UsuarioRespostaAPI } from "../../entities/typeUsuario";
+import { UsuarioService } from "../usuarioService";
 
 describe("UsuarioService", () => {
     it("deve criar um novo usuário", async () => {

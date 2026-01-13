@@ -1,6 +1,6 @@
-import { CupomController } from './CupomController';
-import { CupomService } from '../../../application/services/CupomService';
-import { Cupom } from '../../../domain/models/class/Cupom';
+import { CupomController } from '../CupomController';
+import { CupomService } from '../../../../application/services/CupomService';
+import { Cupom } from '../../../../domain/models/class/Cupom';
 import { FastifyRequest, FastifyReply } from 'fastify';
 
 describe('CupomController', () => {

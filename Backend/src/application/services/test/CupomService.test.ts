@@ -1,6 +1,6 @@
-import { CupomService } from './CupomService';
-import { ICupomRepository } from '../../domain/models/interfaces/ICupomRepository';
-import { Cupom, TipoDesconto } from '../../domain/models/class/Cupom';
+import { CupomService } from '../CupomService';
+import { ICupomRepository } from '../../../domain/models/interfaces/ICupomRepository';
+import { Cupom, TipoDesconto } from '../../../domain/models/class/Cupom';
 
 describe('CupomService', () => {
   let cupomService: CupomService;

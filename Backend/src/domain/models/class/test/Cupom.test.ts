@@ -1,4 +1,4 @@
-import { Cupom, TipoDesconto } from './Cupom';
+import { Cupom, TipoDesconto } from '../Cupom';
 
 describe('Cupom', () => {
   describe('Criação e Validação', () => {

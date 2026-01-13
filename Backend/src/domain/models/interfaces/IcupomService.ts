@@ -1,4 +1,4 @@
-import { Cupom, TipoDesconto } from "../../domain/models/class/Cupom";
+import { Cupom, TipoDesconto } from "../class/Cupom";
 /**
  * DTO para criação de um novo cupom.
  * Define os dados necessários para criar um cupom de desconto.

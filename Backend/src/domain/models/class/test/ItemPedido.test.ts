@@ -1,5 +1,5 @@
-import { ItemPedido } from './ItemPedido';
-import { Produto } from './Produto';
+import { ItemPedido } from '../ItemPedido';
+import { Produto } from '../Produto';
 
 describe('ItemPedido', () => {
   const mockProduto = new Produto('1', 'Notebook', 'Notebook Dell', 2500, 'Eletrônicos', 'img.jpg', true);

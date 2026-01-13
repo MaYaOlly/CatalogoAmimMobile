@@ -1,4 +1,4 @@
-import { FormaPagamento, Pedido } from "../../domain/models/class/Pedido";
+import { FormaPagamento, Pedido } from "../class/Pedido";
 /**
  * DTO (Data Transfer Object) para definição de dados para criar um pedido.
  * Contém o usuário, itens a serem pedidos, forma de pagamento e cupom de desconto (opcional).

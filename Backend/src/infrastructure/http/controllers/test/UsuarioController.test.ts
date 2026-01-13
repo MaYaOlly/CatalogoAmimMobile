@@ -1,6 +1,6 @@
-import { UsuarioController } from './UsuarioController';
-import { UsuarioService } from '../../../application/services/UsuarioService';
-import { Usuario } from '../../../domain/models/class/Usuario';
+import { UsuarioController } from '../UsuarioController';
+import { UsuarioService } from '../../../../application/services/UsuarioService';
+import { Usuario } from '../../../../domain/models/class/Usuario';
 import { FastifyRequest, FastifyReply } from 'fastify';
 
 describe('UsuarioController', () => {

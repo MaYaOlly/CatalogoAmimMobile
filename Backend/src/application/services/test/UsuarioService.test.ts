@@ -1,6 +1,6 @@
-import { UsuarioService } from './UsuarioService';
-import { IUsuarioRepository } from '../../domain/models/interfaces/IUsuarioRepository';
-import { Usuario } from '../../domain/models/class/Usuario';
+import { UsuarioService } from '../UsuarioService';
+import { IUsuarioRepository } from '../../../domain/models/interfaces/IUsuarioRepository';
+import { Usuario } from '../../../domain/models/class/Usuario';
 import bcrypt from 'bcryptjs';
 
 jest.mock('bcryptjs');

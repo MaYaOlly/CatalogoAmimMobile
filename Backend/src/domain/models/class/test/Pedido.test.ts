@@ -1,6 +1,6 @@
-import { Pedido, StatusPedido, FormaPagamento } from './Pedido';
-import { ItemPedido } from './ItemPedido';
-import { Cupom } from './Cupom';
+import { Pedido, StatusPedido, FormaPagamento } from '../Pedido';
+import { ItemPedido } from '../ItemPedido';
+import { Cupom } from '../Cupom';
 
 describe('Pedido', () => {
   const mockItem1 = { subtotal: 100 } as ItemPedido;

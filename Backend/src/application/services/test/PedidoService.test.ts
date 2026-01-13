@@ -1,14 +1,14 @@
-import { PedidoService } from './PedidoService';
-import { IPedidoRepository } from '../../domain/models/interfaces/IPedidoRepository';
-import { IProdutoRepository } from '../../domain/models/interfaces/IProdutoRepository';
-import { IUsuarioRepository } from '../../domain/models/interfaces/IUsuarioRepository';
-import { CupomService } from './CupomService';
-import { Pedido } from '../../domain/models/class/Pedido';
-import { Produto } from '../../domain/models/class/Produto';
-import { Usuario } from '../../domain/models/class/Usuario';
-import { Cupom } from '../../domain/models/class/Cupom';
-import { ItemPedido } from '../../domain/models/class/ItemPedido';
-import { CriarPedidoDTO } from '../interfaces/IPedidoService';
+import { PedidoService } from '../PedidoService';
+import { IPedidoRepository } from '../../../domain/models/interfaces/IPedidoRepository';
+import { IProdutoRepository } from '../../../domain/models/interfaces/IProdutoRepository';
+import { IUsuarioRepository } from '../../../domain/models/interfaces/IUsuarioRepository';
+import { CupomService } from '../CupomService';
+import { Pedido } from '../../../domain/models/class/Pedido';
+import { Produto } from '../../../domain/models/class/Produto';
+import { Usuario } from '../../../domain/models/class/Usuario';
+import { Cupom } from '../../../domain/models/class/Cupom';
+import { ItemPedido } from '../../../domain/models/class/ItemPedido';
+import { CriarPedidoDTO } from '../../../domain/models/interfaces/IPedidoService';
 
 describe('PedidoService', () => {
   let pedidoService: PedidoService;
@@ -39,6 +39,7 @@ describe('PedidoService', () => {
 
     mockCupomService = {
       validarCupom: jest.fn(),
+      desativarCupom: jest.fn(),
     } as any;
 
     pedidoService = new PedidoService(
@@ -126,6 +127,7 @@ describe('PedidoService', () => {
       mockUsuarioRepository.buscarPorId.mockResolvedValue(mockUsuario);
       mockProdutoRepository.buscarPorId.mockResolvedValue(mockProduto);
       mockCupomService.validarCupom.mockResolvedValue(mockCupom);
+      mockCupomService.desativarCupom.mockResolvedValue({ ...mockCupom, ativo: false } as Cupom);
 
       const pedidoComCupom = new Pedido(
         'pedido123',
@@ -146,6 +148,7 @@ describe('PedidoService', () => {
       });
 
       expect(mockCupomService.validarCupom).toHaveBeenCalledWith('DESC10');
+      expect(mockCupomService.desativarCupom).toHaveBeenCalledWith('DESC10');
       expect(resultado.cupom).toBeTruthy();
     });
 

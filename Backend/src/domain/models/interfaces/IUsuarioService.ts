@@ -1,5 +1,5 @@
-import { AtualizarPerfilDTO, AutenticarUsuarioDTO, CriarUsuarioDTO } from "../services/UsuarioService";
-import { Usuario } from "../../domain/models/class/Usuario";
+import { AtualizarPerfilDTO, AutenticarUsuarioDTO, CriarUsuarioDTO } from "../../../application/services/UsuarioService";
+import { Usuario } from "../class/Usuario";
 
 export interface IUsuarioService {
   criarUsuario(dados: CriarUsuarioDTO): Promise<Usuario>;

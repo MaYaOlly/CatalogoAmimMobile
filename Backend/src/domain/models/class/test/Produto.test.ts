@@ -1,4 +1,4 @@
-import { Produto } from './Produto';
+import { Produto } from '../Produto';
 
 describe('Produto', () => {
   describe('Criação e Validação', () => {

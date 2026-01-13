@@ -1,6 +1,6 @@
 import { Produto } from "../../domain/models/class/Produto";
 import { IProdutoRepository } from "../../domain/models/interfaces/IProdutoRepository";
-import { IProdutoService } from "../interfaces/IProdutoService";
+import { IProdutoService } from "../../domain/models/interfaces/IProdutoService";
 
 /**
  * Service de gestão de produtos.

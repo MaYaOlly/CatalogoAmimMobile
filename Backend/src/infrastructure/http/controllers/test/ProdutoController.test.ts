@@ -1,6 +1,6 @@
-import { ProdutoController } from './ProdutoController';
-import { ProdutoService } from '../../../application/services/ProdutoService';
-import { Produto } from '../../../domain/models/class/Produto';
+import { ProdutoController } from '../ProdutoController';
+import { ProdutoService } from '../../../../application/services/ProdutoService';
+import { Produto } from '../../../../domain/models/class/Produto';
 import { FastifyRequest, FastifyReply } from 'fastify';
 
 describe('ProdutoController', () => {
