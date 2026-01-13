@@ -6,8 +6,9 @@ const { width } = Dimensions.get("window");
 
 // CARROSSEL DE IMAGENS
 const imagensCarrossel = [  
-  "https://picsum.photos/id/1015/1000/500",
-  "https://picsum.photos/id/20/1000/500",  
+  require("../../../assets/pictures/bologanache.jpg"),
+  require("../../../assets/pictures/bolonaked.jpg"), 
+  require("../../../assets/pictures/bolovulcão.jpg"), 
 ];
 
 export default function TelaInicial() {
@@ -61,12 +62,11 @@ export default function TelaInicial() {
   return (
     <View style={styles.container}>
             <ScrollView 
-        style={styles.cardsContainer} 
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.cardsContentContainer}
       >
       <Image source={require("../../../assets/logo/logo3.png")} style={styles.logo} />
       {/* CARROSSEL */}
+      <View style={styles.carouselWrapper}>
       <View style={styles.carouselContainer}>
         <ScrollView
           ref={scrollRef}
@@ -86,7 +86,7 @@ export default function TelaInicial() {
             <View key={index} style={styles.carouselImageContainer}>
               <Image 
                 key={index} 
-                source={{ uri: img }} 
+                source={img} 
                 style={styles.carouselImage}
                 resizeMode="cover"
               />
@@ -117,9 +117,9 @@ export default function TelaInicial() {
           ))}
         </View>
       </View>
-
+      </View>
       {/* CARDS */}
-
+  <View style={styles.cardsContainer}>
         <Text style={styles.tituloCardapio}>Cardápio</Text>
         {carregando ? (
           <Text style={styles.carregandoTexto}>Carregando produtos...</Text>
@@ -145,6 +145,7 @@ export default function TelaInicial() {
             </TouchableOpacity>
           ))
         )}
+          </View>
       </ScrollView>
 
       {/* MODAL DE DETALHES */}
@@ -225,6 +226,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fcfbfc",
+    justifyContent: "center",
   },
 
   header: {
@@ -238,7 +240,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 60,
     alignSelf: "center",
-    marginBottom: 10,
+    marginBottom: 20,
     marginTop:10, 
   },
 
@@ -259,7 +261,7 @@ const styles = StyleSheet.create({
     width: width - 40,
     height: 250,
     borderRadius: 20,
-    marginHorizontal: 20,
+
   },
 
   leftButton: {
@@ -397,10 +399,10 @@ const styles = StyleSheet.create({
 
   modalContent: {
     backgroundColor: "#fce4ec",
-    borderRadius: 20,
+    borderRadius: 30,
     padding: 24,
     width: "90%",
-    maxHeight: "80%",
+    maxHeight: "100%",
     elevation: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
@@ -445,15 +447,17 @@ const styles = StyleSheet.create({
   /* Container inferior com botões */
   bottomContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    //justifyContent: "space-between",
     alignItems: "center",
     marginTop: 10,
+    gap: 10,
   },
 
   /* Estilos para o botão de quantidade */
   botaoQuantidadeWrapper: {
     flexDirection: "row",
     alignItems: "center",
+    flexShrink: 0,
   },
 
   botaoQuantidadeMenos: {
@@ -498,19 +502,24 @@ const styles = StyleSheet.create({
 
   /* Botão de Adicionar */
   botaoAdicionarCarrinho: {
+    flex: 1, 
     backgroundColor: "#a3214d",
     paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 25,
+    //paddingHorizontal: 25,
+    borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
     elevation: 3,
-    marginLeft: 10,
+    //marginLeft: 10,
   },
 
   botaoAdicionarCarrinhoTexto: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+    textAlign:"center",
+  },
+  carouselWrapper: {
+    width: "100%",
   },
 });
