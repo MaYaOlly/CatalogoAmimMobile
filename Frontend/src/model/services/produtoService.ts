@@ -2,8 +2,7 @@ import { AxiosInstance } from "axios";
 import { Produto } from "../entities/typeProduto";
 
 export class ProdutoService {
-    private url: AxiosInstance;
-    constructor(url: AxiosInstance) {
+    constructor(private url: AxiosInstance) {
         this.url = url;
     }
     async getProdutos(): Promise<Produto[]> {

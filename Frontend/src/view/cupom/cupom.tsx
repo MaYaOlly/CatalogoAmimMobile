@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import {View, Text, TextInput, TouchableOpacity, StyleSheet,  Alert,ScrollView, Image, SafeAreaView } from "react-native";
+import React from "react";
+import {View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image, SafeAreaView, ActivityIndicator } from "react-native";
 import { RootStackParamList } from '../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useCupomViewModel, CupomNormalizado } from "../../ViewModel/useCupomViewModel";
 
 type CupomNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -10,57 +11,32 @@ type CupomNavigationProp = NativeStackNavigationProp<
 
 type Props = {
   navigation: CupomNavigationProp;
-  
 };
 
-export const Cupom = ({ navigation}: Props) => {
-  const [cupom, setCupom] = useState("");
+export const Cupom = ({ navigation }: Props) => {
+  // ViewModel
+  const {
+    cuponsDisponiveis,
+    carregando,
+    textoBusca,
+    atualizarBusca,
+    copiarCupom,
+    formatarData,
+  } = useCupomViewModel();
 
-  const [cuponsDisponiveis, setCuponsDisponiveis] = useState([
-    {
-      id: 1,
-      codigo: "HALLOWEEN19",
-      titulo: "Cupom de 19% OFF",
-      descricao: "para pedidos de dia das bruxas.",
-      condicoes: "Compras acima de R$100,00",
-      utilizado: false,
-    },
-    {
-      id: 2,
-      codigo: "PRIMEIRA5",
-      titulo: "Cupom de 5% OFF",
-      descricao: "para primeira compra.",
-      condicoes: "Válido apenas uma vez",
-      utilizado: false,
-    },
-  ]);
+  // Helper para gerar título do cupom
+  const getTituloCupom = (cupom: CupomNormalizado) => {
+    const valor = cupom.tipoDesconto === "percentual" 
+      ? `${cupom.valorDesconto}%` 
+      : `R$ ${cupom.valorDesconto.toFixed(2).replace('.', ',')}`;
+    return `Cupom de ${valor} OFF`;
+  };
 
-  function usarCupomDireto(idCupom: number) {
-    const cupomEncontrado = cuponsDisponiveis.find(
-      c => c.id === idCupom
-    );
-
-    if (!cupomEncontrado) {
-      Alert.alert("Erro", "Cupom não encontrado.");
-      return;
-    }
-
-    if (cupomEncontrado.utilizado) {
-      Alert.alert("Cupom já utilizado", "Este cupom já foi utilizado.");
-      return;
-    }
-
-    setCuponsDisponiveis(prev =>
-      prev.map(c =>
-        c.id === idCupom ? { ...c, utilizado: true } : c
-      )
-    );
-
-    Alert.alert(
-      "Sucesso!",
-      `Cupom ${cupomEncontrado.codigo} aplicado!`
-    );
-  }
+  // Helper para gerar descrição do cupom
+  const getDescricaoCupom = (cupom: CupomNormalizado) => {
+    const tipo = cupom.tipoDesconto === "percentual" ? "Desconto percentual" : "Desconto fixo";
+    return `${tipo}\nVálido até: ${formatarData(cupom.dataValidade)}`;
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -81,51 +57,75 @@ export const Cupom = ({ navigation}: Props) => {
           style={styles.searchInput}
           placeholder="Procurar cupons"
           placeholderTextColor="#a3214d"
-          value={cupom}
-          onChangeText={setCupom}
+          value={textoBusca}
+          onChangeText={atualizarBusca}
         />
       </View>
 
-      {/* CUPONS */}
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {cuponsDisponiveis.map(item => (
-          <View key={item.id} style={styles.cupomCard}>
-            <Image
-              source={require("../../../assets/icons/bolo.png")}
-              style={styles.cupomImage}
-            />
-
-            <View style={styles.cupomText}>
-              <Text style={styles.cupomTitle}>
-                {item.titulo}
-              </Text>
-              <Text style={styles.cupomDescription}>
-                {item.descricao}
-                {"\n"}
-                {item.condicoes}
-              </Text>
+      {/* LOADING */}
+      {carregando ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#a3214d" />
+          <Text style={styles.loadingText}>Carregando cupons...</Text>
+        </View>
+      ) : (
+        /* CUPONS */
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}
+        >
+          {cuponsDisponiveis.length === 0 ? (
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>Nenhum cupom encontrado</Text>
             </View>
+          ) : (
+            cuponsDisponiveis.map(item => {
+              const dataValidade = new Date(item.dataValidade);
+              const hoje = new Date();
+              const expirado = dataValidade < hoje;
 
-            <TouchableOpacity
-              style={[
-                styles.botao,
-                item.utilizado && styles.botaoDesativado,
-              ]}
-              disabled={item.utilizado}
-              onPress={() => usarCupomDireto(item.id)}
-            >
-              <Text style={styles.textoBotao}>
-                {item.utilizado ? "Usado" : "Copiar"}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        ))}
+              return (
+                <View key={item.id} style={[
+                  styles.cupomCard,
+                  (!item.ativo || expirado) && styles.cupomInativo
+                ]}>
+                  <Image
+                    source={require("../../../assets/icons/bolo.png")}
+                    style={styles.cupomImage}
+                  />
 
-        <View style={{ height: 20 }} />
-      </ScrollView>
+                  <View style={styles.cupomText}>
+                    <Text style={styles.cupomTitle}>
+                      {getTituloCupom(item)}
+                    </Text>
+                    <Text style={styles.cupomCodigo}>
+                      {item.codigo}
+                    </Text>
+                    <Text style={styles.cupomDescription}>
+                      {getDescricaoCupom(item)}
+                    </Text>
+                  </View>
+
+                  <TouchableOpacity
+                    style={[
+                      styles.botao,
+                      (!item.ativo || expirado) && styles.botaoDesativado,
+                    ]}
+                    disabled={!item.ativo || expirado}
+                    onPress={() => copiarCupom(item.id)}
+                  >
+                    <Text style={styles.textoBotao}>
+                      {expirado ? "Expirado" : !item.ativo ? "Inativo" : "Copiar"}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            })
+          )}
+
+          <View style={{ height: 20 }} />
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }
@@ -176,6 +176,33 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
 
+  /* LOADING */
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  loadingText: {
+    marginTop: 10,
+    fontSize: 14,
+    color: "#a3214d",
+  },
+
+  /* EMPTY STATE */
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 40,
+  },
+
+  emptyText: {
+    fontSize: 16,
+    color: "#a3214d",
+    textAlign: "center",
+  },
+
   /* CARD CUPOM */
   cupomCard: {
     flexDirection: "row",
@@ -186,6 +213,10 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     width: "95%",
     alignSelf: "center",
+  },
+
+  cupomInativo: {
+    opacity: 0.6,
   },
 
   cupomImage: {
@@ -202,7 +233,15 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     color: "#a3214d",
+    marginBottom: 2,
+  },
+
+  cupomCodigo: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#d81b60",
     marginBottom: 4,
+    letterSpacing: 0.5,
   },
 
   cupomDescription: {
