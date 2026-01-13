@@ -19,7 +19,7 @@ export class Cupom {
    * @private
    */
   private validar() {
-    if (!this._codigo) throw new Error("Código do cupom é obrigatório");
+    if (!this._codigo || this._codigo.trim().length < 2) throw new Error("Código do cupom é inválido");
     if (this._valorDesconto <= 0) throw new Error("Valor de desconto inválido");
     if (this._tipoDesconto != "percentual" && this._tipoDesconto != "fixo") {
       throw new Error("Tipo de desconto inválido");

@@ -9,8 +9,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Produto {
@@ -44,7 +45,8 @@ model Pedido {
   usuarioId String
   itens     ItemPedido[]
   precoTotal Float
-  status    String      @default("pendente") // pendente, confirmado, enviado, entregue
+  status    String      @default("realizado") // pendente, confirmado, enviado, entregue
+  formaPagamento  String
   cupom     Cupom?      @relation(fields: [cupomId], references: [id])
   cupomId   String?
   data      DateTime    @default(now())

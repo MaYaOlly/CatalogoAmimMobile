@@ -10,7 +10,7 @@ export interface IPedidoRepository {
    * @param pedido - Objeto Pedido a ser criado
    * @returns Promise que resolve para o pedido criado com ID gerado
    */
-  criar(pedido: Pedido): Promise<Pedido>;
+  criarPedido(pedido: Pedido): Promise<Pedido>;
   
   /**
    * Busca um pedido pelo seu ID.

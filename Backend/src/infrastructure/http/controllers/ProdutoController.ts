@@ -14,11 +14,10 @@ export class ProdutoController {
 
   async listar(_req: FastifyRequest, reply: FastifyReply) {
     try {
-      const produtos = await this.produtoService.listarProdutosDisponiveis();
+      const produtos = await this.produtoService.listarProdutos();
       reply.send(produtos);
-    } catch (error) {
-      console.error(error);
-      reply.status(500).send({ message: 'Erro ao listar produtos' });
+    } catch (error: any ) {
+      reply.status(500).send({ message: 'Erro ao listar produtos'}); 
     }
   }
 

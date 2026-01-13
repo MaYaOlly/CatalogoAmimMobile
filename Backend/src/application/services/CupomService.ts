@@ -1,23 +1,11 @@
 import { Cupom, TipoDesconto } from "../../domain/models/class/Cupom";
 import { ICupomRepository } from "../../domain/models/interfaces/ICupomRepository";
-
-/**
- * DTO para criação de um novo cupom.
- * Define os dados necessários para criar um cupom de desconto.
- */
-export interface CriarCupomDTO {
-  codigo: string;
-  tipoDesconto: TipoDesconto;
-  valorDesconto: number;
-  dataValidade: Date;
-  ativo?: boolean;
-}
-
+import { CriarCupomDTO, ICupomService } from "../interfaces/IcupomService";
 /**
  * Service de gestão de cupons.
  * Implementa a lógica de negócio para operações com cupons de desconto.
  */
-export class CupomService {
+export class CupomService implements ICupomService {
   /**
    * Cria uma nova instância do CupomService.
    * @param cupomRepository - Repositório de cupons para persistência de dados
@@ -70,6 +58,7 @@ export class CupomService {
     }
 
     if (!cupom.estaValido()) {
+      this.desativarCupom(cupom.codigo)
       throw new Error("Cupom expirado ou inativo.");
     }
 
