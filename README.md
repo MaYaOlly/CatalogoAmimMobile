@@ -70,3 +70,10 @@ Este projeto foi desenvolvido para a disciplina de **Programação Móvel**, com
 ## ✨ Considerações Finais
 
 O aplicativo busca tornar o processo de compra mais simples e eficiente, mantendo a identidade artesanal e o atendimento próximo que caracterizam a Amim Doces e Salgados, ao mesmo tempo em que promove inovação e presença digital.
+
+## 👤 Componentes
+
+* Deyvison Samuel Gomes do Nascimento
+* Maria Vitoria da Silva Araujo
+* Maria Yasmin Oliveira Mélo
+* Rauan dos Santos Bandeira
