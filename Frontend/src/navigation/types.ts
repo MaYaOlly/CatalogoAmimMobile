@@ -8,8 +8,8 @@ export type RootStackParamList = {
   Informacoes: undefined;
   Home: undefined;
   Carrinho: undefined;
-  CarrinhoVazio: undefined;
-  CarrinhoCheio: undefined;
+  //CarrinhoVazio: undefined;
+  //CarrinhoCheio: undefined;
   TelaDeCheckout1: undefined;
   TelaDeCheckout2: undefined;
   TelaDeCheckout3: undefined;

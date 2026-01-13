@@ -3,8 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import TelaDeLogin from "../view/logarCadastrar/TelaDeLogin";
 import TelaDeCadastro from "../view/logarCadastrar/TelaDeCadastro";
-import CarrinhoVazio from "../view/carrinho/CarrinhoVazio";
-import CarrinhoCheio from "./carrinho/CarrinhoCheio";
+import CarrinhoCheio, { Carrinho } from "./carrinho/Carrinho";
 import TelaDeCheckout1 from "./carrinho/TelaDeCheckout1";
 import { BottomTabs } from "../navigation/BottomTabs";
 import { StackScreen } from "react-native-screens";
@@ -29,15 +28,9 @@ export default function App() {
           <Stack.Screen name="Cadastrar" component={TelaDeCadastro} />
 
           <Stack.Screen
-            name="CarrinhoVazio"
-            component={CarrinhoVazio}
-            options={{ headerShown: true, title: "Carrinho vazio" }}
-          />
-
-          <Stack.Screen
-            name="CarrinhoCheio"
-            component={CarrinhoCheio}
-            options={{ headerShown: true, title: "Carrinho cheio" }}
+            name="Carrinho"
+            component={Carrinho}
+            options={{ headerShown: true, title: "Carrinho" }}
           />
 
           <Stack.Screen

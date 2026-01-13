@@ -8,16 +8,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 
 
-type CarrinhoCheioNavigationProp = NativeStackNavigationProp<
+type CarrinhoNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  'CarrinhoCheio'
+  'Carrinho'
 >;
 
 type Props = {
-  navigation: CarrinhoCheioNavigationProp;
+  navigation: CarrinhoNavigationProp;
 };
 
-export const CarrinhoCheio = ({ navigation }: Props) => {
+export const Carrinho = ({ navigation }: Props) => {
   const { estaLogado } = useAuth();
   
   // serve para mudar a cor  do botão clicável
@@ -88,7 +88,7 @@ export const CarrinhoCheio = ({ navigation }: Props) => {
             activeOpacity={0.8}
             onPressIn={() => setPressionado5(true)}
             onPressOut={() => setPressionado5(false)}
-            onPress={() => navigation.navigate('Cupom')} //Aqui deve-se colocar para redirecionar a tela de cupons
+            onPress={() => navigation.navigate('Cupom')} 
         >
       <View style={styles.areaDeCupom}>
       <Image 
@@ -287,4 +287,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CarrinhoCheio;
+export default Carrinho;

@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image } from 'react-native';
 
 import TelaInicial from '../view/home/telaInicial';
-import CarrinhoVazio from '../view/carrinho/CarrinhoVazio';
+import Carrinho from '../view/carrinho/Carrinho';
 import TelaDeCupom from '../view/cupom/cupom';
 import TelaDeConfiguracao from '../view/user/acessoUser';
 
@@ -38,7 +38,7 @@ export function BottomTabs() {
       />
       <Tab.Screen
         name="Carrinho"
-        component={CarrinhoVazio}
+        component={Carrinho}
         options={{
           tabBarIcon: ({ color }) => (
             <Image source={IconeDeCarrinho} style={{ width: 30, height: 30, tintColor: color }} />
