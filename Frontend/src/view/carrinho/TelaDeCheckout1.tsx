@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
@@ -7,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { FloatingInput } from "../../components/TextoFlutuante";
+import { useAuth } from '../../contexts/AuthContext';
 
 type TelaDeCheckout1NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -20,9 +20,26 @@ type Props = {
 };
 
 export const TelaDeCheckout1 = ({ navigation }: Props) => {
+  const { usuario } = useAuth();
+  
+  // Estados para os campos de endereço
+  const [cep, setCep] = React.useState("");
+  const [rua, setRua] = React.useState("");
+  const [numero, setNumero] = React.useState("");
+  const [bairro, setBairro] = React.useState("");
+  
   // serve para mudar a cor  do botão clicável
   const [pressionadoBotaoContinuar, setPressionadoBotaoContinuar] = React.useState(false);
-  const [pressionado2, setPressionado2] = React.useState(false); 
+  const [pressionado2, setPressionado2] = React.useState(false);
+
+  // Preencher endereço do usuário se disponível
+  useEffect(() => {
+    if (usuario?.endereco) {
+      // Se o endereço estiver disponível, você pode fazer um parse
+      // Por enquanto, apenas colocamos o endereço completo na rua
+      setRua(usuario.endereco);
+    }
+  }, [usuario]); 
 
   return (
     <ScrollView
@@ -66,10 +83,38 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
     <View style={styles.areaDoTextoSolto}>
       <Text style ={styles.texto}>Endereço de entrega</Text>
     </View>
-      <FloatingInput label="CEP" />
-      <FloatingInput label="Rua" />
-      <FloatingInput label="Nº" />
-      <FloatingInput label="Bairro" />
+      
+      <TextInput
+        style={styles.textInput}
+        placeholder="CEP"
+        placeholderTextColor="#a3214d"
+        value={cep}
+        onChangeText={setCep}
+      />
+      
+      <TextInput
+        style={styles.textInput}
+        placeholder="Rua"
+        placeholderTextColor="#a3214d"
+        value={rua}
+        onChangeText={setRua}
+      />
+      
+      <TextInput
+        style={styles.textInput}
+        placeholder="Nº"
+        placeholderTextColor="#a3214d"
+        value={numero}
+        onChangeText={setNumero}
+      />
+      
+      <TextInput
+        style={styles.textInput}
+        placeholder="Bairro"
+        placeholderTextColor="#a3214d"
+        value={bairro}
+        onChangeText={setBairro}
+      />
   
 
 <TouchableOpacity
@@ -115,6 +160,16 @@ const styles = StyleSheet.create({
     fontWeight:"bold",
     padding:20,
     marginBottom:-10,
+  },
+  textInput: {
+    width: "95%",
+    height: 60,
+    backgroundColor: '#fce4ec',
+    borderRadius: 30,
+    padding: 20,
+    marginVertical: 6,
+    color: '#a3214d',
+    fontWeight: 'bold',
   },
   botaoContinuar: {
     backgroundColor: "#ff4da6", 

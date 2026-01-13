@@ -13,6 +13,7 @@ export interface CriarCupomDTO {
 
 export interface ICupomService {
   criarCupom(dados: CriarCupomDTO): Promise<Cupom>;
+  buscarCupons(): Promise<Cupom[]>;
   validarCupom(codigo: string): Promise<Cupom>;
   desativarCupom(id: string): Promise<Cupom>;
 }

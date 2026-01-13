@@ -1,10 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../../navigation/types";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAuth } from '../../contexts/AuthContext';
 
 
 type CarrinhoCheioNavigationProp = NativeStackNavigationProp<
@@ -17,10 +18,28 @@ type Props = {
 };
 
 export const CarrinhoCheio = ({ navigation }: Props) => {
+  const { estaLogado } = useAuth();
+  
   // serve para mudar a cor  do botão clicável
   const [pressionado2, setPressionado2] = React.useState(false); 
   const [pressionado4, setPressionado4] = React.useState(false);
   const [pressionado5, setPressionado5] = React.useState(false);
+
+  // Função para continuar o pedido
+  const continuarPedido = () => {
+    if (estaLogado) {
+      navigation.navigate('TelaDeCheckout1');
+    } else {
+      Alert.alert(
+        "Login necessário",
+        "Você precisa estar logado para fazer um pedido. Deseja fazer login agora?",
+        [
+          { text: "Cancelar", style: "cancel" },
+          { text: "Fazer Login", onPress: () => navigation.navigate('Login') }
+        ]
+      );
+    }
+  };
   return (
   <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc' }}>
     <ScrollView
@@ -92,7 +111,7 @@ export const CarrinhoCheio = ({ navigation }: Props) => {
             activeOpacity={0.8}
             onPressIn={() => setPressionado4(true)}
             onPressOut={() => setPressionado4(false)}
-            onPress={() => navigation.navigate('TelaDeCheckout1')}
+            onPress={continuarPedido}
         >
         <Text style={styles.textoDoBotao}>CONTINUAR PEDIDO </Text>
         </TouchableOpacity>

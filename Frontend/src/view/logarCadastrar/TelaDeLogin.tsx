@@ -1,12 +1,12 @@
 //import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FloatingInput } from "../../components/TextoFlutuante";
+import { useLoginViewModel } from '../../ViewModel/useLoginViewModel';
 
 type TelaDeLoginNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -18,12 +18,29 @@ type Props = {
 };
 
 const TelaDeLogin = ({ navigation }: Props) => {
-  //Serve para colocar o olhinho no input de senha:
-  const [senhaVisivel, setSenhaVisivel] = React.useState(false);
+  // ViewModel
+  const {
+    email,
+    senha,
+    senhaVisivel,
+    carregando,
+    setEmail,
+    setSenha,
+    toggleSenhaVisivel,
+    realizarLogin
+  } = useLoginViewModel();
 
   // serve para mudar a cor do botão clicável
   const [pressionado, setPressionado] = React.useState(false);
   const [pressionado2, setPressionado2] = React.useState(false);
+
+  // Função para lidar com o login
+  const handleLogin = async () => {
+    const sucesso = await realizarLogin();
+    if (sucesso) {
+      navigation.replace('Home');
+    }
+  };
   return (
     
 <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc'  }}>
@@ -35,40 +52,59 @@ const TelaDeLogin = ({ navigation }: Props) => {
         source={require("../../../assets/logo/logo3.png")}
         style={styles.logo}
       />
-      <FloatingInput label="E-mail" />
-      <View style={styles.containerSenha}>
-  <TextInput
-    style={styles.inputSenha}
-    placeholder="Senha"
-    placeholderTextColor="#a3214d"
-    secureTextEntry={!senhaVisivel}
-  />
+      
+      <TextInput
+        style={styles.textInput}
+        placeholder="E-mail"
+        placeholderTextColor="#a3214d"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+        editable={!carregando}
+      />
 
-  <TouchableOpacity
-    onPress={() => setSenhaVisivel(!senhaVisivel)}
-    style={styles.botaoOlho}
-  >
-    <Ionicons
-      name={senhaVisivel ? 'eye-off' : 'eye'}
-      size={22}
-      color="#a3214d"
-    />
-  </TouchableOpacity>
-</View>
+      <View style={styles.containerSenha}>
+        <TextInput
+          style={styles.inputSenha}
+          placeholder="Senha"
+          placeholderTextColor="#a3214d"
+          secureTextEntry={!senhaVisivel}
+          value={senha}
+          onChangeText={setSenha}
+          editable={!carregando}
+        />
+
+        <TouchableOpacity
+          onPress={toggleSenhaVisivel}
+          style={styles.botaoOlho}
+        >
+          <Ionicons
+            name={senhaVisivel ? 'eye-off' : 'eye'}
+            size={22}
+            color="#a3214d"
+          />
+        </TouchableOpacity>
+      </View>
 
       <TouchableOpacity
-  style={[
-    styles.botao,
-    pressionado && styles.botaoPressionado
-  ]}
-  activeOpacity={0.8}
-  onPressIn={() => setPressionado(true)}
-  onPressOut={() => setPressionado(false)}
-  onPress={() => navigation.replace('Home')}
-
->
-  <Text style={styles.textoDoBotao}>ENTRAR</Text>
-</TouchableOpacity>
+        style={[
+          styles.botao,
+          pressionado && styles.botaoPressionado,
+          carregando && styles.botaoDesabilitado
+        ]}
+        activeOpacity={0.8}
+        onPressIn={() => setPressionado(true)}
+        onPressOut={() => setPressionado(false)}
+        onPress={handleLogin}
+        disabled={carregando}
+      >
+        {carregando ? (
+          <ActivityIndicator color="#ffffff" />
+        ) : (
+          <Text style={styles.textoDoBotao}>ENTRAR</Text>
+        )}
+      </TouchableOpacity>
 
 <TouchableOpacity
   style={[
@@ -123,6 +159,10 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 6,
     marginTop: 5,
+  },
+  botaoDesabilitado: {
+    backgroundColor: "#ffb3d1",
+    opacity: 0.7,
   },
   botao2: {
     backgroundColor: "#ff4da6", 

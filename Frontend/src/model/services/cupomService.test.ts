@@ -2,7 +2,6 @@ import axios, { AxiosInstance } from "axios";
 import { Cupom, TipoDesconto } from "../entities/typeCupom";
 import { CupomService } from "./cupomService";
 
-const mockedAxios = axios as jest.Mocked<typeof axios>;
 describe("CupomService", () => {
   it("deve retornar uma lista de cupons", async () => {
     // Dados simulados
