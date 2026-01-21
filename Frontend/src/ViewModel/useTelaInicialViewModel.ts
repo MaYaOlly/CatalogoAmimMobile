@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ProdutoService } from "../model/services/produtoService";
 import { Produto } from "../model/entities/typeProduto";
 import axios from "axios";
+import { useCarrinho } from "../contexts/CarrinhoContext";
 
 // Interface para o formato normalizado de produto (sem underscores)
 export interface ProdutoNormalizado {
@@ -53,12 +54,15 @@ const produtosExemplo: ProdutoNormalizado[] = [
 
 // Configuração da API
 const api = axios.create({
-  baseURL: "http://10.0.2.2:3333"
+  baseURL: "http://192.168.1.4:3333"
 });
 
 const produtoService = new ProdutoService(api);
 
 export function useTelaInicialViewModel() {
+  // Obtém funções do contexto do carrinho
+  const { adicionarAoCarrinho: adicionarAoCarrinhoContexto } = useCarrinho();
+  
   // Estados
   const [produtos, setProdutos] = useState<ProdutoNormalizado[]>([]);
   const [carregando, setCarregando] = useState(true);
@@ -129,7 +133,19 @@ export function useTelaInicialViewModel() {
 
   const adicionarAoCarrinho = () => {
     if (produtoSelecionado && quantidades[produtoSelecionado.id] && quantidades[produtoSelecionado.id] > 0) {
+      // Adiciona ao carrinho usando o contexto
+      adicionarAoCarrinhoContexto(produtoSelecionado, quantidades[produtoSelecionado.id]);
+      
+      // Mostra mensagem de sucesso
       alert(`✅ ${quantidades[produtoSelecionado.id]}x ${produtoSelecionado.nome} adicionado ao carrinho!`);
+      
+      // Reseta a quantidade do produto no modal
+      setQuantidades(prev => ({
+        ...prev,
+        [produtoSelecionado.id]: 0
+      }));
+      
+      // Fecha o modal
       fecharModal();
     } else {
       alert('⚠️ Selecione ao menos 1 item');

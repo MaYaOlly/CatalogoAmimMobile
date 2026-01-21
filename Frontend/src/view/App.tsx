@@ -10,20 +10,24 @@ import { StackScreen } from "react-native-screens";
 import TelaDeCheckout2 from "./carrinho/TelaDeCheckout2";
 import TelaDeCheckout3 from "./carrinho/TelaDeCheckout3";
 import QuemSomos from "./user/informacao";
-import Perfil, { TelaDePerfil } from "./user/perfil";
+import  { TelaDePerfil } from "./user/perfil";
 import TelaDeNotificacoes from "./user/notificacoes";
 import Cupom from "./cupom/cupom";
 import { AuthProvider } from "../contexts/AuthContext";
+import { CarrinhoProvider } from "../contexts/CarrinhoContext";
+import { CheckoutProvider } from "../contexts/CheckoutContext";
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+function App() {
   return (
     <AuthProvider>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={BottomTabs} />
-          <Stack.Screen name="Login" component={TelaDeLogin} />
+      <CarrinhoProvider>
+        <CheckoutProvider>
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Home" component={BottomTabs} />
+              <Stack.Screen name="Login" component={TelaDeLogin} />
 
           <Stack.Screen name="Cadastrar" component={TelaDeCadastro} />
 
@@ -76,6 +80,10 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
+        </CheckoutProvider>
+      </CarrinhoProvider>
     </AuthProvider>
   );
 }
+
+export default App;

@@ -72,6 +72,6 @@ app.get("/", async () => {
 const PORT = 3333;
 
 /** Inicia o servidor na porta especificada */
-app.listen({ port: PORT }, () => {
+app.listen({ port: PORT, host: '0.0.0.0' }, () => {
   console.log(`🚀 API Fastify rodando em http://localhost:${PORT}`);
 });

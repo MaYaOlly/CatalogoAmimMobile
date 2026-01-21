@@ -6,6 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../../navigation/types";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
+import { useCarrinhoViewModel } from '../../ViewModel/useCarrinhoViewModel';
 
 
 type CarrinhoNavigationProp = NativeStackNavigationProp<
@@ -20,13 +21,51 @@ type Props = {
 export const Carrinho = ({ navigation }: Props) => {
   const { estaLogado } = useAuth();
   
+  // ViewModel do carrinho
+  const {
+    itens,
+    carregando,
+    dadosFormatados,
+    incrementarQuantidade,
+    decrementarQuantidade,
+    removerDoCarrinho,
+    limparCarrinho,
+    calcularPrecoItem,
+  } = useCarrinhoViewModel();
+  
   // serve para mudar a cor  do botão clicável
   const [pressionado2, setPressionado2] = React.useState(false); 
   const [pressionado4, setPressionado4] = React.useState(false);
   const [pressionado5, setPressionado5] = React.useState(false);
 
+  // Função para limpar carrinho com confirmação
+  const handleLimparCarrinho = () => {
+    if (itens.length === 0) {
+      Alert.alert("Carrinho vazio", "Não há itens no carrinho para limpar.");
+      return;
+    }
+    
+    Alert.alert(
+      "Limpar carrinho",
+      "Tem certeza que deseja remover todos os itens do carrinho?",
+      [
+        { text: "Cancelar", style: "cancel" },
+        { 
+          text: "Limpar", 
+          style: "destructive",
+          onPress: () => limparCarrinho()
+        }
+      ]
+    );
+  };
+
   // Função para continuar o pedido
   const continuarPedido = () => {
+    if (itens.length === 0) {
+      Alert.alert("Carrinho vazio", "Adicione produtos ao carrinho antes de continuar.");
+      return;
+    }
+    
     if (estaLogado) {
       navigation.navigate('TelaDeCheckout1');
     } else {
@@ -57,29 +96,84 @@ export const Carrinho = ({ navigation }: Props) => {
             activeOpacity={0.8}
             onPressIn={() => setPressionado2(true)}
             onPressOut={() => setPressionado2(false)}
+            onPress={handleLimparCarrinho}
         >
         <Text style={styles.textoDoBotao}>LIMPAR</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.balao}>
-        <Text style={styles.textoDoBalao}>Aqui aparecerá cada pedido que for adicionado na tela inicial do catálogo em uma view dessas de forma unitária.</Text>
-      </View>
+      {/* Renderiza os itens do carrinho ou mensagem de carrinho vazio */}
+      {carregando ? (
+        <View style={styles.balao}>
+          <Text style={styles.textoDoBalao}>Carregando carrinho...</Text>
+        </View>
+      ) : dadosFormatados.carrinhoVazio ? (
+        <View style={styles.balao}>
+          <Text style={styles.textoDoBalao}>
+            Seu carrinho está vazio. Adicione produtos na tela inicial do catálogo!
+          </Text>
+        </View>
+      ) : (
+        <View style={styles.itensCarrinhoContainer}>
+          {itens.map((item) => (
+            <View key={item.produto.id} style={styles.itemCarrinho}>
+              {/* Imagem do produto */}
+              <Image 
+                source={{ uri: item.produto.imagem }} 
+                style={styles.imagemProduto}
+                resizeMode="cover"
+              />
+              
+              {/* Informações do produto */}
+              <View style={styles.infoProduto}>
+                <Text style={styles.nomeProduto}>{item.produto.nome}</Text>
+                <Text style={styles.precoProduto}>{item.produto.preco}</Text>
+                <Text style={styles.precoTotal}>
+                  Total: {calcularPrecoItem(item.produto.preco, item.quantidade)}
+                </Text>
+              </View>
+              
+              {/* Controles de quantidade */}
+              <View style={styles.controlesQuantidade}>
+                <TouchableOpacity 
+                  style={styles.botaoQuantidade}
+                  onPress={() => decrementarQuantidade(item.produto.id)}
+                >
+                  <Text style={styles.botaoQuantidadeTexto}>-</Text>
+                </TouchableOpacity>
+                
+                <Text style={styles.quantidadeTexto}>{item.quantidade}</Text>
+                
+                <TouchableOpacity 
+                  style={styles.botaoQuantidade}
+                  onPress={() => incrementarQuantidade(item.produto.id)}
+                >
+                  <Text style={styles.botaoQuantidadeTexto}>+</Text>
+                </TouchableOpacity>
+              </View>
+              
+              {/* Botão de remover */}
+              <TouchableOpacity 
+                style={styles.botaoRemover}
+                onPress={() => removerDoCarrinho(item.produto.id)}
+              >
+                <Text style={styles.botaoRemoverTexto}>✕</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+      )}
 
       <View style={styles.valoresDoProduto}> 
         <View style={styles.linhaValor}>
-          <Text style={styles.label}>Subtotal</Text>
-          <Text style={styles.valor}>R$ 0,00</Text>
+          <Text style={styles.label}>Total</Text>
+          <Text style={styles.valor}>{dadosFormatados.subtotal}</Text>
         </View>
 
-        <View style={styles.linhaValor}>
-          <Text style={styles.label}>Taxa de entrega</Text>
-          <Text style={styles.valor}>R$ 0,00</Text>
-        </View>
 
         <View style={[styles.linhaValor, styles.linhaTotal]}>
           <Text style={styles.labelTotal}>Total</Text>
-          <Text style={styles.valorTotal}>R$ 0,00</Text>
+          <Text style={styles.valorTotal}>{dadosFormatados.total}</Text>
         </View>
       </View>
       <TouchableOpacity 
@@ -284,6 +378,99 @@ const styles = StyleSheet.create({
   },
   botaoPressionado5: {
     backgroundColor: "#ff9ebf",
+  },
+  
+  // Estilos para itens do carrinho
+  itensCarrinhoContainer: {
+    width: '95%',
+    gap: 12,
+    marginTop: "5%",
+  },
+  
+  itemCarrinho: {
+    backgroundColor: '#fce4ec',
+    borderRadius: 20,
+    padding: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  
+  imagemProduto: {
+    width: 70,
+    height: 70,
+    borderRadius: 15,
+  },
+  
+  infoProduto: {
+    flex: 1,
+    gap: 4,
+  },
+  
+  nomeProduto: {
+    color: '#a3214d',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  
+  precoProduto: {
+    color: '#a3214d',
+    fontSize: 14,
+  },
+  
+  precoTotal: {
+    color: '#a3214d',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  
+  controlesQuantidade: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  
+  botaoQuantidade: {
+    width: 30,
+    height: 30,
+    backgroundColor: '#a3214d',
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  
+  botaoQuantidadeTexto: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  
+  quantidadeTexto: {
+    color: '#a3214d',
+    fontSize: 16,
+    fontWeight: 'bold',
+    minWidth: 25,
+    textAlign: 'center',
+  },
+  
+  botaoRemover: {
+    width: 30,
+    height: 30,
+    backgroundColor: '#ff4da6',
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  
+  botaoRemoverTexto: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

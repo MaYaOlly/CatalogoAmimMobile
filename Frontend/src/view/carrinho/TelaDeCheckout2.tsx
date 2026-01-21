@@ -7,6 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useCheckoutViewModel } from '../../ViewModel/useCheckoutViewModel';
 
 type TelaDeCheckout2NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -19,12 +20,19 @@ type Props = {
 };
 
 export const TelaDeCheckout2 = ({ navigation }: Props) => {
+  // ViewModel do checkout
+  const { formaPagamento, setFormaPagamento, validarPagamento } = useCheckoutViewModel();
+  
   // serve para mudar a cor  do botão clicável
   const [pressionadoBotaoContinuar, setPressionadoBotaoContinuar] = React.useState(false);
-  const [pressionado2, setPressionado2] = React.useState(false); 
+  const [pressionado2, setPressionado2] = React.useState(false);
 
-  //Serve para mudar cor dos itens de pagamento
-  const [pagamentoSelecionado, setPagamentoSelecionado] = React.useState<string | null>(null);
+  // Função para avançar para próxima etapa
+  const handleContinuar = () => {
+    if (validarPagamento()) {
+      navigation.navigate('TelaDeCheckout3');
+    }
+  };
 
   return (
     <ScrollView
@@ -73,9 +81,9 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
   <TouchableOpacity
   style={[
     styles.itemPagamento,
-    pagamentoSelecionado === 'pix' && styles.itemPagamentoSelecionado
+    formaPagamento === 'pix' && styles.itemPagamentoSelecionado
   ]}
-  onPress={() => setPagamentoSelecionado('pix')}
+  onPress={() => setFormaPagamento('pix')}
 >
   <Image
     source={require("../../../assets/icons/mobile.png")}
@@ -88,9 +96,9 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
 <TouchableOpacity
   style={[
     styles.itemPagamento,
-    pagamentoSelecionado === 'dinheiro' && styles.itemPagamentoSelecionado
+    formaPagamento === 'dinheiro' && styles.itemPagamentoSelecionado
   ]}
-  onPress={() => setPagamentoSelecionado('dinheiro')}
+  onPress={() => setFormaPagamento('dinheiro')}
 >
   <Image
     source={require("../../../assets/icons/money.png")}
@@ -103,9 +111,9 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
 <TouchableOpacity
   style={[
     styles.itemPagamento,
-    pagamentoSelecionado === 'debito' && styles.itemPagamentoSelecionado
+    formaPagamento === 'debito' && styles.itemPagamentoSelecionado
   ]}
-  onPress={() => setPagamentoSelecionado('debito')}
+  onPress={() => setFormaPagamento('debito')}
 >
   <Image
     source={require("../../../assets/icons/credit-card.png")}
@@ -118,9 +126,9 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
 <TouchableOpacity
   style={[
     styles.itemPagamento,
-    pagamentoSelecionado === 'credito' && styles.itemPagamentoSelecionado
+    formaPagamento === 'credito' && styles.itemPagamentoSelecionado
   ]}
-  onPress={() => setPagamentoSelecionado('credito')}
+  onPress={() => setFormaPagamento('credito')}
 >
   <Image
     source={require("../../../assets/icons/credit-card.png")}
@@ -139,7 +147,7 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
   activeOpacity={0.8}
   onPressIn={() => setPressionadoBotaoContinuar(true)}
   onPressOut={() => setPressionadoBotaoContinuar(false)}
-  onPress={() => navigation.navigate('TelaDeCheckout3')}
+  onPress={handleContinuar}
 >
   <View style={styles.AreaInternaDoBotao}>
   <View style={styles.areaDoContinuar}>

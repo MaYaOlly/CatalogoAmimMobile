@@ -1,10 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { RootStackParamList } from '../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useCheckoutViewModel } from '../../ViewModel/useCheckoutViewModel';
+import { useCarrinhoViewModel } from '../../ViewModel/useCarrinhoViewModel';
 
 
 type TelaDeCheckout3NavigationProp = NativeStackNavigationProp<
@@ -18,12 +20,54 @@ type Props = {
 };
 
 export const TelaDeCheckout3 = ({ navigation }: Props) => {
+  // ViewModels
+  const {
+    usuario,
+    endereco,
+    formaPagamento,
+    processando,
+    finalizarPedido,
+    formatarEnderecoCompleto
+  } = useCheckoutViewModel();
+
+  const { dadosFormatados } = useCarrinhoViewModel();
 
   // serve para mudar a cor  do botão clicável
   const [pressionadoBotaoContinuar, setPressionadoBotaoContinuar] = React.useState(false);
   const [pressionado2, setPressionado2] = React.useState(false); 
   const [pressionado3, setPressionado3] = React.useState(false); 
-  const [pressionado4, setPressionado4] = React.useState(false); 
+  const [pressionado4, setPressionado4] = React.useState(false);
+
+  // Função para obter o nome da forma de pagamento
+  const getNomePagamento = () => {
+    switch(formaPagamento) {
+      case 'pix': return 'Pix';
+      case 'dinheiro': return 'Dinheiro';
+      case 'debito': return 'Cartão de Débito';
+      case 'credito': return 'Cartão de Crédito';
+      default: return 'Não selecionado';
+    }
+  };
+
+  // Função para obter o ícone da forma de pagamento
+  const getIconePagamento = () => {
+    switch(formaPagamento) {
+      case 'pix': return require("../../../assets/icons/mobile.png");
+      case 'dinheiro': return require("../../../assets/icons/money.png");
+      case 'debito':
+      case 'credito': return require("../../../assets/icons/credit-card.png");
+      default: return require("../../../assets/icons/mobile.png");
+    }
+  };
+
+  // Função para confirmar e enviar pedido
+  const handleEnviarPedido = async () => {
+    const sucesso = await finalizarPedido();
+    if (sucesso) {
+      // Volta para a tela inicial após sucesso
+      navigation.navigate('Home');
+    }
+  }; 
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc' }}>
@@ -84,8 +128,8 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
           style={styles.figura1}
         />
         <View style={styles.areaDeNomeTelefone}>
-          <Text style={styles.nomeDoUsuario}>Maria Yasmin</Text>
-          <Text style={styles.telefoneDoUsuario}>(86) 4002-8922</Text>
+          <Text style={styles.nomeDoUsuario}>{usuario?.nome || 'Não informado'}</Text>
+          <Text style={styles.telefoneDoUsuario}>{usuario?.telefone || 'Telefone não informado'}</Text>
         </View>
       </View>
 
@@ -95,8 +139,8 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
           style={styles.figura1}
         />
         <View style={styles.areaDeRuaBairro}>
-          <Text style={styles.nomeDaRua}>Avenida tomaz rebelo, 636 B</Text>
-          <Text style={styles.nomeDoBairro}>Centro, Piripiri</Text>
+          <Text style={styles.nomeDaRua}>{endereco.rua}, {endereco.numero}</Text>
+          <Text style={styles.nomeDoBairro}>{endereco.bairro} - CEP: {endereco.cep}</Text>
         </View>
       </View>
       </View>
@@ -129,11 +173,11 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
       <View style={styles.containerEsquerdo2}>
       <View style={styles.areaDoMeioDePagamento}>
         <Image
-          source={require("../../../assets/icons/mobile.png")}
+          source={getIconePagamento()}
           style={styles.figura1}
         />
         <View style={styles.areaDeRuaBairro}>
-          <Text style={styles.nomeDoMeioDePagamento}>Pix</Text>
+          <Text style={styles.nomeDoMeioDePagamento}>{getNomePagamento()}</Text>
         </View>
       </View>
       </View>
@@ -154,7 +198,7 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
   </View>
     <View style={styles.balao2}>
         <Text style={styles.total}>Total</Text>
-        <Text style={styles.valor}>R$00,00</Text>
+        <Text style={styles.valor}>{dadosFormatados.total}</Text>
       </View>
 
 
@@ -167,9 +211,14 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
   activeOpacity={0.8}
   onPressIn={() => setPressionadoBotaoContinuar(true)}
   onPressOut={() => setPressionadoBotaoContinuar(false)}
-  onPress={() => navigation.navigate('Home')} // Bem aqui é para a página redirecionar para o zap do usuário os dados!
+  onPress={handleEnviarPedido}
+  disabled={processando}
 >
-  <Text style={styles.textoDoBotaoContinuar}>ENVIAR PEDIDO</Text>
+  {processando ? (
+    <ActivityIndicator size="small" color="#ffffff" />
+  ) : (
+    <Text style={styles.textoDoBotaoContinuar}>ENVIAR PEDIDO</Text>
+  )}
 </TouchableOpacity>
 
 

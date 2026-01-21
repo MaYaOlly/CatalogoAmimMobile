@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAuth } from '../../contexts/AuthContext';
+import { useCheckoutViewModel } from '../../ViewModel/useCheckoutViewModel';
 
 type TelaDeCheckout1NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -22,11 +23,8 @@ type Props = {
 export const TelaDeCheckout1 = ({ navigation }: Props) => {
   const { usuario } = useAuth();
   
-  // Estados para os campos de endereço
-  const [cep, setCep] = React.useState("");
-  const [rua, setRua] = React.useState("");
-  const [numero, setNumero] = React.useState("");
-  const [bairro, setBairro] = React.useState("");
+  // ViewModel do checkout
+  const { endereco, atualizarEndereco, validarEndereco } = useCheckoutViewModel();
   
   // serve para mudar a cor  do botão clicável
   const [pressionadoBotaoContinuar, setPressionadoBotaoContinuar] = React.useState(false);
@@ -37,9 +35,16 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
     if (usuario?.endereco) {
       // Se o endereço estiver disponível, você pode fazer um parse
       // Por enquanto, apenas colocamos o endereço completo na rua
-      setRua(usuario.endereco);
+      atualizarEndereco('rua', usuario.endereco);
     }
-  }, [usuario]); 
+  }, [usuario]);
+
+  // Função para avançar para próxima etapa
+  const handleContinuar = () => {
+    if (validarEndereco()) {
+      navigation.navigate('TelaDeCheckout2');
+    }
+  }; 
 
   return (
     <ScrollView
@@ -88,34 +93,43 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
         style={styles.textInput}
         placeholder="CEP"
         placeholderTextColor="#a3214d"
-        value={cep}
-        onChangeText={setCep}
+        value={endereco.cep}
+        onChangeText={(text) => atualizarEndereco('cep', text)}
+        keyboardType="numeric"
       />
       
       <TextInput
         style={styles.textInput}
         placeholder="Rua"
         placeholderTextColor="#a3214d"
-        value={rua}
-        onChangeText={setRua}
+        value={endereco.rua}
+        onChangeText={(text) => atualizarEndereco('rua', text)}
       />
       
       <TextInput
         style={styles.textInput}
         placeholder="Nº"
         placeholderTextColor="#a3214d"
-        value={numero}
-        onChangeText={setNumero}
+        value={endereco.numero}
+        onChangeText={(text) => atualizarEndereco('numero', text)}
+        keyboardType="numeric"
       />
       
       <TextInput
         style={styles.textInput}
         placeholder="Bairro"
         placeholderTextColor="#a3214d"
-        value={bairro}
-        onChangeText={setBairro}
+        value={endereco.bairro}
+        onChangeText={(text) => atualizarEndereco('bairro', text)}
       />
-  
+      
+      <TextInput
+        style={styles.textInput}
+        placeholder="Complemento (opcional)"
+        placeholderTextColor="#a3214d"
+        value={endereco.complemento}
+        onChangeText={(text) => atualizarEndereco('complemento', text)}
+      />
 
 <TouchableOpacity
   style={[
