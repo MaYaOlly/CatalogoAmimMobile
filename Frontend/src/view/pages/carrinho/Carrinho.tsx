@@ -85,7 +85,7 @@ export const Carrinho = ({ navigation }: Props) => {
     contentContainerStyle={styles.container}
     showsVerticalScrollIndicator={false}>
       <Image 
-        source={require("../../../assets/logo/logo3.png")}
+        source={require("../../../../assets/logo/logo3.png")}
         style={styles.logo}
       />
       <View style={styles.suaSacolaELimpar}> 
@@ -186,14 +186,14 @@ export const Carrinho = ({ navigation }: Props) => {
         >
       <View style={styles.areaDeCupom}>
       <Image 
-        source={require("../../../assets/icons/etiquetav2.png")}
+        source={require("../../../../assets/icons/etiquetav2.png")}
         style={styles.etiqueta}
       />
         <Text style={styles.textoDoBotao3}>Você tem um cupom? Clique e use aqui.
         </Text>
 
       <Image
-      source={require("../../../assets/icons/seta.png")}
+      source={require("../../../../assets/icons/seta.png")}
       style={styles.seta}
       />
       </View>

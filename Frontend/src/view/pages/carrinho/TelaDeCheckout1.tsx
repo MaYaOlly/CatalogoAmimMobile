@@ -147,7 +147,7 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
   </View>
   <View style={styles.areaDaSeta}>
   <Image 
-        source={require("../../../assets/icons/setaBranca.png")}
+        source={require("../../../../assets/icons/setaBranca.png")}
         style={styles.seta}
       />
   </View>

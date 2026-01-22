@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Dimensions, Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import { useTelaInicialViewModel } from "../../../ViewModel/useTelaInicialViewModel";
+import { useTelaInicialViewModel } from "../../ViewModel/useTelaInicialViewModel";
 
 const { width } = Dimensions.get("window");
 

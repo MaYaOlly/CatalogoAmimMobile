@@ -49,7 +49,7 @@ const TelaDeLogin = ({ navigation }: Props) => {
     showsVerticalScrollIndicator={false}
   >
       <Image 
-        source={require("../../../assets/logo/logo3.png")}
+        source={require("../../../../assets/logo/logo3.png")}
         style={styles.logo}
       />
       

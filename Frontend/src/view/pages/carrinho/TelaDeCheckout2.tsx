@@ -86,7 +86,7 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
   onPress={() => setFormaPagamento('pix')}
 >
   <Image
-    source={require("../../../assets/icons/mobile.png")}
+    source={require("../../../../assets/icons/mobile.png")}
     style={styles.figura1}
   />
   <Text style={styles.textoPix}>Pix</Text>
@@ -101,7 +101,7 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
   onPress={() => setFormaPagamento('dinheiro')}
 >
   <Image
-    source={require("../../../assets/icons/money.png")}
+    source={require("../../../../assets/icons/money.png")}
     style={styles.figura1}
   />
   <Text style={styles.textoPix}>Dinheiro</Text>
@@ -116,7 +116,7 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
   onPress={() => setFormaPagamento('debito')}
 >
   <Image
-    source={require("../../../assets/icons/credit-card.png")}
+    source={require("../../../../assets/icons/credit-card.png")}
     style={styles.figura1}
   />
   <Text style={styles.textoPix}>Cartão de débito</Text>
@@ -131,7 +131,7 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
   onPress={() => setFormaPagamento('credito')}
 >
   <Image
-    source={require("../../../assets/icons/credit-card.png")}
+    source={require("../../../../assets/icons/credit-card.png")}
     style={styles.figura1}
   />
   <Text style={styles.textoPix}>Cartão de crédito</Text>
@@ -155,7 +155,7 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
   </View>
   <View style={styles.areaDaSeta}>
   <Image 
-        source={require("../../../assets/icons/setaBranca.png")}
+        source={require("../../../../assets/icons/setaBranca.png")}
         style={styles.seta}
       />
   </View>

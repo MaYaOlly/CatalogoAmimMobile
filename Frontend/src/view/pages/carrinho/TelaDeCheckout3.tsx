@@ -52,11 +52,11 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
   // Função para obter o ícone da forma de pagamento
   const getIconePagamento = () => {
     switch(formaPagamento) {
-      case 'pix': return require("../../../assets/icons/mobile.png");
-      case 'dinheiro': return require("../../../assets/icons/money.png");
+      case 'pix': return require("../../../../assets/icons/mobile.png");
+      case 'dinheiro': return require("../../../../assets/icons/money.png");
       case 'debito':
-      case 'credito': return require("../../../assets/icons/credit-card.png");
-      default: return require("../../../assets/icons/mobile.png");
+      case 'credito': return require("../../../../assets/icons/credit-card.png");
+      default: return require("../../../../assets/icons/mobile.png");
     }
   };
 
@@ -124,7 +124,7 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
       <View style={styles.containerEsquerdo}>
       <View style={styles.areaDeNomeTelefoneIcone}>
         <Image
-          source={require("../../../assets/icons/user.png")}
+          source={require("../../../../assets/icons/user.png")}
           style={styles.figura1}
         />
         <View style={styles.areaDeNomeTelefone}>
@@ -135,7 +135,7 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
 
       <View style={styles.areaDeRuaBairroIcone}>
         <Image
-          source={require("../../../assets/icons/casa.png")}
+          source={require("../../../../assets/icons/casa.png")}
           style={styles.figura1}
         />
         <View style={styles.areaDeRuaBairro}>
@@ -148,7 +148,7 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
       <View style={styles.containerDireito}>
         
         <Image
-            source={require("../../../assets/icons/editar.png")}
+            source={require("../../../../assets/icons/editar.png")}
             style={styles.figura2}
           />
           
@@ -185,7 +185,7 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
       <View style={styles.containerDireito2}>
 
         <Image
-            source={require("../../../assets/icons/editar.png")}
+            source={require("../../../../assets/icons/editar.png")}
             style={styles.figura2}
           />
 

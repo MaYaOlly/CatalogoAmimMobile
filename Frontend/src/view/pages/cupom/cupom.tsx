@@ -42,7 +42,7 @@ export const Cupom = ({ navigation }: Props) => {
     <SafeAreaView style={styles.container}>
       {/* LOGO */}
       <Image
-        source={require("../../../assets/logo/logo3.png")}
+        source={require("../../../../assets/logo/logo3.png")}
         style={styles.logo}
         resizeMode="contain"
       />
@@ -50,7 +50,7 @@ export const Cupom = ({ navigation }: Props) => {
       {/* SEARCH */}
       <View style={styles.searchBox}>
         <Image
-          source={require("../../../assets/icons/lupa.png")}
+          source={require("../../../../assets/icons/lupa.png")}
           style={styles.searchIcon}
         />
         <TextInput
@@ -90,7 +90,7 @@ export const Cupom = ({ navigation }: Props) => {
                   (!item.ativo || expirado) && styles.cupomInativo
                 ]}>
                   <Image
-                    source={require("../../../assets/icons/bolo.png")}
+                    source={require("../../../../assets/icons/bolo.png")}
                     style={styles.cupomImage}
                   />
 

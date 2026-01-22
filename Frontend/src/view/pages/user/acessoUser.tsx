@@ -29,7 +29,7 @@ export const TelaDeConfiguracao = ({ navigation }: Props) => {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Image source={require("../../../assets/logo/logo3.png")} style={styles.logo}/>
+        <Image source={require("../../../../assets/logo/logo3.png")} style={styles.logo}/>
         
         {/* LISTA DE OPÇÕES */}
         
@@ -44,7 +44,7 @@ export const TelaDeConfiguracao = ({ navigation }: Props) => {
           <View style={styles.balao}>
               <View style={styles.iconeETexto}>
                 <Image
-                  source={require("../../../assets/icons/user.png")}
+                  source={require("../../../../assets/icons/user.png")}
                   style={styles.figura1}
                 />
                   <View style={styles.areaDoTexto}>
@@ -65,7 +65,7 @@ export const TelaDeConfiguracao = ({ navigation }: Props) => {
           <View style={styles.balao}>
               <View style={styles.iconeETexto}>
                 <Image
-                  source={require("../../../assets/icons/sino.png")}
+                  source={require("../../../../assets/icons/sino.png")}
                   style={styles.figura1}
                 />
                   <View style={styles.areaDoTexto}>
@@ -86,7 +86,7 @@ export const TelaDeConfiguracao = ({ navigation }: Props) => {
           <View style={styles.balao}>
               <View style={styles.iconeETexto}>
                 <Image
-                  source={require("../../../assets/icons/information.png")}
+                  source={require("../../../../assets/icons/information.png")}
                   style={styles.figura1}
                 />
                   <View style={styles.areaDoTexto}>
@@ -100,28 +100,28 @@ export const TelaDeConfiguracao = ({ navigation }: Props) => {
 
           {/*<TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Perfil")}>
               <View style={styles.row}>
-                  <Image source={require("../../../assets/icons/user.png")} style={styles.icon}/>
+                  <Image source={require("../../../../assets/icons/user.png")} style={styles.icon}/>
                   <Text style={styles.optionText}>Perfil</Text>
               </View>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Trocar Senha")}>
               <View style={styles.row}>
-                  <Image source={require("../../../assets/icons/trocarsenha.png")} style={styles.icon}/>
+                  <Image source={require("../../../../assets/icons/trocarsenha.png")} style={styles.icon}/>
                   <Text style={styles.optionText}>Trocar Senha</Text>
               </View>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Notificações")}>
               <View style={styles.row}>
-                  <Image source={require("../../../assets/icons/sino.png")} style={styles.icon}/>
+                  <Image source={require("../../../../assets/icons/sino.png")} style={styles.icon}/>
                   <Text style={styles.optionText}>Notificações</Text>
               </View>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Informações")}>
             <View style={styles.row}>
-              <Image source={require("../../../assets/icons/information.png")} style={styles.icon}/>
+              <Image source={require("../../../../assets/icons/information.png")} style={styles.icon}/>
               <Text style={styles.optionText}>Informações</Text>
             </View>
           </TouchableOpacity>*/}
@@ -133,11 +133,11 @@ export const TelaDeConfiguracao = ({ navigation }: Props) => {
         <TouchableOpacity style={styles.BotaodeSair} onPress={handleLogout}>
           <View style={styles.DetalhesDoBotaodeSair}>
           <View style={styles.containerEsquerdo2}>
-            <Image source={require("../../../assets/icons/saida.png")} style={styles.icon}/>
+            <Image source={require("../../../../assets/icons/saida.png")} style={styles.icon}/>
             <Text style={styles.TextoDoBotaoDeSair}>Sair</Text>
             </View>
             <View style={styles.containerDireito2}>
-              <Image source={require("../../../assets/icons/seta.png")}style={styles.icon2}/>
+              <Image source={require("../../../../assets/icons/seta.png")}style={styles.icon2}/>
             </View>
           </View>
         </TouchableOpacity>
