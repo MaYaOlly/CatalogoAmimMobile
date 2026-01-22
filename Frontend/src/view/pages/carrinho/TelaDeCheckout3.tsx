@@ -2,11 +2,11 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { RootStackParamList } from '../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useCheckoutViewModel } from '../../ViewModel/useCheckoutViewModel';
-import { useCarrinhoViewModel } from '../../ViewModel/useCarrinhoViewModel';
+import { useCheckoutViewModel } from '../../../ViewModel/useCheckoutViewModel';
+import { useCarrinhoViewModel } from '../../../ViewModel/useCarrinhoViewModel';
 
 
 type TelaDeCheckout3NavigationProp = NativeStackNavigationProp<

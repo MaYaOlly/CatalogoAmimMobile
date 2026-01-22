@@ -3,10 +3,10 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from "../../navigation/types";
+import { RootStackParamList } from "../../../navigation/types";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAuth } from '../../contexts/AuthContext';
-import { useCarrinhoViewModel } from '../../ViewModel/useCarrinhoViewModel';
+import { useAuth } from '../../../contexts/AuthContext';
+import { useCarrinhoViewModel } from '../../../ViewModel/useCarrinhoViewModel';
 
 
 type CarrinhoNavigationProp = NativeStackNavigationProp<

@@ -1,21 +1,20 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import TelaDeLogin from "../view/logarCadastrar/TelaDeLogin";
-import TelaDeCadastro from "../view/logarCadastrar/TelaDeCadastro";
-import CarrinhoCheio, { Carrinho } from "./carrinho/Carrinho";
-import TelaDeCheckout1 from "./carrinho/TelaDeCheckout1";
-import { BottomTabs } from "../navigation/BottomTabs";
-import { StackScreen } from "react-native-screens";
-import TelaDeCheckout2 from "./carrinho/TelaDeCheckout2";
-import TelaDeCheckout3 from "./carrinho/TelaDeCheckout3";
-import QuemSomos from "./user/informacao";
-import  { TelaDePerfil } from "./user/perfil";
-import TelaDeNotificacoes from "./user/notificacoes";
-import Cupom from "./cupom/cupom";
-import { AuthProvider } from "../contexts/AuthContext";
-import { CarrinhoProvider } from "../contexts/CarrinhoContext";
-import { CheckoutProvider } from "../contexts/CheckoutContext";
+import TelaDeLogin from "./view/pages/logarCadastrar/TelaDeLogin";
+import TelaDeCadastro from "./view/pages/logarCadastrar/TelaDeCadastro";
+import { Carrinho } from "./view/pages/carrinho/Carrinho";
+import TelaDeCheckout1 from "./view/pages/carrinho/TelaDeCheckout1";
+import { BottomTabs } from "./navigation/BottomTabs";
+import TelaDeCheckout2 from "./view/pages/carrinho/TelaDeCheckout2";
+import TelaDeCheckout3 from "./view/pages/carrinho/TelaDeCheckout3";
+import QuemSomos from "./view/pages/user/informacao";
+import  { TelaDePerfil } from "./view/pages/user/perfil";
+import TelaDeNotificacoes from "./view/pages/user/notificacoes";
+import Cupom from "./view/pages/cupom/cupom";
+import { AuthProvider } from "./contexts/AuthContext";
+import { CarrinhoProvider } from "./contexts/CarrinhoContext";
+import { CheckoutProvider } from "./contexts/CheckoutContext";
 
 const Stack = createNativeStackNavigator();
 

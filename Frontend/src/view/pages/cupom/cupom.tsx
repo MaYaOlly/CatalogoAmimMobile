@@ -1,8 +1,8 @@
 import React from "react";
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image, SafeAreaView, ActivityIndicator } from "react-native";
-import { RootStackParamList } from '../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useCupomViewModel, CupomNormalizado } from "../../ViewModel/useCupomViewModel";
+import { useCupomViewModel, CupomNormalizado } from "../../../ViewModel/useCupomViewModel";
 
 type CupomNavigationProp = NativeStackNavigationProp<
   RootStackParamList,

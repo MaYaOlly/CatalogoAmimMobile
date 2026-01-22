@@ -5,9 +5,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
-import { RootStackParamList } from '../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useCheckoutViewModel } from '../../ViewModel/useCheckoutViewModel';
+import { useCheckoutViewModel } from '../../../ViewModel/useCheckoutViewModel';
 
 type TelaDeCheckout2NavigationProp = NativeStackNavigationProp<
   RootStackParamList,

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Alert, TouchableOpacity, SafeAreaView, ScrollVi
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from "../../navigation/types";
+import { RootStackParamList } from "../../../navigation/types";
 
 type TelaDeNotificacoesNavigationProp = NativeStackNavigationProp<
   RootStackParamList,

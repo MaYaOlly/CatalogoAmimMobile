@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Alert, TouchableOpacity, Image, Linking, Clipboard, ScrollView } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from "../../navigation/types";
+import { RootStackParamList } from "../../../navigation/types";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 //import { ScrollView } from "react-native/types_generated/index";

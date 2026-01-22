@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image } from 'react-native';
 
-import TelaInicial from '../view/home/telaInicial';
-import Carrinho from '../view/carrinho/Carrinho';
-import TelaDeCupom from '../view/cupom/cupom';
-import TelaDeConfiguracao from '../view/user/acessoUser';
+import TelaInicial from '../view/pages/home/telaInicial';
+import Carrinho from '../view/pages/carrinho/Carrinho';
+import TelaDeCupom from '../view/pages/cupom/cupom';
+import TelaDeConfiguracao from '../view/pages/user/acessoUser';
 
 import IconeDeInicio from '../../assets/icons/navbar1Clicavel.png';
 import IconeDeCarrinho from '../../assets/icons/navbar2Clicavel.png';

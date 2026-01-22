@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, ScrollView} from "react-native";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from "../../navigation/types";
+import { RootStackParamList } from "../../../navigation/types";
 
 type TelaDeConfiguracaoNavigationProp = NativeStackNavigationProp<
   RootStackParamList,

@@ -1,6 +1,6 @@
 # Relatório de Estratégia de Testes - Catálogo Amim Mobile
 
-## 📋 Índice
+##  Índice
 1. [Introdução](#introdução)
 2. [Arquitetura do Projeto](#arquitetura-do-projeto)
 3. [Estratégia de Testes](#estratégia-de-testes)
@@ -10,9 +10,9 @@
 
 ---
 
-## 🎯 Introdução
+##  Introdução
 
-Este relatório documenta as decisões técnicas sobre **quais componentes testar** e **por que** no sistema de catálogo e pedidos mobile. O projeto segue **Clean Architecture** e **Domain-Driven Design (DDD)**, o que influenciou diretamente nossa estratégia de testes.
+Este relatório documenta as decisões técnicas sobre quais componentes testar e por que no sistema de catálogo e pedidos mobile. O projeto segue Clean Architecture e Domain-Driven Design (DDD), o que influenciou diretamente nossa estratégia de testes.
 
 ---
 
@@ -34,15 +34,15 @@ O projeto está dividido em **3 camadas principais**:
 
 ---
 
-## 🧪 Estratégia de Testes
+##  Estratégia de Testes
 
-### 1️⃣ **Testes de Entidades (Domain)**
+### 1️ **Testes de Entidades (Domain)**
  Localização: `src/domain/models/class/test/`
 
 #### O que testamos:
--  **Pedido.test.ts** (106 linhas)
--  **Cupom.test.ts** (94 linhas)
--  **Produto.test.ts** (87 linhas)
+-  **Pedido.test.ts**
+-  **Cupom.test.ts**
+-  **Produto.test.ts** 
 -  **Usuario.test.ts**
 -  **ItemPedido.test.ts**
 
@@ -80,7 +80,7 @@ As **entidades contêm as regras de negócio mais críticas** do sistema:
 
 ---
 
-### 2️⃣ **Testes de Serviços (Application)**
+### 2️ **Testes de Serviços (Application)**
  Localização: `src/application/services/test/`
 
 #### O que testamos:
@@ -111,7 +111,7 @@ Os **services orquestram a lógica de negócio** e coordenam múltiplas entidade
 
 ---
 
-### 3️⃣ **Testes de Controladores (Infrastructure)**
+### 3️ **Testes de Controladores (Infrastructure)**
  Localização: `src/infrastructure/http/controllers/test/`
 
 #### O que testamos:

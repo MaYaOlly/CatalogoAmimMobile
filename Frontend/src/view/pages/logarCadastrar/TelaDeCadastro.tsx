@@ -3,10 +3,10 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { RootStackParamList } from '../../navigation/types';
+import { RootStackParamList } from '../../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useCadastroViewModel } from '../../ViewModel/useCadastroViewModel';
+import { useCadastroViewModel } from '../../../ViewModel/useCadastroViewModel';
 
 type TelaDeCadastroNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
