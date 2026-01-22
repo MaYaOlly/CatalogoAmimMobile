@@ -1,16 +1,10 @@
 import { useState } from "react";
-import { UsuarioService } from "../model/services/usuarioService";
 import { LoginCredenciais } from "../model/entities/typeUsuario";
-import axios from "axios";
-import { Alert } from "react-native";
 import { useAuth } from "../contexts/AuthContext";
+import { UsuarioService } from "../model/services/usuarioService";
+import { apiClient } from "../model/infrastructure/apiConfig";
 
-// Configuração da API
-const api = axios.create({
-  baseURL: "http://10.55.193.186:3333"
-});
-
-const usuarioService = new UsuarioService(api);
+const usuarioService = new UsuarioService(apiClient);
 
 export function useLoginViewModel() {
   const { fazerLogin } = useAuth();
@@ -44,15 +38,25 @@ export function useLoginViewModel() {
         telefone: resposta.telefone
       });
       
-      return true;
+      return { sucesso: true };
     } catch (erro: any) {
-      console.error('Erro ao fazer login:', erro);
-      Alert.alert(
-        "Erro",
-        erro.response?.data?.message || "Email ou senha inválidos. Tente novamente.",
-        [{ text: "OK" }]
-      );
-      return false;
+      // Não loga erro no console para não poluir o Expo
+      
+      let mensagemErro = "Email ou senha inválidos. Tente novamente.";
+      
+      // Trata erro 401 (não autorizado)
+      if (erro.response?.status === 401) {
+        mensagemErro = "Email ou senha incorretos.";
+      } else if (erro.message && erro.message.includes("Network Error")) {
+        mensagemErro = "Sem conexão com o servidor. Verifique sua internet.";
+      } else if (erro.response?.data?.message) {
+        mensagemErro = erro.response.data.message;
+      }
+      
+      return { 
+        sucesso: false, 
+        mensagem: mensagemErro
+      };
     } finally {
       setCarregando(false);
     }

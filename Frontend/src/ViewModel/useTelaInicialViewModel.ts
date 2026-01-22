@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
-import { ProdutoService } from "../model/services/produtoService";
 import { Produto } from "../model/entities/typeProduto";
-import axios from "axios";
 import { useCarrinho } from "../contexts/CarrinhoContext";
+import { ProdutoService } from "../model/services/produtoService";
+import { apiClient } from "../model/infrastructure/apiConfig";
 
 // Interface para o formato normalizado de produto (sem underscores)
 export interface ProdutoNormalizado {
@@ -52,12 +52,7 @@ const produtosExemplo: ProdutoNormalizado[] = [
   },
 ];
 
-// Configuração da API
-const api = axios.create({
-  baseURL: "http://10.55.193.186:3333"
-});
-
-const produtoService = new ProdutoService(api);
+const produtoService = new ProdutoService(apiClient);
 
 export function useTelaInicialViewModel() {
   // Obtém funções do contexto do carrinho

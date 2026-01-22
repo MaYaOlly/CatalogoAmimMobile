@@ -1,5 +1,6 @@
 import { AxiosInstance } from "axios";
 import { Produto } from "../entities/typeProduto";
+import { formatarMensagemErro } from "../infrastructure/errorUtils";
 
 export class ProdutoService {
     constructor(private url: AxiosInstance) {
@@ -9,8 +10,8 @@ export class ProdutoService {
         try {
             const { data } = await this.url.get<Produto[]>('/produtos');
             return data;
-        }catch(err: any){
-            throw new Error(err.message);
+        } catch (err: any) {
+            throw new Error(formatarMensagemErro(err));
         }
     }
 }

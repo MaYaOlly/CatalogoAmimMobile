@@ -1,16 +1,10 @@
 import { useState } from "react";
-import { UsuarioService } from "../model/services/usuarioService";
 import { Usuario } from "../model/entities/typeUsuario";
-import axios from "axios";
-import { Alert } from "react-native";
 import { useAuth } from "../contexts/AuthContext";
+import { UsuarioService } from "../model/services/usuarioService";
+import { apiClient } from "../model/infrastructure/apiConfig";
 
-// Configuração da API
-const api = axios.create({
-  baseURL: "http://10.55.193.186:3333"
-});
-
-const usuarioService = new UsuarioService(api);
+const usuarioService = new UsuarioService(apiClient);
 
 export function useCadastroViewModel() {
   const { fazerLogin } = useAuth();
@@ -57,24 +51,15 @@ export function useCadastroViewModel() {
         telefone: loginResposta.telefone
       });
       
-      Alert.alert(
-        "Sucesso!",
-        `Bem-vindo(a), ${resposta.nome}!`,
-        [{ text: "OK" }]
-      );
-      
       // Limpar campos
       limparFormulario();
       
-      return true;
+      return { sucesso: true, mensagem: `Bem-vindo(a), ${resposta.nome}!` };
     } catch (erro: any) {
-      console.error('Erro ao cadastrar usuário:', erro);
-      Alert.alert(
-        "Erro",
-        erro.response?.data?.message || "Não foi possível cadastrar o usuário. Tente novamente.",
-        [{ text: "OK" }]
-      );
-      return false;
+      return { 
+        sucesso: false, 
+        mensagem: erro.response?.data?.message || "Não foi possível cadastrar o usuário. Tente novamente." 
+      };
     } finally {
       setCarregando(false);
     }

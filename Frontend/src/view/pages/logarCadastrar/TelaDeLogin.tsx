@@ -1,7 +1,7 @@
 //import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../navigation/types';
@@ -36,9 +36,20 @@ const TelaDeLogin = ({ navigation }: Props) => {
 
   // Função para lidar com o login
   const handleLogin = async () => {
-    const sucesso = await realizarLogin();
-    if (sucesso) {
+    // Validação básica
+    if (!email.trim() || !senha.trim()) {
+      Alert.alert("Atenção", "Por favor, preencha email e senha.");
+      return;
+    }
+
+    const resultado = await realizarLogin();
+    
+    if (resultado.sucesso) {
+      // Login bem-sucedido - navega para Home
       navigation.replace('Home');
+    } else {
+      // Login falhou - mostra mensagem de erro
+      Alert.alert("Erro ao fazer login", resultado.mensagem);
     }
   };
   return (

@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, ScrollView} from "react-native";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../../../navigation/types";
+import { useAcessoUserViewModel } from "../../../ViewModel/useAcessoUserViewModel";
 
 type TelaDeConfiguracaoNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -13,17 +14,42 @@ type Props = {
 };
 
 export const TelaDeConfiguracao = ({ navigation }: Props) => {
-    // serve para mudar a cor  do botão clicável
-    const [pressionado4, setPressionado4] = React.useState(false);
-    const [pressionado3, setPressionado3] = React.useState(false);
-    const [pressionado2, setPressionado2] = React.useState(false);
+  const {
+    dadosUsuario,
+    estaLogado,
+    pressionado4,
+    pressionado3,
+    pressionado2,
+    pressionadoLogin,
+    setPressionado4,
+    setPressionado3,
+    setPressionado2,
+    setPressionadoLogin,
+    handleLogout,
+  } = useAcessoUserViewModel();
 
-  function handlePress(option: string) {
-    Alert.alert("Opção selecionada", option);
-  }
-
-  function handleLogout() {
-    Alert.alert("Sair", "Você saiu da conta.");
+  // Função para confirmar e realizar logout
+  async function confirmarLogout() {
+    Alert.alert(
+      "Sair",
+      "Tem certeza que deseja sair da sua conta?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel"
+        },
+        {
+          text: "Sair",
+          style: "destructive",
+          onPress: async () => {
+            const resultado = await handleLogout();
+            if (!resultado.sucesso) {
+              Alert.alert("Erro", resultado.mensagem);
+            }
+          }
+        }
+      ]
+    );
   }
 
   return (
@@ -96,51 +122,43 @@ export const TelaDeConfiguracao = ({ navigation }: Props) => {
           </View>
           </TouchableOpacity>
 
-
-
-          {/*<TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Perfil")}>
-              <View style={styles.row}>
-                  <Image source={require("../../../../assets/icons/user.png")} style={styles.icon}/>
-                  <Text style={styles.optionText}>Perfil</Text>
-              </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Trocar Senha")}>
-              <View style={styles.row}>
-                  <Image source={require("../../../../assets/icons/trocarsenha.png")} style={styles.icon}/>
-                  <Text style={styles.optionText}>Trocar Senha</Text>
-              </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Notificações")}>
-              <View style={styles.row}>
-                  <Image source={require("../../../../assets/icons/sino.png")} style={styles.icon}/>
-                  <Text style={styles.optionText}>Notificações</Text>
-              </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.optionButton} onPress={() => handlePress("Informações")}>
-            <View style={styles.row}>
-              <Image source={require("../../../../assets/icons/information.png")} style={styles.icon}/>
-              <Text style={styles.optionText}>Informações</Text>
-            </View>
-          </TouchableOpacity>*/}
-      
       </ScrollView>
 
-      {/* BOTÃO SAIR (FIXO NO FINAL) */}
+      {/* BOTÃO LOGIN ou SAIR (FIXO NO FINAL) */}
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.BotaodeSair} onPress={handleLogout}>
-          <View style={styles.DetalhesDoBotaodeSair}>
-          <View style={styles.containerEsquerdo2}>
-            <Image source={require("../../../../assets/icons/saida.png")} style={styles.icon}/>
-            <Text style={styles.TextoDoBotaoDeSair}>Sair</Text>
+        {estaLogado ? (
+          // Botão de SAIR se estiver logado
+          <TouchableOpacity style={styles.BotaodeSair} onPress={confirmarLogout}>
+            <View style={styles.DetalhesDoBotaodeSair}>
+              <View style={styles.containerEsquerdo2}>
+                <Image source={require("../../../../assets/icons/saida.png")} style={styles.icon}/>
+                <Text style={styles.TextoDoBotaoDeSair}>Sair</Text>
+              </View>
+              <View style={styles.containerDireito2}>
+                <Image source={require("../../../../assets/icons/seta.png")} style={styles.icon2}/>
+              </View>
             </View>
-            <View style={styles.containerDireito2}>
-              <Image source={require("../../../../assets/icons/seta.png")}style={styles.icon2}/>
+          </TouchableOpacity>
+        ) : (
+          // Botão de LOGIN se NÃO estiver logado
+          <TouchableOpacity 
+            style={[styles.BotaodeSair]} 
+            onPressIn={() => setPressionadoLogin(true)}
+            onPressOut={() => setPressionadoLogin(false)}
+            onPress={() => navigation.navigate('Login')}
+            activeOpacity={0.8}
+          >
+            <View style={styles.DetalhesDoBotaodeSair}>
+              <View style={styles.containerEsquerdo2}>
+                <Image source={require("../../../../assets/icons/user.png")} style={styles.icon}/>
+                <Text style={styles.TextoDoBotaoDeSair}>Entrar</Text>
+              </View>
+              <View style={styles.containerDireito2}>
+                <Image source={require("../../../../assets/icons/seta.png")} style={styles.icon2}/>
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -195,7 +213,6 @@ const styles = StyleSheet.create({
   TextoDoBotaoDeSair: {
     color: "#a3214d",
     fontSize: 16,
-    fontWeight: "bold",
   },
 
   icon: {

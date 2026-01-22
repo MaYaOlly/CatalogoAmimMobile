@@ -44,7 +44,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setUsuario(JSON.parse(usuarioArmazenado));
       }
     } catch (error) {
-      console.error('Erro ao carregar usuário:', error);
+      // Erro ao carregar usuário - continua sem usuario logado
     } finally {
       setCarregando(false);
     }
@@ -56,7 +56,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       await AsyncStorage.setItem('@CatalogoAmim:usuario', JSON.stringify(usuarioLogado));
       setUsuario(usuarioLogado);
     } catch (error) {
-      console.error('Erro ao salvar usuário:', error);
       throw error;
     }
   };
@@ -65,9 +64,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const fazerLogout = async () => {
     try {
       await AsyncStorage.removeItem('@CatalogoAmim:usuario');
+      // Limpa também o carrinho ao fazer logout
+      await AsyncStorage.removeItem('@CatalogoAmim:carrinho');
       setUsuario(null);
     } catch (error) {
-      console.error('Erro ao fazer logout:', error);
+      throw error;
     }
   };
 

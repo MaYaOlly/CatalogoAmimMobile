@@ -8,7 +8,7 @@ const { width } = Dimensions.get("window");
 const imagensCarrossel = [  
   require("../../../../assets/pictures/bologanache.jpg"),
   require("../../../../assets/pictures/bolonaked.jpg"), 
-  require("../../../../assets/pictures/bolovulcão.jpg"), 
+  require("../../../../assets/pictures/bolovulcao.jpg"), 
 ];
 
 export default function TelaInicial() {

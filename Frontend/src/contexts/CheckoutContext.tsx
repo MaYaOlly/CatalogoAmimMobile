@@ -1,17 +1,12 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { Linking, Alert } from "react-native";
-import axios from "axios";
 import { useCarrinho } from './CarrinhoContext';
 import { useAuth } from './AuthContext';
 import { PedidoService } from '../model/services/pedidoService';
 import { ItemPedidoApi } from '../model/entities/typePedido';
+import { apiClient } from '../model/infrastructure/apiConfig';
 
-// Configuração da API
-const api = axios.create({
-  baseURL: "http://10.55.193.186:3333"
-});
-
-const pedidoService = new PedidoService(api);
+const pedidoService = new PedidoService(apiClient);
 
 // Interface para dados de endereço
 export interface DadosEndereco {
@@ -166,7 +161,6 @@ export function CheckoutProvider({ children }: CheckoutProviderProps) {
         return false;
       }
     } catch (error) {
-      console.error("Erro ao abrir WhatsApp:", error);
       Alert.alert("Erro", "Não foi possível abrir o WhatsApp.");
       return false;
     }
@@ -234,11 +228,24 @@ export function CheckoutProvider({ children }: CheckoutProviderProps) {
         return false;
       }
     } catch (error: any) {
-      console.error("Erro ao finalizar pedido:", error);
+      // Mensagens de erro mais amigáveis
+      let mensagemErro = "Não foi possível finalizar o pedido. Tente novamente.";
+      
+      if (error.message === "Network Error") {
+        mensagemErro = "Sem conexão com o servidor. Verifique sua internet e tente novamente.";
+      } else if (error.response?.status === 400) {
+        mensagemErro = "Dados do pedido inválidos. Verifique as informações e tente novamente.";
+      } else if (error.response?.status === 404) {
+        mensagemErro = "Produto não encontrado. O item pode não estar mais disponível.";
+      } else if (error.response?.data?.message) {
+        mensagemErro = error.response.data.message;
+      } else if (error.message && error.message !== "Network Error") {
+        mensagemErro = error.message;
+      }
       
       Alert.alert(
-        "Erro",
-        error.message || "Não foi possível finalizar o pedido. Tente novamente."
+        "Ops! Algo deu errado",
+        mensagemErro
       );
       
       setProcessando(false);

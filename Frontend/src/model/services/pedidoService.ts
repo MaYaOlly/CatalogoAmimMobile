@@ -1,5 +1,6 @@
 import { AxiosInstance } from "axios";
 import { CriarPedidoDto, PedidoResponse } from "../entities/typePedido";
+import { formatarMensagemErro } from "../infrastructure/errorUtils";
 
 /**
  * Service para comunicação com a API de Pedidos
@@ -20,8 +21,7 @@ export class PedidoService {
             const { data } = await this.api.post<PedidoResponse>('/pedidos', pedido);
             return data;
         } catch (err: any) {
-            console.error('Erro ao criar pedido:', err);
-            throw new Error(err.response?.data?.message || err.message || 'Erro ao criar pedido');
+            throw new Error(formatarMensagemErro(err));
         }
     }
 
@@ -35,8 +35,7 @@ export class PedidoService {
             const { data } = await this.api.get<PedidoResponse>(`/pedidos/${pedidoId}`);
             return data;
         } catch (err: any) {
-            console.error('Erro ao buscar pedido:', err);
-            throw new Error(err.response?.data?.message || err.message || 'Erro ao buscar pedido');
+            throw new Error(formatarMensagemErro(err));
         }
     }
 
@@ -50,8 +49,7 @@ export class PedidoService {
             const { data } = await this.api.get<PedidoResponse[]>(`/pedidos/usuario/${usuarioId}`);
             return data;
         } catch (err: any) {
-            console.error('Erro ao listar pedidos:', err);
-            throw new Error(err.response?.data?.message || err.message || 'Erro ao listar pedidos');
+            throw new Error(formatarMensagemErro(err));
         }
     }
 }

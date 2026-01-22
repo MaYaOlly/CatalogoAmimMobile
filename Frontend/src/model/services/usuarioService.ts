@@ -1,5 +1,6 @@
 import { AxiosInstance } from "axios";
 import { Usuario, UsuarioRespostaAPI, LoginCredenciais, LoginResposta } from "../entities/typeUsuario";
+import { formatarMensagemErro } from "../infrastructure/errorUtils";
 
 export class UsuarioService {
     constructor(private url: AxiosInstance){
@@ -10,8 +11,8 @@ export class UsuarioService {
         try {
             const response = await this.url.post<UsuarioRespostaAPI>('/usuarios', usuario);
             return response.data;
-        } catch (error) {
-            throw error;
+        } catch (error: any) {
+            throw new Error(formatarMensagemErro(error));
         }
     }
 
@@ -19,8 +20,8 @@ export class UsuarioService {
         try {
             const response = await this.url.post<LoginResposta>('/login', credenciais);
             return response.data;
-        } catch (error) {
-            throw error;
+        } catch (error: any) {
+            throw new Error(formatarMensagemErro(error));
         }
     }
 }

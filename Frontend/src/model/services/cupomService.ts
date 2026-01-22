@@ -1,5 +1,6 @@
 import { AxiosInstance } from "axios";
 import { Cupom } from "../entities/typeCupom";
+import { formatarMensagemErro } from "../infrastructure/errorUtils";
 
 export class CupomService {
     constructor(private url: AxiosInstance){
@@ -9,8 +10,8 @@ export class CupomService {
         try {
             const { data } =  await this.url.get<Cupom[]>('/cupons');
             return data;
-        }catch(err: any){
-            throw new Error(err.message);
+        } catch (err: any) {
+            throw new Error(formatarMensagemErro(err));
         }
     }
 }
