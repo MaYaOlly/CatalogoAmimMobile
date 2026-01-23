@@ -5,6 +5,7 @@ import { useAuth } from './AuthContext';
 import { PedidoService } from '../model/services/pedidoService';
 import { ItemPedidoApi } from '../model/entities/typePedido';
 import { apiClient } from '../model/infrastructure/apiConfig';
+import { WhatsAppFormatter } from '../model/helpers/whatsappFormatter';
 
 const pedidoService = new PedidoService(apiClient);
 
@@ -42,7 +43,7 @@ interface CheckoutProviderProps {
 }
 
 export function CheckoutProvider({ children }: CheckoutProviderProps) {
-  const { itens, total, limparCarrinho } = useCarrinho();
+  const { itens, total, limparCarrinho, cupomAplicado } = useCarrinho();
   const { usuario } = useAuth();
 
   // Estados do checkout
@@ -100,40 +101,25 @@ export function CheckoutProvider({ children }: CheckoutProviderProps) {
   // Função para formatar mensagem do WhatsApp
   const formatarMensagemWhatsApp = (): string => {
     const nomeCliente = usuario?.nome || "Cliente";
-    const telefoneCliente = usuario?.telefone || "Não informado";
     
-    let mensagem = `🛍️ *NOVO PEDIDO - Catálogo Amim*\n\n`;
-    mensagem += `👤 *Cliente:* ${nomeCliente}\n`;
-    mensagem += `📱 *Telefone:* ${telefoneCliente}\n\n`;
-    
-    mensagem += `📦 *ITENS DO PEDIDO:*\n`;
-    itens.forEach((item, index) => {
-      mensagem += `${index + 1}. ${item.produto.nome}\n`;
-      mensagem += `   Qtd: ${item.quantidade} | ${item.produto.preco} cada\n`;
-      
-      // Calcula total do item
+    // Calcular subtotal
+    const subtotalValor = itens.reduce((total, item) => {
       const precoUnitario = parseFloat(
         item.produto.preco.replace('R$', '').replace(/\s/g, '').replace(',', '.')
       );
-      const totalItem = precoUnitario * item.quantidade;
-      mensagem += `   Subtotal: R$ ${totalItem.toFixed(2).replace('.', ',')}\n\n`;
+      return total + (precoUnitario * item.quantidade);
+    }, 0);
+
+    // Usar o WhatsAppFormatter para gerar a mensagem
+    return WhatsAppFormatter.formatarPedido({
+      nomeCliente,
+      itens,
+      subtotal: subtotalValor,
+      cupomAplicado,
+      total,
+      endereco,
+      formaPagamento
     });
-    
-    mensagem += `💰 *VALOR TOTAL:* R$ ${total.toFixed(2).replace('.', ',')}\n\n`;
-    
-    mensagem += `📍 *ENDEREÇO DE ENTREGA:*\n`;
-    mensagem += `${formatarEnderecoCompleto()}\n\n`;
-    
-    mensagem += `💳 *FORMA DE PAGAMENTO:*\n`;
-    mensagem += `${formaPagamento === 'pix' ? 'PIX' : formaPagamento === 'dinheiro' ? 'Dinheiro' : formaPagamento.toUpperCase()}\n\n`;
-    
-    if (cupomCodigo) {
-      mensagem += `🎟️ *Cupom aplicado:* ${cupomCodigo}\n\n`;
-    }
-    
-    mensagem += `_Pedido realizado pelo app Catálogo Amim_`;
-    
-    return mensagem;
   };
 
   // Função para enviar pedido ao WhatsApp
@@ -189,44 +175,51 @@ export function CheckoutProvider({ children }: CheckoutProviderProps) {
         return false;
       }
 
-      // Prepara os itens para a API
-      const itensApi: ItemPedidoApi[] = itens.map(item => ({
+      // Salvar dados antes de enviar (pois o app pode ser suspenso)
+      const itensParaAPI = itens.map(item => ({
         produtoId: item.produto.id,
         quantidade: item.quantidade
       }));
+      const codigoCupomParaAPI = cupomAplicado?._codigo || undefined;
 
-      // Cria o pedido na API
-      const pedidoCriado = await pedidoService.criarPedido({
-        usuarioId: usuario.id,
-        itens: itensApi,
-        formaPagamento: formaPagamento,
-        cupomCodigo: cupomCodigo || undefined
-      });
-
-      console.log("Pedido criado com sucesso:", pedidoCriado);
-
-      // Envia para WhatsApp
+      // IMPORTANTE: Envia para WhatsApp PRIMEIRO (antes de criar o pedido na API)
+      // Isso garante que o cupom ainda está válido quando o usuário visualiza no WhatsApp
       const whatsappEnviado = await enviarParaWhatsApp();
 
-      if (whatsappEnviado) {
-        // Limpa o carrinho após sucesso
-        await limparCarrinho();
-
-        // Reseta o checkout
-        resetarCheckout();
-
-        Alert.alert(
-          "Sucesso!",
-          "Pedido realizado com sucesso! Complete o pedido no WhatsApp.",
-          [{ text: "OK" }]
-        );
-
-        setProcessando(false);
-        return true;
-      } else {
+      if (!whatsappEnviado) {
         setProcessando(false);
         return false;
       }
+
+      // Se chegou aqui, WhatsApp foi aberto com sucesso
+      // Agora vamos tentar criar o pedido na API em background
+      try {
+        const pedidoCriado = await pedidoService.criarPedido({
+          usuarioId: usuario.id,
+          itens: itensParaAPI,
+          formaPagamento: formaPagamento,
+          cupomCodigo: codigoCupomParaAPI
+        });
+
+        console.log("Pedido criado com sucesso:", pedidoCriado);
+      } catch (apiError: any) {
+        // Se der erro na API, apenas loga mas não impede o fluxo
+        // pois o WhatsApp já foi aberto e o pedido já foi enviado
+        // Erro de cupom é esperado se o pedido foi criado anteriormente
+        if (apiError?.response?.data?.message?.includes('Cupom') || 
+            apiError?.message?.includes('Cupom')) {
+          console.log("Pedido já foi processado - cupom já utilizado");
+        } else {
+          console.error("Erro ao criar pedido na API:", apiError?.message || apiError);
+        }
+      }
+
+      // Limpa o carrinho e reseta checkout independente do resultado da API
+      await limparCarrinho();
+      resetarCheckout();
+
+      setProcessando(false);
+      return true;
     } catch (error: any) {
       // Mensagens de erro mais amigáveis
       let mensagemErro = "Não foi possível finalizar o pedido. Tente novamente.";

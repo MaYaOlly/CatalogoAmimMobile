@@ -1,4 +1,4 @@
-import { Usuario } from '../Usuario';
+import { Usuario } from '../../domain/models/class/Usuario';
 
 describe('Usuario', () => {
   describe('Criação e Validação', () => {

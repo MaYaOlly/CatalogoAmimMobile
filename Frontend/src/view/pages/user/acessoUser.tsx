@@ -52,14 +52,6 @@ export const TelaDeConfiguracao = ({ navigation }: Props) => {
       ]
     );
   }
-
-  // Estado para os dados do usuário
-  const [userInfo, setUserInfo] = useState({
-    telefone: "(11) 99999-9999",
-    nome: "João Silva",
-    email: "joao.silva@email.com",
-    endereço: "Rua Felinto Resende, 123 - Piripiri, PI",
-  });
   
   return (
     <View style={styles.container}>
@@ -77,21 +69,27 @@ export const TelaDeConfiguracao = ({ navigation }: Props) => {
           <View style={styles.infoItem}>
             <View style={styles.infoRow}>
               <Text style={styles.infoLabel}>Nome</Text>
-              <Text style={styles.infoValueNome}>{userInfo.nome}</Text>
+              <Text style={styles.infoValueNome}>
+                {dadosUsuario ? dadosUsuario.nome : "Seu nome"}
+              </Text>
             </View>
           </View>
 
           <View style={styles.infoItem}>
             <View style={styles.infoRow}>
               <Text style={styles.infoLabel}>E-mail</Text>
-              <Text style={styles.infoValueEmail}>{userInfo.email}</Text>
+              <Text style={styles.infoValueEmail}>
+                {dadosUsuario ? dadosUsuario.email : "Seu e-mail"}
+              </Text>
             </View>
           </View>
 
           <View style={styles.infoItem}>
             <View style={styles.infoRow}>
               <Text style={styles.infoLabel}>Endereço</Text>
-              <Text style={styles.infoValueEndereco}>{userInfo.endereço}</Text>
+              <Text style={styles.infoValueEndereco}>
+                {dadosUsuario ? dadosUsuario.endereco : "Seu endereço"}
+              </Text>
             </View>
           </View>
         </View>

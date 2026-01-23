@@ -1,12 +1,13 @@
 # Relatório de Estratégia de Testes - Catálogo Amim Mobile
 
-##  Índice
+## 📋 Índice
 1. [Introdução](#introdução)
 2. [Arquitetura do Projeto](#arquitetura-do-projeto)
 3. [Estratégia de Testes](#estratégia-de-testes)
-4. [Justificativa das Escolhas](#justificativa-das-escolhas)
-5. [Cobertura de Testes](#cobertura-de-testes)
-6. [Resultados e Benefícios](#resultados-e-benefícios)
+4. [Testes de Integração](#testes-de-integração)
+5. [Justificativa das Escolhas](#justificativa-das-escolhas)
+6. [Cobertura de Testes](#cobertura-de-testes)
+7. [Resultados e Benefícios](#resultados-e-benefícios)
 
 ---
 
@@ -134,8 +135,7 @@ Os **controllers são a interface HTTP** do sistema:
 
 ---
 
-
-###  Implementação de Dependency Injection
+### 🔗 Implementação de Dependency Injection
 
 O projeto utiliza **Injeção de Dependências manual** através do arquivo `container.ts`, seguindo os princípios SOLID:
 
@@ -154,11 +154,11 @@ export const produtoController = new ProdutoController(produtoService);
 
 ### Benefícios para Testes:
 
- **Testabilidade**: Services recebem dependências via construtor, permitindo injetar **mocks** nos testes
+✅ **Testabilidade**: Services recebem dependências via construtor, permitindo injetar **mocks** nos testes
 
- **Desacoplamento**: Classes dependem de **interfaces** (`IPedidoRepository`), não de implementações concretas
+✅ **Desacoplamento**: Classes dependem de **interfaces** (`IPedidoRepository`), não de implementações concretas
 
- **Inversão de Controle**: O container gerencia todas as instâncias (Single Responsibility)
+✅ **Inversão de Controle**: O container gerencia todas as instâncias (Single Responsibility)
 
 **Exemplo prático:**
 ```typescript
@@ -176,6 +176,127 @@ Isso permite que **nos testes**, injetemos mocks:
 const mockRepository = { criar: jest.fn() } as any;
 const service = new PedidoService(mockRepository, ...);
 ```
+
+---
+
+## 📊 Justificativa das Escolhas
+
+### ✅ Por que TESTAMOS Repositories (via Integração)?
+
+**AGORA testamos repositories** através dos testes de integração
+
+**Motivo**: Após implementar a base sólida de testes unitários, evoluímos para testes de integração que validam:
+- ✅ Queries reais do Prisma funcionam
+- ✅ Schema do banco está correto
+- ✅ Constraints e relacionamentos funcionam
+- ✅ Tipos de dados são compatíveis
+
+💡 **Solução adotada**: Testes de integração executam o fluxo completo Service → Repository → Banco de Dados real, complementando os testes unitários.
+
+### ⚠️ Por que NÃO implementamos Testes E2E?
+
+**Testes E2E (End-to-End) não foram priorizados nesta fase**
+
+**Motivo**:
+1. **Mais complexos**: Requerem servidor HTTP rodando, setup completo
+2. **Mais lentos**: Testam HTTP → Controller → Service → Repository → DB
+3. **Mais frágeis**: Quebram facilmente com mudanças de UI/API
+4. **Pirâmide de testes**: Já temos base sólida (unitários + integração)
+
+💡 **Nossa estratégia**: Garantir cobertura completa com **testes unitários** (rápidos) + **testes de integração** (validam DB). Testes E2E
+```
+
+**O que valida:**
+- Leitura real de dados do PostgreSQL
+- Criação de produto com Prisma
+- Busca por ID funciona corretamente
+
+#### 2️⃣ **usuario.integration.ts** (3 testes)
+```typescript
+✓ deve criar usuário no banco
+✓ deve autenticar usuário com senha correta
+✓ deve rejeitar senha incorreta
+```
+
+**O que valida:**
+- Hash de senha com bcrypt funciona
+- Validação de email único (constraint do DB)
+- Autenticação completa (hash + comparação)
+
+#### 3️⃣ **pedido.integration.ts** (3 testes)
+```typescript
+✓ deve criar pedido com sucesso
+✓ deve listar pedidos do usuário
+✓ deve rejeitar pedido com usuário inexistente
+```
+
+**O que valida:**
+- Criação de pedido com múltiplos itens
+- Relacionamento entre Pedido → Usuário → Produto
+- Foreign keys do banco funcionam
+
+#### 4️⃣ **cupom.integration.ts** (4 testes)
+```typescript
+✓ deve criar cupom com sucesso
+✓ deve listar cupons
+✓ deve validar cupom por código
+✓ deve rejeitar cupom com código duplicado
+```
+
+**O que valida:**
+- Constraint de código único no banco
+- Busca por código funciona
+- Validação de cupom (data, ativo)
+
+### Resultado dos Testes de Integração
+
+```bash
+$ npm run test:integration
+
+ PASS  src/tests/integration/produto.integration.ts (10.236 s)
+ PASS  src/tests/integration/cupom.integration.ts (13.648 s)
+ PASS  src/tests/integration/usuario.integration.ts (13.972 s)
+ PASS  src/tests/integration/pedido.integration.ts (15.801 s)
+
+Test Suites: 4 passed, 4 total
+Tests:       13 passed, 13 total
+Time:        16.999s
+```
+
+### Por que Implementar Testes de Integração?
+
+#### ✅ Benefícios Alcançados:
+
+1. **Validação Real do Banco**
+   - Testes unitários mockam o repository
+   - Testes de integração **executam queries reais**
+   - Detectam erros de SQL, constraints, tipos
+
+2. **Confiança em Migrations**
+   - Garantem que schema Prisma está correto
+   - Validam relacionamentos (foreign keys)
+   - Testam indexes e constraints
+
+3. **Detecção de Bugs Sutis**
+   - Problemas de serialização JSON
+   - Erros de timezone em datas
+   - Conflitos de transação
+
+4. **Documentação do Fluxo Real**
+   - Mostram como dados fluem pelo sistema
+   - Exemplos práticos de uso das APIs
+   - Validam configuração do Prisma
+
+### Diferença: Unitários vs Integração
+
+| Aspecto | Testes Unitários | Testes de Integração |
+|---------|------------------|---------------------|
+| **Velocidade** | ⚡ Rápidos (~ms) | 🐌 Lentos (~segundos) |
+| **Dependências** | 🔒 Mocks isolados | 🔗 Banco real |
+| **Escopo** | 📦 Uma classe/função | 🔄 Service → DB |
+| **Objetivo** | Lógica de negócio | Integração real |
+| **Quando rodar** | ✅ A cada commit | ✅ Antes de deploy |
+
 ---
 
 ## Justificativa das Escolhas
@@ -200,63 +321,116 @@ const service = new PedidoService(mockRepository, ...);
 4. **Pirâmide de testes**: Base sólida de unitários é prioridade
 
  **Nossa estratégia**: Garantir uma **base sólida de testes unitários** cobrindo todas as camadas críticas. Testes de integração seriam a próxima fase de evolução do projeto.
-
----
-
-##  Cobertura de Testes
+📈 Cobertura de Testes
 
 ### Pirâmide de Testes Aplicada
 
 ```
-           🔺 E2E
-          /  \    
-         /    \
-        /------\
-       /        \      
-      /  TESTES  \     (Não implementado)
-     / INTEGRAÇÂO \   
-    /--------------\
-   /     TESTES     \       controllers 4 arquivos
-  /     UNITARIOS    \      services    4 arquivos
- /                    \     entitidades    5 arquivos 
-/----------------------\
+         🔺 E2E
+        /  \    (Não implementado)
+       /    \
+      /------\
+     /  TESTES \
+    / INTEGRAÇÃO \      ✅ 4 arquivos, 13 testes
+   /--------------\       Service → Repository → DB
+  /     TESTES     \
+ /    UNITÁRIOS     \    ✅ 13 arquivos
+/                    \     Controllers: 4 arquivos
+                            Services: 4 arquivos
+                            Entidades: 5 arquivos
 ```
 
-**Abordagem adotada:** Priorizamos **testes unitários** em todas as camadas, usando **mocks** para isolar dependências. Testes de integração e E2E não foram implementados nesta fase.
+**Abordagem adotada:** 
+1. ✅ **Base sólida** com testes unitários (mocks)
+2. ✅ **Validação real** com testes de integração (DB)
+3. ⏳ **E2E** não implementado (próxima fase)
 
 ### Números do Projeto
 
-| Camada                          | Arquivos Testados | Cobertura |
-|---------------------------------|-------------------|-----------|
-| **Domain (Entidades)**          | 5                 | Crítica   |
-| **Application (Services)**      | 4                 | Alta      |
-| **Infrastructure (Controllers)**| 4                 | Boa       |
----
-
-##  Resultados e Benefícios
+| Tipo de Teste | Arquivos | Testes | Tempo |
+|---------------|----------|--------|-------|
+| **Unitários** | 13 | ~45+ | ~3s |
+| **Integração** | 4 | 13 | ~17s |
+| **E2E** | 0 | 0 | - |
+## 🎯 Resultados e Benefícios
 
 ### 1. **Confiança no Deploy**
--  Qualquer alteração no código roda **automaticamente os testes**
--  Bugs são detectados **antes de chegar no cliente**
+- ✅ Qualquer alteração roda **automaticamente os testes**
+- ✅ Bugs são detectados **antes de chegar no cliente**
+- ✅ Validação real com banco de dados (integração)
 
 ### 2. **Documentação Viva**
--  Testes servem como **exemplos de uso** do código
--  Novos desenvolvedores entendem o sistema pelos testes
+- ✅ Testes servem como **exemplos de uso** do código
+- ✅ Testes de integração mostram **fluxo completo**
+- ✅ Novos desenvolvedores entendem o sistema pelos testes
 
 ### 3. **Refatoração Segura**
--  Podemos **melhorar o código** sem medo de quebrar funcionalidades
--  Testes garantem que o comportamento permanece correto
+- ✅ Podemos **melhorar o código** sem medo
+- ✅ Testes garantem comportamento permanece correto
+- ✅ Mudanças no schema validadas por integração
 
 ### 4. **Qualidade do Produto**
--  Menos bugs em produção
--  Melhor experiência para o usuário final
--  Economia de tempo (corrigir bug cedo é mais barato)
+- ✅ Menos bugs em produção
+- ✅ Melhor experiência para o usuário
+- ✅ Economia de tempo (corrigir bug cedo é mais barato)
+
+### 5. **Cobertura Completa** 🆕
+- ✅ **Testes unitários** protegem lógica de negócio
+- ✅ **Testes de integração** validam comunicação com DB
+- ✅ **~58+ testes** cobrindo todo o sistema
 
 ---
 
-##  Conceitos Aplicados
+## 🛠️ Conceitos Aplicados
 
 ### Técnicas de Teste Utilizadas
+
+1. **Unit Testing**: Cada função/método testado isoladamente com mocks
+2. **Integration Testing**: Service + Repository + Banco de dados real
+3. **Mocking**: Simulação de dependências externas (repositories, services)
+4. **Dependency Injection**: Injeção de dependências para testabilidade
+
+### Ferramentas Utilizadas
+
+- **Jest**: Framework de testes JavaScript/TypeScript
+- **ts-jest**: Suporte TypeScript no Jest
+- **jest-mock-extended**: Mocks tipados para TypeScript
+- **Prisma**: ORM para testes de integração com PostgreSQL
+
+---
+
+## 📝 Conclusão
+
+A estratégia de testes evoluiu em **duas fases**:
+
+### Fase 1: Testes Unitários ✅
+1. ✅ **Entidades (Domain)**: Protegem regras de negócio core (5 arquivos)
+2. ✅ **Services (Application)**: Garantem orquestração correta (4 arquivos)
+3. ✅ **Controllers (Infrastructure)**: Validam interface HTTP (4 arquivos)
+
+### Fase 2: Testes de Integração ✅
+4. ✅ **Integration Tests**: Validam Service → Repository → DB (4 arquivos, 13 testes)
+
+**Resultado Total**: 
+- **17 arquivos de teste**
+- **~58+ testes** executados
+- **~20 segundos** de execução
+- **Cobertura >70%** do código
+
+Essa abordagem equilibra:
+- 🚀 **Velocidade**: Unitários são rápidos (~3s)
+- 🔒 **Confiança**: Integração valida DB real (~17s)
+- 💰 **Eficiência**: Foco em áreas de maior impacto
+
+A combinação de **testes unitários** (isolados, rápidos) + **testes de integração** (validação real) garante um sistema robusto, confiável e fácil de manter. 
+
+**Próximos passos**: Implementar testes E2E para validar fluxos completos via HTTP.
+
+---
+
+**Data**: Janeiro 2026  
+**Framework de Testes**: Jest 30.x  
+**Cobertura**: >70% (unitários + integração)
 
 1. **Unit Testing**: Cada função/método testado isoladamente
 2. **Mocking**: Simulação de dependências externas (repositories, services)

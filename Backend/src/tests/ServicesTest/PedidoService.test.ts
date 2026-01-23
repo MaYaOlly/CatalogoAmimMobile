@@ -1,14 +1,14 @@
-import { PedidoService } from '../PedidoService';
-import { IPedidoRepository } from '../../../domain/models/interfaces/IPedidoRepository';
-import { IProdutoRepository } from '../../../domain/models/interfaces/IProdutoRepository';
-import { IUsuarioRepository } from '../../../domain/models/interfaces/IUsuarioRepository';
-import { CupomService } from '../CupomService';
-import { Pedido } from '../../../domain/models/class/Pedido';
-import { Produto } from '../../../domain/models/class/Produto';
-import { Usuario } from '../../../domain/models/class/Usuario';
-import { Cupom } from '../../../domain/models/class/Cupom';
-import { ItemPedido } from '../../../domain/models/class/ItemPedido';
-import { CriarPedidoDTO } from '../../../domain/models/interfaces/IPedidoService';
+import { PedidoService } from '../../application/services/PedidoService';
+import { IPedidoRepository } from '../../domain/models/interfaces/IPedidoRepository';
+import { IProdutoRepository } from '../../domain/models/interfaces/IProdutoRepository';
+import { IUsuarioRepository } from '../../domain/models/interfaces/IUsuarioRepository';
+import { CupomService } from '../../application/services/CupomService';
+import { Pedido } from '../../domain/models/class/Pedido';
+import { Produto } from '../../domain/models/class/Produto';
+import { Usuario } from '../../domain/models/class/Usuario';
+import { Cupom } from '../../domain/models/class/Cupom';
+import { ItemPedido } from '../../domain/models/class/ItemPedido';
+import { CriarPedidoDTO } from '../../domain/models/interfaces/IPedidoService';
 
 describe('PedidoService', () => {
   let pedidoService: PedidoService;

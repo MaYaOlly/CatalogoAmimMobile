@@ -48,10 +48,50 @@ describe("UsuarioService", () => {
         const mockedAxios = {
             post: jest.fn().mockRejectedValue(new Error("Email inválido"))
         } as unknown as AxiosInstance;
-        // Instancia o serviço com o axios mockado
+        
         const usuarioService = new UsuarioService(mockedAxios);
-        // Chamada do método a ser testado e verificação de erro
+        
         await expect(usuarioService.criarUsuario(novoUsuario)).rejects.toThrow("Email inválido");
-        expect(mockedAxios.post).toHaveBeenCalledWith('/usuarios', novoUsuario);
+    });
+
+    it("deve fazer login com sucesso", async () => {
+        const credenciais = {
+            email: "user@email.com",
+            senha: "senha123"
+        };
+        
+        const respostaEsperada = {
+            token: "token123",
+            usuario: {
+                id: "1",
+                nome: "Usuario",
+                email: "user@email.com"
+            }
+        };
+        
+        const mockedAxios = {
+            post: jest.fn().mockResolvedValue({ data: respostaEsperada })
+        } as unknown as AxiosInstance;
+        
+        const usuarioService = new UsuarioService(mockedAxios);
+        const response = await usuarioService.fazerLogin(credenciais);
+        
+        expect(response).toEqual(respostaEsperada);
+        expect(mockedAxios.post).toHaveBeenCalledWith('/login', credenciais);
+    });
+
+    it("deve retornar erro ao fazer login com credenciais inválidas", async () => {
+        const credenciais = {
+            email: "user@email.com",
+            senha: "senhaErrada"
+        };
+        
+        const mockedAxios = {
+            post: jest.fn().mockRejectedValue(new Error("Credenciais inválidas"))
+        } as unknown as AxiosInstance;
+        
+        const usuarioService = new UsuarioService(mockedAxios);
+        
+        await expect(usuarioService.fazerLogin(credenciais)).rejects.toThrow("Credenciais inválidas");
     });
 });

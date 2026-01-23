@@ -9,8 +9,6 @@ import { BottomTabs } from "./navigation/BottomTabs";
 import TelaDeCheckout2 from "./view/pages/carrinho/TelaDeCheckout2";
 import TelaDeCheckout3 from "./view/pages/carrinho/TelaDeCheckout3";
 import QuemSomos from "./view/pages/user/informacao";
-import  { TelaDePerfil } from "./view/pages/user/perfil";
-import TelaDeNotificacoes from "./view/pages/user/notificacoes";
 import Cupom from "./view/pages/cupom/cupom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { CarrinhoProvider } from "./contexts/CarrinhoContext";
@@ -58,18 +56,6 @@ function App() {
             name="QuemSomos"
             component={QuemSomos}
             options={{ headerShown: true, title: "QuemSomos" }}
-          />
-
-          <Stack.Screen
-            name="TelaDePerfil"
-            component={TelaDePerfil}
-            options={{ headerShown: true, title: "Perfil" }}
-          />
-
-          <Stack.Screen
-            name="TelaDeNotificacoes"
-            component={TelaDeNotificacoes}
-            options={{ headerShown: true, title: "TelaDeNotificacoes" }}
           />
 
           <Stack.Screen

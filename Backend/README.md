@@ -252,60 +252,99 @@ Abra no navegador: **http://localhost:3333/docs**
 
 ## 🧪 Testes
 
-O projeto possui **cobertura de testes >70%** seguindo as melhores práticas.
+O projeto possui **cobertura de testes >70%** seguindo as melhores práticas, com testes unitários e de integração.
 
-### Executar Todos os Testes
+### Comandos de Teste
 
 ```bash
+# Executar todos os testes
 npm test
-```
 
-### Modo Watch (desenvolvimento)
+# Executar apenas testes unitários
+npm run test:unit
 
-```bash
+# Executar apenas testes de integração
+npm run test:integration
+
+# Modo watch (desenvolvimento)
 npm run test:watch
-```
 
-### Cobertura de Código
-
-```bash
+# Cobertura de código
 npm run test:coverage
 ```
 
-Relatório será gerado em: `coverage/lcov-report/index.html`
+Relatório de cobertura será gerado em: `coverage/lcov-report/index.html`
 
 ### Tipos de Testes
 
-#### 1. **Testes de Entidades** (`domain/models/class/test/`)
-Testam as regras de negócio puras:
-- ✅ Validações de criação
-- ✅ Cálculos de preço e desconto
-- ✅ Aplicação de cupons
-- ✅ Mudanças de estado
+#### 1. **Testes Unitários**
+Testam componentes isolados com mocks:
 
-#### 2. **Testes de Services** (`application/services/test/`)
-Testam a orquestração de casos de uso:
-- ✅ Integração entre entidades
-- ✅ Validações de negócio complexas
-- ✅ Tratamento de erros
+- **Entidades** (`domain/models/class/test/`)
+  - ✅ Validações de criação
+  - ✅ Cálculos de preço e desconto
+  - ✅ Aplicação de cupons
+  - ✅ Mudanças de estado
 
-#### 3. **Testes de Controllers** (`infrastructure/http/controllers/test/`)
-Testam os handlers HTTP:
-- ✅ Status codes corretos
-- ✅ Validação de entrada
-- ✅ Formatação de resposta
+- **Services** (`application/services/test/`)
+  - ✅ Orquestração de casos de uso
+  - ✅ Validações de negócio complexas
+  - ✅ Tratamento de erros
+
+- **Controllers** (`infrastructure/http/controllers/test/`)
+  - ✅ Status codes corretos
+  - ✅ Validação de entrada
+  - ✅ Formatação de resposta
+
+#### 2. **Testes de Integração** (`src/tests/integration/`)
+Testam a integração real entre Service → Repository → Banco de Dados:
+
+- **Produtos** (`produto.integration.ts`)
+  - ✅ Listar produtos do banco
+  - ✅ Criar produto no banco
+  - ✅ Buscar produto por ID
+
+- **Usuários** (`usuario.integration.ts`)
+  - ✅ Criar usuário no banco
+  - ✅ Autenticar com senha correta
+  - ✅ Rejeitar senha incorreta
+
+- **Pedidos** (`pedido.integration.ts`)
+  - ✅ Criar pedido com sucesso
+  - ✅ Listar pedidos do usuário
+  - ✅ Rejeitar pedido com usuário inexistente
+
+- **Cupons** (`cupom.integration.ts`)
+  - ✅ Criar cupom com sucesso
+  - ✅ Listar cupons
+  - ✅ Validar cupom por código
+  - ✅ Rejeitar cupom com código duplicado
 
 ### Exemplo de Execução
 
 ```bash
- PASS  src/domain/models/class/test/Pedido.test.ts
- PASS  src/domain/models/class/test/Cupom.test.ts
- PASS  src/application/services/test/PedidoService.test.ts
+# Testes de integração
+$ npm run test:integration
 
-Test Suites: 3 passed, 3 total
-Tests:       45 passed, 45 total
+ PASS  src/tests/integration/produto.integration.ts
+ PASS  src/tests/integration/cupom.integration.ts
+ PASS  src/tests/integration/usuario.integration.ts
+ PASS  src/tests/integration/pedido.integration.ts
+
+Test Suites: 4 passed, 4 total
+Tests:       13 passed, 13 total
 Snapshots:   0 total
-Time:        3.142s
+Time:        16.999s
+```
+
+### Arquitetura de Testes
+
+```
+Testes Unitários (com mocks)
+  ↓
+Testes de Integração (Service + Repository + DB)
+  ↓
+Testes E2E (opcional - HTTP → Controller → Service → DB)
 ```
 
 📄 Para detalhes completos sobre a estratégia de testes, consulte: [RELATORIO_TESTES.md](RELATORIO_TESTES.md)

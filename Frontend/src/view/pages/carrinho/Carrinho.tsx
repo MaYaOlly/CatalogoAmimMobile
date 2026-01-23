@@ -31,17 +31,20 @@ export const Carrinho = ({ navigation }: Props) => {
     removerDoCarrinho,
     limparCarrinho,
     calcularPrecoItem,
+    modalCupomVisivel,
+    codigoCupom,
+    aplicandoCupom,
+    abrirModalCupom,
+    fecharModalCupom,
+    setCodigoCupom,
+    aplicarCupomComValidacao,
+    removerCupom,
   } = useCarrinhoViewModel();
   
   // serve para mudar a cor  do botão clicável
   const [pressionado2, setPressionado2] = React.useState(false); 
   const [pressionado4, setPressionado4] = React.useState(false);
   const [pressionado5, setPressionado5] = React.useState(false);
-
-  // Estados para o modal de cupom
-  const [modalCupomVisivel, setModalCupomVisivel] = React.useState(false);
-  const [codigoCupom, setCodigoCupom] = React.useState('');
-  const [aplicandoCupom, setAplicandoCupom] = React.useState(false);
 
   // Função para limpar carrinho com confirmação
   const handleLimparCarrinho = () => {
@@ -85,50 +88,6 @@ export const Carrinho = ({ navigation }: Props) => {
     }
   };
 
-  // Função para abrir o modal de cupom
-  const abrirModalCupom = () => {
-    setModalCupomVisivel(true);
-    setCodigoCupom('');
-  };
-
-  // Função para fechar o modal de cupom
-  const fecharModalCupom = () => {
-    setModalCupomVisivel(false);
-    setCodigoCupom('');
-  };
-
-  // Função para aplicar cupom
-  const aplicarCupom = async () => {
-    if (!codigoCupom.trim()) {
-      Alert.alert("Atenção", "Por favor, digite um código de cupom.");
-      return;
-    }
-
-    setAplicandoCupom(true);
-    
-    // Simulando validação de cupom - você pode integrar com o serviço real depois
-    setTimeout(() => {
-      setAplicandoCupom(false);
-      
-      // Aqui você pode adicionar a lógica real de validação
-      // Por enquanto, vamos simular um cupom válido
-      const cupomValido = codigoCupom.toUpperCase() === 'DESCONTO10' || 
-                          codigoCupom.toUpperCase() === 'PRIMEIRACOMPRA';
-      
-      if (cupomValido) {
-        Alert.alert(
-          "Sucesso!", 
-          `Cupom "${codigoCupom}" aplicado com sucesso!`,
-          [{ text: "OK", onPress: fecharModalCupom }]
-        );
-      } else {
-        Alert.alert(
-          "Cupom inválido", 
-          "O código do cupom não é válido ou está expirado."
-        );
-      }
-    }, 1000);
-  };
   return (
   <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc' }} edges={['left', 'right']}>
     <ScrollView
@@ -220,14 +179,26 @@ export const Carrinho = ({ navigation }: Props) => {
           <Text style={styles.valor}>{dadosFormatados.subtotal}</Text>
         </View>
 
-        <TouchableOpacity 
-          style={styles.linhaValor}
-          onPress={abrirModalCupom}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.label}>Aplicar cupom</Text>
-          <Text style={styles.setaAplicarCupom}>›</Text>
-        </TouchableOpacity>
+        {dadosFormatados.cupomAplicado ? (
+          <View style={styles.linhaCupomAplicado}>
+            <View style={styles.cupomTextos}>
+              <Text style={styles.labelCupom}>Cupom: {dadosFormatados.cupomAplicado.codigo}</Text>
+              <Text style={styles.valorDesconto}>-{dadosFormatados.desconto}</Text>
+            </View>
+            <TouchableOpacity onPress={removerCupom} style={styles.botaoRemoverContainer}>
+              <Text style={styles.botaoRemoverCupom}>✕</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <TouchableOpacity 
+            style={styles.linhaValor}
+            onPress={abrirModalCupom}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.label}>Aplicar cupom</Text>
+            <Text style={styles.setaAplicarCupom}>›</Text>
+          </TouchableOpacity>
+        )}
 
         <View style={[styles.linhaValor, styles.linhaTotal]}>
           <Text style={styles.labelTotal}>Total</Text>
@@ -312,7 +283,7 @@ export const Carrinho = ({ navigation }: Props) => {
 
             <TouchableOpacity 
               style={[styles.botaoAplicar, aplicandoCupom && styles.botaoAplicarDesabilitado]}
-              onPress={aplicarCupom}
+              onPress={aplicarCupomComValidacao}
               disabled={aplicandoCupom}
             >
               {aplicandoCupom ? (
@@ -459,6 +430,41 @@ const styles = StyleSheet.create({
   setaAplicarCupom: {
     color: '#a3214d',
     fontSize: 24,
+    fontWeight: 'bold',
+  },
+
+  // Estilos para cupom aplicado
+  linhaCupomAplicado: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+
+  cupomTextos: {
+    flex: 1,
+    gap: 4,
+  },
+
+  labelCupom: {
+    color: '#a3214d',
+    fontSize: 16,
+  },
+
+  valorDesconto: {
+    color: '#a3214d',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+  botaoRemoverContainer: {
+    padding: 4,
+  },
+
+  botaoRemoverCupom: {
+    color: '#a3214d',
+    fontSize: 20,
     fontWeight: 'bold',
   },
 

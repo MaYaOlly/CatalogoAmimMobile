@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { RootStackParamList } from '../../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -37,6 +37,9 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
   const [pressionado2, setPressionado2] = React.useState(false); 
   const [pressionado3, setPressionado3] = React.useState(false); 
   const [pressionado4, setPressionado4] = React.useState(false);
+  
+  // Estado para controlar se já enviou o pedido
+  const [pedidoEnviado, setPedidoEnviado] = React.useState(false);
 
   // Função para obter o nome da forma de pagamento
   const getNomePagamento = () => {
@@ -62,10 +65,32 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
 
   // Função para confirmar e enviar pedido
   const handleEnviarPedido = async () => {
+    // Evita múltiplos envios
+    if (pedidoEnviado || processando) {
+      return;
+    }
+
+    setPedidoEnviado(true);
     const sucesso = await finalizarPedido();
+    
     if (sucesso) {
-      // Volta para a tela inicial após sucesso
-      navigation.navigate('Home');
+      // Mostra mensagem de sucesso e volta para Home
+      Alert.alert(
+        "Pedido Enviado!",
+        "Seu pedido foi enviado com sucesso! Continue a conversa no WhatsApp.",
+        [
+          {
+            text: "OK",
+            onPress: () => navigation.reset({
+              index: 0,
+              routes: [{ name: 'Home' }],
+            })
+          }
+        ]
+      );
+    } else {
+      // Se falhou, permite tentar novamente
+      setPedidoEnviado(false);
     }
   }; 
 
@@ -129,7 +154,6 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
         />
         <View style={styles.areaDeNomeTelefone}>
           <Text style={styles.nomeDoUsuario}>{usuario?.nome || 'Não informado'}</Text>
-          <Text style={styles.telefoneDoUsuario}>{usuario?.telefone || 'Telefone não informado'}</Text>
         </View>
       </View>
 
@@ -206,16 +230,19 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
 <TouchableOpacity
   style={[
     styles.botaoContinuar,
-    pressionadoBotaoContinuar && styles.botaoPressionadoContinuar
+    pressionadoBotaoContinuar && styles.botaoPressionadoContinuar,
+    (processando || pedidoEnviado) && styles.botaoDesabilitado
   ]}
   activeOpacity={0.8}
   onPressIn={() => setPressionadoBotaoContinuar(true)}
   onPressOut={() => setPressionadoBotaoContinuar(false)}
   onPress={handleEnviarPedido}
-  disabled={processando}
+  disabled={processando || pedidoEnviado}
 >
   {processando ? (
     <ActivityIndicator size="small" color="#ffffff" />
+  ) : pedidoEnviado ? (
+    <Text style={styles.textoDoBotaoContinuar}>PEDIDO ENVIADO ✓</Text>
   ) : (
     <Text style={styles.textoDoBotaoContinuar}>ENVIAR PEDIDO</Text>
   )}
@@ -266,6 +293,10 @@ const styles = StyleSheet.create({
   },
   botaoPressionadoContinuar: {
     backgroundColor: "#ff9ebf",
+  },
+  botaoDesabilitado: {
+    backgroundColor: "#ffb3d9",
+    opacity: 0.7,
   },
   balao: {
     backgroundColor: '#fce4ec',

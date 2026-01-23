@@ -92,11 +92,22 @@ export function useCupomViewModel() {
   // Filtrar cupons conforme texto de busca
   useEffect(() => {
     if (textoBusca.trim() === "") {
-      setCupomsFiltrados(cuponsDisponiveis);
+      // Filtrar apenas cupons válidos e ativos
+      const cuponsValidos = cuponsDisponiveis.filter((cupom: CupomNormalizado) => {
+        const hoje = new Date();
+        const dataValidade = new Date(cupom.dataValidade);
+        return cupom.ativo && dataValidade >= hoje;
+      });
+      setCupomsFiltrados(cuponsValidos);
     } else {
-      const filtrados = cuponsDisponiveis.filter((cupom: CupomNormalizado) =>
-        cupom.codigo.toLowerCase().includes(textoBusca.toLowerCase())
-      );
+      // Filtrar por busca e também por validade
+      const filtrados = cuponsDisponiveis.filter((cupom: CupomNormalizado) => {
+        const hoje = new Date();
+        const dataValidade = new Date(cupom.dataValidade);
+        const isValido = cupom.ativo && dataValidade >= hoje;
+        const matchBusca = cupom.codigo.toLowerCase().includes(textoBusca.toLowerCase());
+        return isValido && matchBusca;
+      });
       setCupomsFiltrados(filtrados);
     }
   }, [textoBusca, cuponsDisponiveis]);

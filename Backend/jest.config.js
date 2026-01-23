@@ -10,7 +10,8 @@ module.exports = {
   testMatch: [
     '**/__tests__/**/*.test.ts',
     '**/*.test.ts',
-    '**/*.spec.ts'
+    '**/*.spec.ts',
+    '**/*.integration.ts'
   ],
   
   // Diretório raiz dos testes

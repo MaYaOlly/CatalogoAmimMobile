@@ -1,4 +1,6 @@
 import { useCarrinho } from '../contexts/CarrinhoContext';
+import { useState } from 'react';
+import { Alert } from 'react-native';
 
 /**
  * ViewModel para a tela de Carrinho
@@ -10,12 +12,21 @@ export function useCarrinhoViewModel() {
     itens,
     quantidadeTotal,
     subtotal,
+    desconto,
     total,
     carregando,
+    cupomAplicado,
     removerDoCarrinho,
     atualizarQuantidade,
     limparCarrinho,
+    validarEAplicarCupom,
+    removerCupom,
   } = useCarrinho();
+
+  // Estados do modal de cupom
+  const [modalCupomVisivel, setModalCupomVisivel] = useState(false);
+  const [codigoCupom, setCodigoCupom] = useState('');
+  const [aplicandoCupom, setAplicandoCupom] = useState(false);
 
   // Função para formatar valor em reais
   const formatarPreco = (valor: number): string => {
@@ -56,12 +67,55 @@ export function useCarrinhoViewModel() {
   // Verificar se o carrinho está vazio
   const carrinhoVazio = itens.length === 0;
 
+  // Funções do modal de cupom
+  const abrirModalCupom = () => {
+    setModalCupomVisivel(true);
+    setCodigoCupom('');
+  };
+
+  const fecharModalCupom = () => {
+    setModalCupomVisivel(false);
+    setCodigoCupom('');
+  };
+
+  // Função para aplicar cupom com validação completa
+  const aplicarCupomComValidacao = async () => {
+    if (!codigoCupom.trim()) {
+      Alert.alert("Atenção", "Por favor, digite um código de cupom.");
+      return;
+    }
+
+    setAplicandoCupom(true);
+    
+    const resultado = await validarEAplicarCupom(codigoCupom.trim());
+    setAplicandoCupom(false);
+    
+    if (resultado.sucesso) {
+      Alert.alert(
+        "Sucesso!", 
+        resultado.mensagem,
+        [{ text: "OK", onPress: fecharModalCupom }]
+      );
+    } else {
+      Alert.alert(
+        "Cupom inválido", 
+        resultado.mensagem
+      );
+    }
+  };
+
   // Dados formatados para exibição
   const dadosFormatados = {
     subtotal: formatarPreco(subtotal),
+    desconto: formatarPreco(desconto),
     total: formatarPreco(total),
     quantidadeTotal,
     carrinhoVazio,
+    cupomAplicado: cupomAplicado ? {
+      codigo: cupomAplicado._codigo,
+      tipoDesconto: cupomAplicado._tipoDesconto,
+      valorDesconto: cupomAplicado._valorDesconto,
+    } : null,
   };
 
   // Retorna os dados e funções para a View
@@ -71,12 +125,24 @@ export function useCarrinhoViewModel() {
     carregando,
     dadosFormatados,
     
-    // Actions
+    // Estados do modal
+    modalCupomVisivel,
+    codigoCupom,
+    aplicandoCupom,
+    
+    // Actions do carrinho
     incrementarQuantidade,
     decrementarQuantidade,
     removerDoCarrinho,
     limparCarrinho,
     calcularPrecoItem,
     formatarPreco,
+    
+    // Actions do cupom
+    abrirModalCupom,
+    fecharModalCupom,
+    setCodigoCupom,
+    aplicarCupomComValidacao,
+    removerCupom,
   };
 }

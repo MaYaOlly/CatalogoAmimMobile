@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProdutoNormalizado } from '../ViewModel/useTelaInicialViewModel';
+import { CupomService } from '../model/services/cupomService';
+import { apiClient } from '../model/infrastructure/apiConfig';
+import { Cupom } from '../model/entities/typeCupom';
 
 // Tipo para item do carrinho
 export interface ItemCarrinho {
@@ -13,13 +16,17 @@ interface CarrinhoContextData {
   itens: ItemCarrinho[];
   quantidadeTotal: number;
   subtotal: number;
+  desconto: number;
   total: number;
   carregando: boolean;
+  cupomAplicado: Cupom | null;
   adicionarAoCarrinho: (produto: ProdutoNormalizado, quantidade: number) => Promise<void>;
   removerDoCarrinho: (produtoId: string) => Promise<void>;
   atualizarQuantidade: (produtoId: string, novaQuantidade: number) => Promise<void>;
   limparCarrinho: () => Promise<void>;
   obterQuantidadeProduto: (produtoId: string) => number;
+  validarEAplicarCupom: (codigo: string) => Promise<{ sucesso: boolean; mensagem: string }>;
+  removerCupom: () => void;
 }
 
 // Criação do contexto
@@ -32,12 +39,15 @@ interface CarrinhoProviderProps {
 
 // Chave para armazenar no AsyncStorage
 const STORAGE_KEY = '@CatalogoAmim:carrinho';
+const CUPOM_STORAGE_KEY = '@CatalogoAmim:cupom';
 
-// Taxa de entrega fixa (você pode mudar para dinâmica depois)
+// Instanciar serviço de cupom
+const cupomService = new CupomService(apiClient);
 
 export function CarrinhoProvider({ children }: CarrinhoProviderProps) {
   const [itens, setItens] = useState<ItemCarrinho[]>([]);
   const [carregando, setCarregando] = useState(true);
+  const [cupomAplicado, setCupomAplicado] = useState<Cupom | null>(null);
 
   // Carregar carrinho do AsyncStorage ao iniciar
   useEffect(() => {
@@ -58,6 +68,12 @@ export function CarrinhoProvider({ children }: CarrinhoProviderProps) {
       if (carrinhoArmazenado) {
         setItens(JSON.parse(carrinhoArmazenado));
       }
+      
+      // Carregar cupom aplicado
+      const cupomArmazenado = await AsyncStorage.getItem(CUPOM_STORAGE_KEY);
+      if (cupomArmazenado) {
+        setCupomAplicado(JSON.parse(cupomArmazenado));
+      }
     } catch (error) {
       console.error('Erro ao carregar carrinho:', error);
     } finally {
@@ -71,6 +87,19 @@ export function CarrinhoProvider({ children }: CarrinhoProviderProps) {
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(itens));
     } catch (error) {
       console.error('Erro ao salvar carrinho:', error);
+    }
+  };
+
+  // Função para salvar cupom no AsyncStorage
+  const salvarCupom = async (cupom: Cupom | null) => {
+    try {
+      if (cupom) {
+        await AsyncStorage.setItem(CUPOM_STORAGE_KEY, JSON.stringify(cupom));
+      } else {
+        await AsyncStorage.removeItem(CUPOM_STORAGE_KEY);
+      }
+    } catch (error) {
+      console.error('Erro ao salvar cupom:', error);
     }
   };
 
@@ -118,13 +147,65 @@ export function CarrinhoProvider({ children }: CarrinhoProviderProps) {
   // Função para limpar o carrinho
   const limparCarrinho = async () => {
     setItens([]);
+    setCupomAplicado(null);
     await AsyncStorage.removeItem(STORAGE_KEY);
+    await AsyncStorage.removeItem(CUPOM_STORAGE_KEY);
   };
 
   // Função para obter quantidade de um produto específico
   const obterQuantidadeProduto = (produtoId: string): number => {
     const item = itens.find(item => item.produto.id === produtoId);
     return item ? item.quantidade : 0;
+  };
+
+  // Função para validar e aplicar cupom
+  const validarEAplicarCupom = async (codigo: string): Promise<{ sucesso: boolean; mensagem: string }> => {
+    try {
+      // Buscar todos os cupons
+      const cupons = await cupomService.getCupons();
+      
+      // Buscar cupom pelo código
+      const cupomEncontrado = cupons.find(
+        c => c._codigo.toUpperCase() === codigo.toUpperCase()
+      );
+
+      if (!cupomEncontrado) {
+        return { sucesso: false, mensagem: 'Cupom não encontrado.' };
+      }
+
+      // Verificar se está ativo
+      if (!cupomEncontrado._ativo) {
+        return { sucesso: false, mensagem: 'Este cupom não está disponível.' };
+      }
+
+      // Verificar validade
+      const hoje = new Date();
+      const dataValidade = new Date(cupomEncontrado._dataValidade);
+      if (dataValidade < hoje) {
+        return { sucesso: false, mensagem: 'Este cupom já expirou.' };
+      }
+
+      // Aplicar cupom
+      setCupomAplicado(cupomEncontrado);
+      await salvarCupom(cupomEncontrado);
+
+      return { 
+        sucesso: true, 
+        mensagem: `Cupom ${cupomEncontrado._codigo} aplicado com sucesso!` 
+      };
+    } catch (error) {
+      console.error('Erro ao validar cupom:', error);
+      return { 
+        sucesso: false, 
+        mensagem: 'Erro ao validar cupom. Tente novamente.' 
+      };
+    }
+  };
+
+  // Função para remover cupom
+  const removerCupom = () => {
+    setCupomAplicado(null);
+    salvarCupom(null);
   };
 
   // Calcular quantidade total de itens
@@ -142,10 +223,15 @@ export function CarrinhoProvider({ children }: CarrinhoProviderProps) {
     return total + (precoNumerico * item.quantidade);
   }, 0);
 
+  // Calcular desconto do cupom
+  const desconto = cupomAplicado
+    ? cupomAplicado._tipoDesconto === 'percentual'
+      ? (subtotal * cupomAplicado._valorDesconto) / 100
+      : cupomAplicado._valorDesconto
+    : 0;
 
-
-  // Calcular total
-  const total = subtotal 
+  // Calcular total com desconto
+  const total = Math.max(subtotal - desconto, 0) 
 
   return (
     <CarrinhoContext.Provider
@@ -153,13 +239,17 @@ export function CarrinhoProvider({ children }: CarrinhoProviderProps) {
         itens,
         quantidadeTotal,
         subtotal,
+        desconto,
         total,
         carregando,
+        cupomAplicado,
         adicionarAoCarrinho,
         removerDoCarrinho,
         atualizarQuantidade,
         limparCarrinho,
         obterQuantidadeProduto,
+        validarEAplicarCupom,
+        removerCupom,
       }}
     >
       {children}

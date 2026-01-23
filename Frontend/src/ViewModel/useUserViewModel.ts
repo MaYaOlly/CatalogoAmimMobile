@@ -29,7 +29,7 @@ export function useUserViewModel() {
     nome: usuario.nome || "Usuário",
     email: usuario.email || "Não informado",
     telefone: usuario.telefone || "Não informado",
-    endereco: usuario.endereco || "Não informado",
+    endereco: usuario.endereco || "Endereço não cadastrado",
     iniciais: usuario.nome ? usuario.nome.substring(0, 2).toUpperCase() : "US"
   } : null;
 

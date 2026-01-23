@@ -1,6 +1,6 @@
-import { UsuarioController } from '../UsuarioController';
-import { UsuarioService } from '../../../../application/services/UsuarioService';
-import { Usuario } from '../../../../domain/models/class/Usuario';
+import { UsuarioController } from '../../infrastructure/http/controllers/UsuarioController';
+import { UsuarioService } from '../../application/services/UsuarioService';
+import { Usuario } from '../../domain/models/class/Usuario';
 import { FastifyRequest, FastifyReply } from 'fastify';
 
 describe('UsuarioController', () => {
@@ -27,7 +27,7 @@ describe('UsuarioController', () => {
 
   describe('criar', () => {
     it('deve criar usuário com sucesso', async () => {
-      const usuario = new Usuario('1', 'João', 'joao@email.com', 'hash', null, null);
+      const usuario = new Usuario('1', 'João', 'joao@email.com', 'hash', 'rua 10', null);
       mockRequest = { body: { nome: 'João', email: 'joao@email.com', senha: 'senha123' } };
       mockUsuarioService.criarUsuario.mockResolvedValue(usuario);
 
@@ -35,7 +35,7 @@ describe('UsuarioController', () => {
 
       expect(mockUsuarioService.criarUsuario).toHaveBeenCalledWith(mockRequest.body);
       expect(mockReply.status).toHaveBeenCalledWith(201);
-      expect(mockReply.send).toHaveBeenCalledWith({ id: '1', nome: 'João', email: 'joao@email.com' });
+      expect(mockReply.send).toHaveBeenCalledWith({ id: '1', nome: 'João', email: 'joao@email.com', endereco: "rua 10" });
     });
 
     it('deve retornar erro 400 quando falha', async () => {
@@ -51,7 +51,7 @@ describe('UsuarioController', () => {
 
   describe('autenticar', () => {
     it('deve autenticar usuário com sucesso', async () => {
-      const usuario = new Usuario('1', 'João', 'joao@email.com', 'hash', null, null);
+      const usuario = new Usuario('1', 'João', 'joao@email.com', 'hash', 'rua 10', null);
       mockRequest = { body: { email: 'joao@email.com', senha: 'senha123' } };
       mockUsuarioService.autenticar.mockResolvedValue(usuario);
 
@@ -63,6 +63,7 @@ describe('UsuarioController', () => {
         id: '1',
         nome: 'João',
         email: 'joao@email.com',
+        endereco: 'rua 10',
         message: 'Login bem-sucedido!',
       });
     });
