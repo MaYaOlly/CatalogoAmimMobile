@@ -7,6 +7,7 @@ import { RootStackParamList } from '../../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCadastroViewModel } from '../../../ViewModel/useCadastroViewModel';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 type TelaDeCadastroNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -59,9 +60,12 @@ const TelaDeCadastro = ({ navigation }: Props) => {
 
   return (
   <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc'  }}>
-    <ScrollView
-    contentContainerStyle={styles.container}
-    showsVerticalScrollIndicator={false}>
+    <KeyboardAwareScrollView
+      contentContainerStyle={styles.container}
+      enableOnAndroid
+      extraScrollHeight={24}
+      keyboardShouldPersistTaps="handled"
+    >
       <Text style ={styles.texto}>Insira as seguintes informações para criar uma conta</Text>
       
       {mensagemErro ? (
@@ -174,7 +178,7 @@ const TelaDeCadastro = ({ navigation }: Props) => {
         )}
       </TouchableOpacity>
 
-    </ScrollView>
+    </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }
@@ -197,7 +201,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: "95%",
-    height:"8%",
+    minHeight: 65, 
     backgroundColor: '#fce4ec',
     borderRadius: 30,
     padding: 20,
@@ -208,7 +212,7 @@ const styles = StyleSheet.create({
   botao2: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    height:"10%",
+    minHeight: 65,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -217,9 +221,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 6,
-    marginTop: 5,
-    position:"absolute",
-    bottom:30,
+    marginTop: 60,
+    marginBottom: 40, // espaço para teclado
 
   },
   textoDoBotao: {
@@ -255,7 +258,7 @@ const styles = StyleSheet.create({
   },
   containerSenha: {
     width: '95%',
-    height: '8%',
+    minHeight: 65, 
     backgroundColor: '#fce4ec',
     borderRadius: 30,
     marginVertical: 6,

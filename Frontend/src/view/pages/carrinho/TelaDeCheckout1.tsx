@@ -10,6 +10,7 @@ import { RootStackParamList } from '../../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useCheckoutViewModel } from '../../../ViewModel/useCheckoutViewModel';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 type TelaDeCheckout1NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -58,9 +59,13 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc' }} edges={['bottom']}>
-    <ScrollView
-    contentContainerStyle={styles.container}
-    showsVerticalScrollIndicator={false}>
+    <KeyboardAwareScrollView
+      contentContainerStyle={styles.container}
+      enableOnAndroid
+      extraScrollHeight={24}
+      keyboardShouldPersistTaps="handled"
+    >
+
     
 
     <View style={styles.balao}>
@@ -171,7 +176,7 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
   </View>
 </TouchableOpacity>
 
-    </ScrollView>
+</KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }

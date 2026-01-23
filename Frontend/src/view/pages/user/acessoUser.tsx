@@ -95,7 +95,9 @@ export const TelaDeConfiguracao = ({ navigation }: Props) => {
             </View>
           </View>
         </View>
-
+        <View style={styles.areaDoTextoSolto2}>
+          <Text style ={styles.texto2}>Informações da empresa</Text>
+        </View>
           <TouchableOpacity
             style={[ styles.botao4, pressionado2 && styles.botaoPressionado4
             ]}
