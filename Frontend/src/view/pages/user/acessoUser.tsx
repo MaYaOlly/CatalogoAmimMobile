@@ -96,69 +96,6 @@ export const TelaDeConfiguracao = ({ navigation }: Props) => {
           </View>
         </View>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <View style={styles.areaDoTextoSolto2}>
-          <Text style ={styles.texto2}>Informações da empresa</Text>
-        </View>
-        {/* LISTA DE OPÇÕES 
-          <TouchableOpacity
-            style={[ styles.botao4, pressionado4 && styles.botaoPressionado4
-            ]}
-              activeOpacity={0.8}
-              onPressIn={() => setPressionado4(true)}
-              onPressOut={() => setPressionado4(false)}
-              onPress={() => navigation.navigate('TelaDePerfil')}
-                  >
-          <View style={styles.balao}>
-              <View style={styles.iconeETexto}>
-                <Image
-                  source={require("../../../../assets/icons/user.png")}
-                  style={styles.figura1}
-                />
-                  <View style={styles.areaDoTexto}>
-                    <Text style={styles.nomeDoMeioDePagamento}>Dados da conta</Text>
-                  </View>
-               </View>
-          </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[ styles.botao4, pressionado3 && styles.botaoPressionado4
-            ]}
-              activeOpacity={0.8}
-              onPressIn={() => setPressionado3(true)}
-              onPressOut={() => setPressionado3(false)}
-              onPress={() => navigation.navigate('TelaDeNotificacoes')}
-                  >
-          <View style={styles.balao}>
-              <View style={styles.iconeETexto}>
-                <Image
-                  source={require("../../../../assets/icons/sino.png")}
-                  style={styles.figura1}
-                />
-                  <View style={styles.areaDoTexto}>
-                    <Text style={styles.nomeDoMeioDePagamento}>Notificações</Text>
-                  </View>
-               </View>
-          </View>
-          </TouchableOpacity>
-*/}
           <TouchableOpacity
             style={[ styles.botao4, pressionado2 && styles.botaoPressionado4
             ]}
@@ -267,15 +204,9 @@ const styles = StyleSheet.create({
     paddingVertical:12,
     borderRadius: 30,
     marginHorizontal: 16,
-    //paddingTop:-11,
-    //paddingBottom:-11,
     marginBottom: 16,
     justifyContent:"center",
-    //shadowColor: "#000",
-    //shadowOffset: { width: 0, height: 4 },
-    //shadowOpacity: 0.2,
-    //shadowRadius: 5,
-    //elevation: 6,
+
   },
 
   TextoDoBotaoDeSair: {
@@ -302,14 +233,12 @@ const styles = StyleSheet.create({
 
   footer: {
     backgroundColor: "#fcfbfc",
-    //paddingTop: 8,
     
   },
   botao4: {
     width: '100%',
     borderRadius: 30,
     alignSelf: 'center',
-    //marginBottom:20,
     marginTop:-10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
@@ -331,10 +260,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fce4ec',
     borderRadius: 30,
     paddingVertical: 24,
-    //marginBottom:20,
     flexDirection: 'row',
     alignItems: 'center',
-    //marginTop:-10,
   },
   
   nomeDoMeioDePagamento:{
@@ -345,7 +272,7 @@ const styles = StyleSheet.create({
   containerEsquerdo2:{
     backgroundColor: 'transparent',
     flexDirection: 'row',
-    alignItems: 'center', // 🔥 ícone e texto alinhados no meio
+    alignItems: 'center', 
   },
   containerDireito2:{
     backgroundColor: 'transparent',
@@ -369,9 +296,7 @@ const styles = StyleSheet.create({
   },
   areaDoTextoSolto:{
     alignSelf: 'flex-start',
-    //padding:20,
     paddingBottom:10,
-    //marginTop:-20,
   },
   texto: {
     color:"#a3214d",
@@ -379,9 +304,7 @@ const styles = StyleSheet.create({
   },
   areaDoTextoSolto2:{
     alignSelf: 'flex-start',
-    //padding:20,
     paddingBottom:20,
-    //marginTop:-20,
   },
   texto2: {
     color:"#a3214d",
@@ -389,10 +312,9 @@ const styles = StyleSheet.create({
   },
   infoSection: {
     marginBottom: 24,
-    width: "100%", // 🔥 essencial
+    width: "100%", 
     backgroundColor: '#fce4ec',
     borderRadius: 30,
-    //paddingBottom:16,
     padding: 16,
   },
   
@@ -406,8 +328,6 @@ const styles = StyleSheet.create({
   
   infoItem: {
     backgroundColor: "#fce4ec",
-    //padding: 16,
-    //paddingBottom: 2,
     marginBottom: 10,
 
   },
@@ -422,17 +342,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     color: "#a3214d",
-    //opacity: 0.8,
-    
   },
 
-  
   infoValue: {
     fontSize: 16,
     fontWeight: "400",
     color: "#a97989",
     flex: 1,
-    //textAlign: "left",
     marginLeft:25,
     
   },
@@ -441,7 +357,6 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#a97989",
     flex: 1,
-    //textAlign: "left",
     marginLeft: 40,
   },
   infoValueEmail: {
@@ -449,7 +364,6 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: "#a97989",
     flex: 1,
-    //textAlign: "left",
     marginLeft:40,
   },
   infoValueEndereco: {
@@ -457,7 +371,6 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: "#a97989",
     flex: 1,
-    //textAlign: "left",
     marginLeft:16,
   },
 

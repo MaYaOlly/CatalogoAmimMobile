@@ -23,45 +23,7 @@ export const QuemSomos = ({ navigation }: Props) => {
     Alert.alert("Copiado!", "Texto copiado para área de tranferência.");
   };
 
-  function handlePress(option: string) {
-    if (option === "WhatsApp") {
-      Alert.alert(
-        "WhatsApp",
-        " +55 (86) 9 9918-3229\n\nEntre em contato conosco para encomendas.",
-        [
-          { text: "Fechar", style: "cancel" },
-          {
-            text: "Copiar Número",
-            onPress: () => copiarParaAreaTransferencia("+55 (86) 9 9918-3229")
-          },
-        ]
-      );
-    } else if (option === "Instagram") {
-      Alert.alert(
-        "Instagram",
-        "@amimdocesesalgados\n\nAcompanhe nossas novidades, bolos e promoções ",
-        [
-          { text: "Fechar", style: "cancel" },
-          {
-            text: "Abrir Instagram",
-            onPress: () => Linking.openURL("https://www.instagram.com/amimdocesesalgados?igsh=MTU1M3VrZzN3NXJzcg==")
-          }
-        ]
-      );
-    } else if (option === "Localização") {
-      Alert.alert(
-        "Localização",
-        "Av. João Bandeira Monte\n, Nº 637 - Recreio \n Piripiri - PI, 64260-000",
-        [
-          { text: "Fechar", style: "cancel" },
-          {
-            text: "Copiar Endereço",
-            onPress: () => copiarParaAreaTransferencia("Av. João Bandeira Monte, Nº 637 - Recreio, Piripiri - PI, 64260-000")
-          },
-        ]
-      );
-    }
-  }
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc'  }}edges={['bottom']}>
@@ -81,19 +43,20 @@ export const QuemSomos = ({ navigation }: Props) => {
         {/* BOTÕES SOCIAIS */}
         <View style={styles.socialContainer}>
           {/* WhatsApp */}
-          <TouchableOpacity style={styles.socialButton} onPress={() => handlePress("WhatsApp")}>
+          <TouchableOpacity style={styles.socialButton} onPress={() => Linking.openURL("https://api.whatsapp.com/send/?phone=5586999183229&text&type=phone_number&app_absent=0")}>
             <Ionicons name="logo-whatsapp" size={40} color="#fcfbfc" />
             <Text style={styles.socialText}>WhatsApp</Text>
           </TouchableOpacity>
 
           {/* Instagram */}
-          <TouchableOpacity style={styles.socialButton} onPress={() => handlePress("Instagram")}>
+          <TouchableOpacity style={styles.socialButton} onPress={() => Linking.openURL("https://www.instagram.com/amimdocesesalgados?igsh=MTU1M3VrZzN3NXJzcg==")}>
             <Ionicons name="logo-instagram" size={40} color="#fcfbfc" />
             <Text style={styles.socialText}>Instagram</Text>
+            
           </TouchableOpacity>
 
           {/* Localização */}
-          <TouchableOpacity style={styles.socialButton} onPress={() => handlePress("Localização")}>
+          <TouchableOpacity style={styles.socialButton} onPress={() => Linking.openURL("https://maps.app.goo.gl/9A1yX5W6CuFWmz7w9?g_st=aw")}>
             <Ionicons name="location" size={40} color="#fcfbfc" />
             <Text style={styles.socialText}>Localização</Text>
           </TouchableOpacity>
