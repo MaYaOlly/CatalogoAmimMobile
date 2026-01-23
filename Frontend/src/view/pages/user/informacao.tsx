@@ -51,7 +51,7 @@ export const QuemSomos = ({ navigation }: Props) => {
     } else if (option === "Localização") {
       Alert.alert(
         "Localização",
-        "Av. João Bandeira Monte\n, Nº 637 - Recreio\nPiripiri - PI, 64260-000",
+        "Av. João Bandeira Monte\n, Nº 637 - Recreio \n Piripiri - PI, 64260-000",
         [
           { text: "Fechar", style: "cancel" },
           {
@@ -64,7 +64,7 @@ export const QuemSomos = ({ navigation }: Props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc'  }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc'  }}edges={['bottom']}>
     <ScrollView
     contentContainerStyle={styles.container}
     showsVerticalScrollIndicator={false}>
