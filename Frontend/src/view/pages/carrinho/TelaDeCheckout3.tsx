@@ -70,7 +70,7 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
   }; 
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc' }} edges={['bottom']}>
     <ScrollView
     contentContainerStyle={styles.container}
     showsVerticalScrollIndicator={false}>
@@ -233,8 +233,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fcfbfc',
     alignItems:"center",
     justifyContent: 'flex-start',
-    paddingTop: 13,
-    paddingBottom:50,
+    paddingTop: 40,
+    paddingBottom: 80,
   },
   areaDoTextoSolto:{
     alignSelf: 'flex-start',

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../../../navigation/types';
@@ -24,7 +25,16 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
   const { usuario } = useAuth();
   
   // ViewModel do checkout
-  const { endereco, atualizarEndereco, validarEndereco } = useCheckoutViewModel();
+  const { 
+    endereco, 
+    atualizarEndereco, 
+    validarEndereco,
+    cepComErro,
+    ruaComErro,
+    numeroComErro,
+    bairroComErro,
+    mensagemErro
+  } = useCheckoutViewModel();
   
   // serve para mudar a cor  do botão clicável
   const [pressionadoBotaoContinuar, setPressionadoBotaoContinuar] = React.useState(false);
@@ -47,6 +57,7 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
   }; 
 
   return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc' }} edges={['bottom']}>
     <ScrollView
     contentContainerStyle={styles.container}
     showsVerticalScrollIndicator={false}>
@@ -88,9 +99,15 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
     <View style={styles.areaDoTextoSolto}>
       <Text style ={styles.texto}>Endereço de entrega</Text>
     </View>
+    
+    {mensagemErro ? (
+      <View style={styles.containerErro}>
+        <Text style={styles.textoErro}>{mensagemErro}</Text>
+      </View>
+    ) : null}
       
       <TextInput
-        style={styles.textInput}
+        style={[styles.textInput, cepComErro && styles.inputComErro]}
         placeholder="CEP"
         placeholderTextColor="#a3214d"
         value={endereco.cep}
@@ -99,7 +116,7 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
       />
       
       <TextInput
-        style={styles.textInput}
+        style={[styles.textInput, ruaComErro && styles.inputComErro]}
         placeholder="Rua"
         placeholderTextColor="#a3214d"
         value={endereco.rua}
@@ -107,7 +124,7 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
       />
       
       <TextInput
-        style={styles.textInput}
+        style={[styles.textInput, numeroComErro && styles.inputComErro]}
         placeholder="Nº"
         placeholderTextColor="#a3214d"
         value={endereco.numero}
@@ -116,7 +133,7 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
       />
       
       <TextInput
-        style={styles.textInput}
+        style={[styles.textInput, bairroComErro && styles.inputComErro]}
         placeholder="Bairro"
         placeholderTextColor="#a3214d"
         value={endereco.bairro}
@@ -139,7 +156,7 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
   activeOpacity={0.8}
   onPressIn={() => setPressionadoBotaoContinuar(true)}
   onPressOut={() => setPressionadoBotaoContinuar(false)}
-  onPress={() => navigation.navigate('TelaDeCheckout2')}
+  onPress={handleContinuar}
 >
   <View style={styles.AreaInternaDoBotao}>
   <View style={styles.areaDoContinuar}>
@@ -155,6 +172,7 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
 </TouchableOpacity>
 
     </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -197,7 +215,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 6,
-    marginTop: 90,
+    marginTop: 30,
+    marginBottom: 30,
   },
   textoDoBotaoContinuar: {
     fontWeight: 'bold',
@@ -318,6 +337,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical:24,
     
+  },
+  inputComErro: {
+    borderWidth: 2,
+    borderColor: '#ff0000',
+    backgroundColor: '#ffe6e6',
+  },
+  containerErro: {
+    width: '95%',
+    backgroundColor: '#ffebee',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 10,
+    borderLeftWidth: 4,
+    borderLeftColor: '#ff0000',
+  },
+  textoErro: {
+    color: '#c62828',
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
 

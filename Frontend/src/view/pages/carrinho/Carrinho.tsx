@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Alert, Modal, TextInput, ActivityIndicator } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../../../navigation/types";
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -37,6 +37,11 @@ export const Carrinho = ({ navigation }: Props) => {
   const [pressionado2, setPressionado2] = React.useState(false); 
   const [pressionado4, setPressionado4] = React.useState(false);
   const [pressionado5, setPressionado5] = React.useState(false);
+
+  // Estados para o modal de cupom
+  const [modalCupomVisivel, setModalCupomVisivel] = React.useState(false);
+  const [codigoCupom, setCodigoCupom] = React.useState('');
+  const [aplicandoCupom, setAplicandoCupom] = React.useState(false);
 
   // Função para limpar carrinho com confirmação
   const handleLimparCarrinho = () => {
@@ -79,8 +84,53 @@ export const Carrinho = ({ navigation }: Props) => {
       );
     }
   };
+
+  // Função para abrir o modal de cupom
+  const abrirModalCupom = () => {
+    setModalCupomVisivel(true);
+    setCodigoCupom('');
+  };
+
+  // Função para fechar o modal de cupom
+  const fecharModalCupom = () => {
+    setModalCupomVisivel(false);
+    setCodigoCupom('');
+  };
+
+  // Função para aplicar cupom
+  const aplicarCupom = async () => {
+    if (!codigoCupom.trim()) {
+      Alert.alert("Atenção", "Por favor, digite um código de cupom.");
+      return;
+    }
+
+    setAplicandoCupom(true);
+    
+    // Simulando validação de cupom - você pode integrar com o serviço real depois
+    setTimeout(() => {
+      setAplicandoCupom(false);
+      
+      // Aqui você pode adicionar a lógica real de validação
+      // Por enquanto, vamos simular um cupom válido
+      const cupomValido = codigoCupom.toUpperCase() === 'DESCONTO10' || 
+                          codigoCupom.toUpperCase() === 'PRIMEIRACOMPRA';
+      
+      if (cupomValido) {
+        Alert.alert(
+          "Sucesso!", 
+          `Cupom "${codigoCupom}" aplicado com sucesso!`,
+          [{ text: "OK", onPress: fecharModalCupom }]
+        );
+      } else {
+        Alert.alert(
+          "Cupom inválido", 
+          "O código do cupom não é válido ou está expirado."
+        );
+      }
+    }, 1000);
+  };
   return (
-  <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc' }}>
+  <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc' }} edges={['left', 'right']}>
     <ScrollView
     contentContainerStyle={styles.container}
     showsVerticalScrollIndicator={false}>
@@ -166,10 +216,18 @@ export const Carrinho = ({ navigation }: Props) => {
 
       <View style={styles.valoresDoProduto}> 
         <View style={styles.linhaValor}>
-          <Text style={styles.label}>Total</Text>
+          <Text style={styles.label}>Subtotal</Text>
           <Text style={styles.valor}>{dadosFormatados.subtotal}</Text>
         </View>
 
+        <TouchableOpacity 
+          style={styles.linhaValor}
+          onPress={abrirModalCupom}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.label}>Aplicar cupom</Text>
+          <Text style={styles.setaAplicarCupom}>›</Text>
+        </TouchableOpacity>
 
         <View style={[styles.linhaValor, styles.linhaTotal]}>
           <Text style={styles.labelTotal}>Total</Text>
@@ -210,6 +268,63 @@ export const Carrinho = ({ navigation }: Props) => {
         <Text style={styles.textoDoBotao}>CONTINUAR PEDIDO </Text>
         </TouchableOpacity>
     </ScrollView>
+
+    {/* Modal de Cupom */}
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={modalCupomVisivel}
+      onRequestClose={fecharModalCupom}
+    >
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContainer}>
+          {/* Header do Modal */}
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitulo}>Adicionar Cupom</Text>
+          </View>
+
+          {/* Descrição */}
+          <Text style={styles.modalDescricao}>
+            Digite o código do seu cupom de desconto abaixo:
+          </Text>
+
+          {/* Input do Cupom */}
+          <TextInput
+            style={styles.inputCupom}
+            placeholder="Ex: DESCONTO10"
+            placeholderTextColor="#ff9ebf"
+            value={codigoCupom}
+            onChangeText={setCodigoCupom}
+            autoCapitalize="characters"
+            maxLength={20}
+            editable={!aplicandoCupom}
+          />
+
+          {/* Botões */}
+          <View style={styles.modalBotoes}>
+            <TouchableOpacity 
+              style={styles.botaoCancelar}
+              onPress={fecharModalCupom}
+              disabled={aplicandoCupom}
+            >
+              <Text style={styles.botaoCancelarTexto}>Cancelar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={[styles.botaoAplicar, aplicandoCupom && styles.botaoAplicarDesabilitado]}
+              onPress={aplicarCupom}
+              disabled={aplicandoCupom}
+            >
+              {aplicandoCupom ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={styles.botaoAplicarTexto}>Aplicar</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
   </SafeAreaView>
 
   );
@@ -221,8 +336,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fcfbfc',
     alignItems:"center",
     justifyContent: 'flex-start',
-    //paddingTop: 13,
-    paddingBottom:50, //Aumente aqui o tamanho da página se algum conteudo ficar por tras dos botes da navbar do android.
+    paddingTop: 10,
+    paddingBottom: 100,
   },
   logo: {
     width: 120,
@@ -315,6 +430,38 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+
+  // Botão de aplicar cupom dentro do card de valores
+  btnAplicarCupom: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 5,
+    borderTopWidth: 1,
+    borderTopColor: '#a3214d40',
+    marginTop: 8,
+  },
+
+  iconeCupomPequeno: {
+    width: 24,
+    height: 20,
+  },
+
+  textoAplicarCupom: {
+    flex: 1,
+    marginLeft: 10,
+    color: '#a3214d',
+    fontSize: 15,
+    fontWeight: '600',
+  },
+
+  setaAplicarCupom: {
+    color: '#a3214d',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+
   areaDeCupom: {
     padding:"5%",
     gap: 12,
@@ -470,6 +617,131 @@ const styles = StyleSheet.create({
   botaoRemoverTexto: {
     color: '#fff',
     fontSize: 18,
+    fontWeight: 'bold',
+  },
+
+  // Estilos do Modal de Cupom
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  
+  modalContainer: {
+    backgroundColor: '#fcfbfc',
+    borderRadius: 30,
+    padding: 25,
+    width: '85%',
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 10,
+  },
+
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
+    position: 'relative',
+  },
+
+  modalIcon: {
+    width: 35,
+    height: 28,
+    marginRight: 10,
+  },
+
+  modalTitulo: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#a3214d',
+  },
+
+  botaoFechar: {
+    position: 'absolute',
+    right: 0,
+    top: -5,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: '#fce4ec',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  botaoFecharTexto: {
+    color: '#a3214d',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+
+  modalDescricao: {
+    color: '#a3214d',
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+
+  inputCupom: {
+    backgroundColor: '#fce4ec',
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    fontSize: 16,
+    color: '#a3214d',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+    borderWidth: 2,
+    borderColor: '#ff9ebf',
+  },
+
+  modalBotoes: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+
+  botaoCancelar: {
+    flex: 1,
+    backgroundColor: '#fce4ec',
+    paddingVertical: 14,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  botaoCancelarTexto: {
+    color: '#a3214d',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+  botaoAplicar: {
+    flex: 1,
+    backgroundColor: '#ff4da6',
+    paddingVertical: 14,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+
+  botaoAplicarDesabilitado: {
+    backgroundColor: '#ff9ebf',
+    opacity: 0.7,
+  },
+
+  botaoAplicarTexto: {
+    color: '#fff',
+    fontSize: 16,
     fontWeight: 'bold',
   },
 });

@@ -1,7 +1,7 @@
 //import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../navigation/types';
@@ -24,6 +24,9 @@ const TelaDeLogin = ({ navigation }: Props) => {
     senha,
     senhaVisivel,
     carregando,
+    emailComErro,
+    senhaComErro,
+    mensagemErro,
     setEmail,
     setSenha,
     toggleSenhaVisivel,
@@ -36,21 +39,13 @@ const TelaDeLogin = ({ navigation }: Props) => {
 
   // Função para lidar com o login
   const handleLogin = async () => {
-    // Validação básica
-    if (!email.trim() || !senha.trim()) {
-      Alert.alert("Atenção", "Por favor, preencha email e senha.");
-      return;
-    }
-
     const resultado = await realizarLogin();
     
     if (resultado.sucesso) {
       // Login bem-sucedido - navega para Home
       navigation.replace('Home');
-    } else {
-      // Login falhou - mostra mensagem de erro
-      Alert.alert("Erro ao fazer login", resultado.mensagem);
     }
+    // Se falhou, o erro já está visível na tela via mensagemErro
   };
   return (
     
@@ -64,8 +59,14 @@ const TelaDeLogin = ({ navigation }: Props) => {
         style={styles.logo}
       />
       
+      {mensagemErro ? (
+        <View style={styles.containerErro}>
+          <Text style={styles.textoErro}>{mensagemErro}</Text>
+        </View>
+      ) : null}
+      
       <TextInput
-        style={styles.textInput}
+        style={[styles.textInput, emailComErro && styles.inputComErro]}
         placeholder="E-mail"
         placeholderTextColor="#a3214d"
         value={email}
@@ -75,7 +76,7 @@ const TelaDeLogin = ({ navigation }: Props) => {
         editable={!carregando}
       />
 
-      <View style={styles.containerSenha}>
+      <View style={[styles.containerSenha, senhaComErro && styles.inputComErro]}>
         <TextInput
           style={styles.inputSenha}
           placeholder="Senha"
@@ -229,6 +230,26 @@ const styles = StyleSheet.create({
   
   botaoOlho: {
     paddingLeft: 10,
+  },
+  inputComErro: {
+    borderWidth: 2,
+    borderColor: '#ff0000',
+    backgroundColor: '#ffe6e6',
+  },
+  containerErro: {
+    width: '95%',
+    backgroundColor: '#ffebee',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 10,
+    borderLeftWidth: 4,
+    borderLeftColor: '#ff0000',
+  },
+  textoErro: {
+    color: '#c62828',
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
 

@@ -28,6 +28,13 @@ const TelaDeCadastro = ({ navigation }: Props) => {
     telefone,
     senhaVisivel,
     carregando,
+    mensagemErro,
+    nomeComErro,
+    emailComErro,
+    senhaComErro,
+    confirmarSenhaComErro,
+    enderecoComErro,
+    telefoneComErro,
     setNome,
     setEmail,
     setSenha,
@@ -47,6 +54,7 @@ const TelaDeCadastro = ({ navigation }: Props) => {
     if (sucesso) {
       navigation.replace('Home');
     }
+    // Se falhou, o erro já está visível na tela via mensagemErro
   }; 
 
   return (
@@ -56,8 +64,14 @@ const TelaDeCadastro = ({ navigation }: Props) => {
     showsVerticalScrollIndicator={false}>
       <Text style ={styles.texto}>Insira as seguintes informações para criar uma conta</Text>
       
+      {mensagemErro ? (
+        <View style={styles.containerErro}>
+          <Text style={styles.textoErro}>{mensagemErro}</Text>
+        </View>
+      ) : null}
+      
       <TextInput
-        style={styles.textInput}
+        style={[styles.textInput, nomeComErro && styles.inputComErro]}
         placeholder="Nome"
         placeholderTextColor="#a3214d"
         value={nome}
@@ -66,7 +80,7 @@ const TelaDeCadastro = ({ navigation }: Props) => {
       />
 
       <TextInput
-        style={styles.textInput}
+        style={[styles.textInput, emailComErro && styles.inputComErro]}
         placeholder="E-mail"
         placeholderTextColor="#a3214d"
         value={email}
@@ -76,7 +90,7 @@ const TelaDeCadastro = ({ navigation }: Props) => {
         editable={!carregando}
       />
 
-      <View style={styles.containerSenha}>
+      <View style={[styles.containerSenha, senhaComErro && styles.inputComErro]}>
         <TextInput
           style={styles.inputSenha}
           placeholder="Senha"
@@ -99,7 +113,7 @@ const TelaDeCadastro = ({ navigation }: Props) => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.containerSenha}>
+      <View style={[styles.containerSenha, confirmarSenhaComErro && styles.inputComErro]}>
         <TextInput
           style={styles.inputSenha}
           placeholder="Confirmar senha"
@@ -123,7 +137,7 @@ const TelaDeCadastro = ({ navigation }: Props) => {
       </View>
 
       <TextInput
-        style={styles.textInput}
+        style={[styles.textInput, enderecoComErro && styles.inputComErro]}
         placeholder="Endereço"
         placeholderTextColor="#a3214d"
         value={endereco}
@@ -132,7 +146,7 @@ const TelaDeCadastro = ({ navigation }: Props) => {
       />
 
       <TextInput
-        style={styles.textInput}
+        style={[styles.textInput, telefoneComErro && styles.inputComErro]}
         placeholder="Telefone"
         placeholderTextColor="#a3214d"
         value={telefone}
@@ -258,6 +272,26 @@ const styles = StyleSheet.create({
   
   botaoOlho: {
     paddingLeft: 10,
+  },
+  inputComErro: {
+    borderWidth: 2,
+    borderColor: '#ff0000',
+    backgroundColor: '#ffe6e6',
+  },
+  containerErro: {
+    width: '95%',
+    backgroundColor: '#ffebee',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 10,
+    borderLeftWidth: 4,
+    borderLeftColor: '#ff0000',
+  },
+  textoErro: {
+    color: '#c62828',
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
   },
   
   
