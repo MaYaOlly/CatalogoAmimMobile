@@ -5,22 +5,24 @@
  * registra plugins (CORS, Swagger), rotas e inicializa o servidor.
  */
 
+import 'dotenv/config';
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { produtoRoutes } from "./infrastructure/http/routes/produtoRoutes";
 import { pedidoRoutes } from "./infrastructure/http/routes/pedidoRoutes";
 import { usuarioRoutes } from "./infrastructure/http/routes/usuarioRoutes";
 import { cupomRoutes } from "./infrastructure/http/routes/cupomRoutes";
+import { prisma } from "./infrastructure/prisma/PrismaClient";
 
 /** Instância do servidor Fastify com logger habilitado */
 const app = Fastify({ logger: true });
 
 /**
  * Registra o plugin CORS para permitir requisições cross-origin.
- * Configurado para aceitar requisições de qualquer origem (development).
+ * Em produção, configure CORS_ORIGIN com domínios específicos.
  */
 app.register(cors, {
-  origin: true
+  origin: process.env.CORS_ORIGIN || true
 });
 
 // Registrar Swagger
@@ -68,10 +70,68 @@ app.get("/", async () => {
   return { message: "Hello World" };
 });
 
-/** Porta em que o servidor irá escutar */
-const PORT = 3333;
+/** Health check endpoint para monitoramento */
+app.get("/health", async () => {
+  try {
+    // Verifica conexão com o banco
+    await prisma.$queryRaw`SELECT 1`;
+    return { 
+      status: "ok", 
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      environment: process.env.NODE_ENV || 'development'
+    };
+  } catch (error) {
+    return { 
+      status: "error", 
+      timestamp: new Date().toISOString(),
+      error: error instanceof Error ? error.message : 'Unknown error'
+    };
+  }
+});
+
+/** Porta e host configuráveis via variáveis de ambiente */
+const PORT = Number(process.env.PORT) || 3333;
+const HOST = process.env.HOST || '0.0.0.0';
+
+/** 
+ * Graceful shutdown - Fecha conexões adequadamente ao desligar
+ */
+const gracefulShutdown = async (signal: string) => {
+  console.log(`\n${signal} recebido. Encerrando aplicação gracefully...`);
+  try {
+    await app.close();
+    await prisma.$disconnect();
+    console.log('✅ Aplicação encerrada com sucesso');
+    process.exit(0);
+  } catch (error) {
+    console.error('❌ Erro ao encerrar aplicação:', error);
+    process.exit(1);
+  }
+};
+
+// Listeners para sinais de término
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+
+// Tratamento de erros não capturados
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('❌ Uncaught Exception:', error);
+  gracefulShutdown('uncaughtException');
+});
 
 /** Inicia o servidor na porta especificada */
-app.listen({ port: PORT, host: '0.0.0.0' }, () => {
-  console.log(`🚀 API Fastify rodando em http://localhost:${PORT}`);
+app.listen({ port: PORT, host: HOST }, (err, address) => {
+  if (err) {
+    console.error('❌ Erro ao iniciar servidor:', err);
+    process.exit(1);
+  }
+  console.log(`🚀 API Fastify rodando em ${address}`);
+  console.log(`📚 Documentação Swagger em ${address}/docs`);
+  console.log(`🏥 Health check em ${address}/health`);
+  console.log(`🌍 Ambiente: ${process.env.NODE_ENV || 'development'}`);
 });

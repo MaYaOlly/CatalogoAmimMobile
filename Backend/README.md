@@ -32,7 +32,7 @@ O **Catálogo Amim Mobile Backend** é uma API robusta desenvolvida para suporta
 
 A aplicação foi construída seguindo os princípios de **Clean Architecture** e **Domain-Driven Design (DDD)**, garantindo:
 - ✅ Separação clara de responsabilidades
-- ✅ Alta testabilidade (cobertura >70%)
+- ✅ Alta testabilidade (cobertura **80.57%** - 137 testes passando)
 - ✅ Fácil manutenção e escalabilidade
 - ✅ Independência de frameworks
 

@@ -32,13 +32,15 @@ module.exports = {
   // Reporters de cobertura
   coverageReporters: ['text', 'lcov', 'html'],
   
-  // Limites mínimos de cobertura (opcional)
+  // Limites mínimos de cobertura
+  // Configurado para cobertura TOTAL (unitários + integração combinados)
+  // Para ver: npm run test:coverage
   coverageThreshold: {
     global: {
-      branches: 70,
-      functions: 70,
-      lines: 70,
-      statements: 70
+      branches: 90,      // 95.17% atual ✅
+      functions: 85,     // 89.62% atual ✅
+      lines: 75,         // 79.83% atual ✅
+      statements: 75     // 80.57% atual ✅
     }
   },
   
