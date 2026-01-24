@@ -4,7 +4,7 @@ import { IPedidoRepository } from '../../domain/models/interfaces/IPedidoReposit
 import { IProdutoRepository } from '../../domain/models/interfaces/IProdutoRepository';
 import { IUsuarioRepository } from '../../domain/models/interfaces/IUsuarioRepository';
 import { CupomService } from './CupomService';
-import { CriarPedidoDTO, IPedidoService } from '../interfaces/IPedidoService';
+import { CriarPedidoDTO, IPedidoService } from '../../domain/models/interfaces/IPedidoService';
 
 
 export class PedidoService implements IPedidoService {
@@ -69,11 +69,13 @@ export class PedidoService implements IPedidoService {
     // 4. Se um código de cupom foi fornecido, buscar e aplicar
     if (dados.cupomCodigo) {
       const cupom = await this.cupomService.validarCupom(dados.cupomCodigo);
-      if (!cupom) {
-        throw new Error('O cupom de desconto informado é inválido.');
+      if (!cupom || cupom.ativo != true) {
+        throw new Error('O cupom de desconto informado é inválido ou não esta mais ativo.');
       }
       // A entidade Pedido é responsável por validar e aplicar o cupom
       novoPedido.aplicarCupom(cupom);
+      // Após o uso, desativar o cupom
+      await this.cupomService.desativarCupom(cupom.codigo);
     }
 
     // 5. Persistir o pedido completo usando o repositório

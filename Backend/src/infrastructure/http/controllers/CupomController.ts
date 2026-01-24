@@ -43,4 +43,13 @@ export class CupomController {
       reply.status(400).send({ message: error.message });
     }
   }
+  
+  async listarCupons(_request: FastifyRequest, reply: FastifyReply) {
+    try{
+      const cupons = await this.cupomService.buscarCupons();
+      reply.send(cupons);
+    }catch(error:any){
+      reply.status(400).send({ message: error.message });
+    }
+  }
 }

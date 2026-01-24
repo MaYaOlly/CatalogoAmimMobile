@@ -22,6 +22,7 @@ export class UsuarioController {
         id: novoUsuario.id,
         nome: novoUsuario.nome,
         email: novoUsuario.email,
+        endereco: novoUsuario.endereco,
       };
 
       reply.status(201).send(resposta);
@@ -45,6 +46,7 @@ export class UsuarioController {
         id: usuario.id,
         nome: usuario.nome,
         email: usuario.email,
+        endereco: usuario.endereco,
         message: "Login bem-sucedido!"
       };
 

@@ -1,17 +1,17 @@
 import { AxiosInstance } from "axios";
 import { Produto } from "../entities/typeProduto";
+import { formatarMensagemErro } from "../infrastructure/errorUtils";
 
 export class ProdutoService {
-    private url: AxiosInstance;
-    constructor(url: AxiosInstance) {
+    constructor(private url: AxiosInstance) {
         this.url = url;
     }
     async getProdutos(): Promise<Produto[]> {
         try {
             const { data } = await this.url.get<Produto[]>('/produtos');
             return data;
-        }catch(err: any){
-            throw new Error(err.message);
+        } catch (err: any) {
+            throw new Error(formatarMensagemErro(err));
         }
     }
 }

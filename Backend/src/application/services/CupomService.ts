@@ -1,6 +1,6 @@
 import { Cupom, TipoDesconto } from "../../domain/models/class/Cupom";
 import { ICupomRepository } from "../../domain/models/interfaces/ICupomRepository";
-import { CriarCupomDTO, ICupomService } from "../interfaces/IcupomService";
+import { CriarCupomDTO, ICupomService } from "../../domain/models/interfaces/IcupomService";
 /**
  * Service de gestão de cupons.
  * Implementa a lógica de negócio para operações com cupons de desconto.
@@ -34,6 +34,14 @@ export class CupomService implements ICupomService {
     );
 
     return this.cupomRepository.criar(novoCupom);
+  }
+  /**
+   * Lista todos os cupons cadastrados.
+   * @returns Promise que resolve para um array de cupons
+   */
+  
+  async buscarCupons(): Promise<Cupom[]> {
+    return await this.cupomRepository.listarCupons();
   }
 
   /**

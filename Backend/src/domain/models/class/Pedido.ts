@@ -1,10 +1,9 @@
 import { ItemPedido } from "./ItemPedido";
-import { Usuario } from "./Usuario";
 import { Cupom } from "./Cupom";
 
 /** Representa os possíveis status de um pedido durante seu ciclo de vida */
 export type StatusPedido = "realizado" | "pendente" | "confirmado" | "enviado" | "entregue" | "cancelado";
-export type FormaPagamento = "pix" | "especie";
+export type FormaPagamento = "pix" | "especie" | "Credito" | "Debito";
 
 /**
  * Representa um pedido do sistema com seus itens, status e validações.

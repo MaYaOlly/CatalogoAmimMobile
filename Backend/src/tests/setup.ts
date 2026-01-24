@@ -8,7 +8,9 @@ jest.setTimeout(10000);
 
 // Mock de variáveis de ambiente para testes
 process.env.NODE_ENV = 'test';
-process.env.DATABASE_URL = 'file:./test.db';
+
+// Para testes de integração, use o banco real
+// Certifique-se de ter um .env com DATABASE_URL válida
 
 beforeAll(() => {
   jest.spyOn(console, 'error').mockImplementation(() => {});

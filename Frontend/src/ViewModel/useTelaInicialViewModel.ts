@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
-import { ProdutoService } from "../model/services/produtoService";
+import { useState, useEffect, useCallback } from "react";
 import { Produto } from "../model/entities/typeProduto";
-import axios from "axios";
+import { useCarrinho } from "../contexts/CarrinhoContext";
+import { ProdutoService } from "../model/services/produtoService";
+import { apiClient } from "../model/infrastructure/apiConfig";
 
 // Interface para o formato normalizado de produto (sem underscores)
 export interface ProdutoNormalizado {
@@ -51,14 +52,12 @@ const produtosExemplo: ProdutoNormalizado[] = [
   },
 ];
 
-// Configuração da API
-const api = axios.create({
-  baseURL: "http://10.0.2.2:3333"
-});
-
-const produtoService = new ProdutoService(api);
+const produtoService = new ProdutoService(apiClient);
 
 export function useTelaInicialViewModel() {
+  // Obtém funções do contexto do carrinho
+  const { adicionarAoCarrinho: adicionarAoCarrinhoContexto } = useCarrinho();
+  
   // Estados
   const [produtos, setProdutos] = useState<ProdutoNormalizado[]>([]);
   const [carregando, setCarregando] = useState(true);
@@ -98,55 +97,70 @@ export function useTelaInicialViewModel() {
     buscarProdutos();
   }, []);
 
-  // Actions
-  const abrirDetalhesProduto = (produto: ProdutoNormalizado) => {
+  // Actions - Memoizadas com useCallback
+  const abrirDetalhesProduto = useCallback((produto: ProdutoNormalizado) => {
     setProdutoSelecionado(produto);
     setModalVisible(true);
-  };
+  }, []);
 
-  const fecharModal = () => {
+  const fecharModal = useCallback(() => {
     setModalVisible(false);
     setProdutoSelecionado(null);
-  };
+  }, []);
 
-  const adicionarItem = (produtoId: string) => {
+  const adicionarItem = useCallback((produtoId: string) => {
     setQuantidades(prev => ({
       ...prev,
       [produtoId]: (prev[produtoId] || 0) + 1
     }));
-    console.log(`Adicionado produto ${produtoId}. Quantidade: ${(quantidades[produtoId] || 0) + 1}`);
-  };
+  }, []);
 
-  const removerItem = (produtoId: string) => {
-    if (quantidades[produtoId] && quantidades[produtoId] > 0) {
+  const removerItem = useCallback((produtoId: string) => {
+    setQuantidades(prev => {
+      const quantidadeAtual = prev[produtoId] || 0;
+      if (quantidadeAtual > 0) {
+        return {
+          ...prev,
+          [produtoId]: quantidadeAtual - 1
+        };
+      }
+      return prev;
+    });
+  }, []);
+
+  const adicionarAoCarrinho = useCallback(() => {
+    if (produtoSelecionado && quantidades[produtoSelecionado.id] && quantidades[produtoSelecionado.id] > 0) {
+      // Adiciona ao carrinho usando o contexto
+      adicionarAoCarrinhoContexto(produtoSelecionado, quantidades[produtoSelecionado.id]);
+      
+      // Mostra mensagem de sucesso
+      alert(`✅ ${quantidades[produtoSelecionado.id]}x ${produtoSelecionado.nome} adicionado ao carrinho!`);
+      
+      // Reseta a quantidade do produto no modal
       setQuantidades(prev => ({
         ...prev,
-        [produtoId]: prev[produtoId] - 1
+        [produtoSelecionado.id]: 0
       }));
-      console.log(`Removido produto ${produtoId}. Quantidade: ${quantidades[produtoId] - 1}`);
-    }
-  };
-
-  const adicionarAoCarrinho = () => {
-    if (produtoSelecionado && quantidades[produtoSelecionado.id] && quantidades[produtoSelecionado.id] > 0) {
-      alert(`✅ ${quantidades[produtoSelecionado.id]}x ${produtoSelecionado.nome} adicionado ao carrinho!`);
-      fecharModal();
+      
+      // Fecha o modal
+      setModalVisible(false);
+      setProdutoSelecionado(null);
     } else {
       alert('⚠️ Selecione ao menos 1 item');
     }
-  };
+  }, [produtoSelecionado, quantidades, adicionarAoCarrinhoContexto]);
 
-  const avancarCarrossel = () => {
-    setIndexCarrossel(prev => (prev + 1) % 2);
-  };
+  const avancarCarrossel = useCallback(() => {
+    setIndexCarrossel(prev => (prev + 1) % 3);
+  }, []);
 
-  const voltarCarrossel = () => {
-    setIndexCarrossel(prev => (prev === 0 ? 1 : prev - 1));
-  };
+  const voltarCarrossel = useCallback(() => {
+    setIndexCarrossel(prev => (prev === 0 ? 2 : prev - 1));
+  }, []);
 
-  const irParaIndiceCarrossel = (index: number) => {
+  const irParaIndiceCarrossel = useCallback((index: number) => {
     setIndexCarrossel(index);
-  };
+  }, []);
 
   // Retorna o estado e as actions
   return {

@@ -11,7 +11,11 @@ export interface ICupomRepository {
    * @returns Promise que resolve para o cupom criado com ID gerado
    */
   criar(cupom: Cupom): Promise<Cupom>;
-  
+  /**
+   * Retorna todos os cupons do repositório.
+   * @returns Promise que resolve para um array com todos os cupons
+   */
+  listarCupons(): Promise<Cupom[]>;
   /**
    * Busca um cupom pelo seu código.
    * @param codigo - Código do cupom a ser buscado

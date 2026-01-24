@@ -1,7 +1,7 @@
 import { Usuario } from '../../domain/models/class/Usuario';
 import { IUsuarioRepository } from '../../domain/models/interfaces/IUsuarioRepository';
 import bcrypt from 'bcryptjs';
-import { IUsuarioService } from '../interfaces/IUsuarioService';
+import { IUsuarioService } from '../../domain/models/interfaces/IUsuarioService';
 
 /**
  * Interface para definir os dados esperados na criação de um usuário.

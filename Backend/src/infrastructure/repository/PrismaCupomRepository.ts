@@ -32,6 +32,24 @@ export class PrismaCupomRepository implements ICupomRepository {
       cupomData.ativo
     );
   }
+  /**
+   * Retorna todos os cupons do banco de dados.
+   * @returns Promise que resolve para um array com todos os cupons
+   */
+  async listarCupons(): Promise<Cupom[]> {
+    const cuponsData = await this.prisma.cupom.findMany();
+    return cuponsData.map(
+      (cupomData) =>
+        new Cupom(
+          cupomData.id,
+          cupomData.codigo,
+          cupomData.tipoDesconto as TipoDesconto,
+          cupomData.valorDesconto,
+          cupomData.dataValidade,
+          cupomData.ativo
+        )
+    );
+  }
 
   /**
    * Busca um cupom no banco de dados pelo seu código.
@@ -58,7 +76,7 @@ export class PrismaCupomRepository implements ICupomRepository {
    * Cria um novo cupom no banco de dados.
    * @param cupom - Entidade Cupom a ser persistida
    * @returns Promise que resolve para o cupom criado com ID gerado
-   */  /**
+   */ /**
    * Atualiza um cupom existente no banco de dados.
    * @param cupom - Entidade Cupom com os dados atualizados
    * @returns Promise que resolve para o cupom atualizado
