@@ -143,7 +143,7 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
                     activeOpacity={0.8}
                     onPressIn={() => setPressionado4(true)}
                     onPressOut={() => setPressionado4(false)}
-                    onPress={() => navigation.navigate('TelaDeCheckout1')}
+                    onPress={() => navigation.popToTop()}
         >
     <View style={styles.areaDeDadosDoConsumidor}>
       <View style={styles.containerEsquerdo}>
@@ -191,7 +191,7 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
       activeOpacity={0.8}
       onPressIn={() => setPressionado3(true)}
       onPressOut={() => setPressionado3(false)}
-      onPress={() => navigation.navigate('TelaDeCheckout2')}
+      onPress={() => navigation.replace('TelaDeCheckout2')}
           >
   <View style={styles.areaDePagamentoDoConsumidor}>
       <View style={styles.containerEsquerdo2}>
