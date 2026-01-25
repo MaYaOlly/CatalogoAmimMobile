@@ -59,7 +59,7 @@ const TelaDeCadastro = ({ navigation }: Props) => {
   }; 
 
   return (
-  <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc'  }}>
+  <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc'  }}edges={['bottom']}>
     <KeyboardAwareScrollView
       contentContainerStyle={styles.container}
       enableOnAndroid
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: '#fcfbfc',
     alignItems:"center",
-    paddingTop: 20,
+    paddingTop: 10,
   },
   texto: {
     color:"#a3214d",

@@ -36,7 +36,8 @@ function App() {
 
           <Stack.Screen 
           name="Cadastrar" 
-          component={TelaDeCadastro} 
+          component={TelaDeCadastro}
+          options={{ headerShown: true, title: "Cadastrar" }} 
           />
 
           <Stack.Screen
