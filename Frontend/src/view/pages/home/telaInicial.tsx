@@ -237,11 +237,11 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 120,
-    height: 60,
+    width: 110,
+    height: 50,
     alignSelf: "center",
+    marginTop: 50,
     marginBottom: 20,
-    marginTop:10, 
   },
 
   carouselContainer: {

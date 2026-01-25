@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 60,
     alignSelf: "center",
-    marginTop: 40,
+    marginTop: 45,
     marginBottom: 20,
   },
 

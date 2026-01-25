@@ -169,15 +169,17 @@ const styles = StyleSheet.create({
   
   scrollContent: {
     padding: 16,
-    paddingBottom: 20,
+    //paddingBottom: 20,
     width:"100%",
     alignItems:"center",
   },
 
   logo: {
-    width: 120,
-    height: 60,
-    marginBottom: "10%",
+    width: 110,
+    height: 50,
+    alignSelf: "center",
+    marginTop: 25,
+    marginBottom: 20,
   },
 
   DetalhesDoBotaodeSair: {

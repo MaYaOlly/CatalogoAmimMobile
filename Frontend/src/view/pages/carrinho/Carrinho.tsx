@@ -311,9 +311,11 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
   logo: {
-    width: 120,
-    height: 60,
-    marginBottom: "10%",
+    width: 110,
+    height: 50,
+    alignSelf: "center",
+    marginTop: 40,
+    marginBottom: 20,
   },
   suaSacolaELimpar: {
     backgroundColor: '#fcfbfc',
