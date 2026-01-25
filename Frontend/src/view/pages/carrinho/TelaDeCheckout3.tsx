@@ -143,7 +143,7 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
                     activeOpacity={0.8}
                     onPressIn={() => setPressionado4(true)}
                     onPressOut={() => setPressionado4(false)}
-                    onPress={() => navigation.popToTop()}
+                    onPress={() => navigation.replace("TelaDeCheckout1")}
         >
     <View style={styles.areaDeDadosDoConsumidor}>
       <View style={styles.containerEsquerdo}>
