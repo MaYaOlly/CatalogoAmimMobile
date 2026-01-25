@@ -30,7 +30,7 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
   // Função para avançar para próxima etapa
   const handleContinuar = () => {
     if (validarPagamento()) {
-      navigation.navigate('TelaDeCheckout3');
+      navigation.replace('TelaDeCheckout3');
     }
   };
 

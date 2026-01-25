@@ -53,7 +53,7 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
   // Função para avançar para próxima etapa
   const handleContinuar = () => {
     if (validarEndereco()) {
-      navigation.navigate('TelaDeCheckout2');
+      navigation.replace('TelaDeCheckout2');
     }
   }; 
 
