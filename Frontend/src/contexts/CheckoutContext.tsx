@@ -126,7 +126,7 @@ export function CheckoutProvider({ children }: CheckoutProviderProps) {
   const enviarParaWhatsApp = async () => {
     try {
       // Número do WhatsApp da empresa (substitua pelo número real)
-      const numeroWhatsApp = "+5586981250203"; // Formato: código do país + DDD + número
+      const numeroWhatsApp = "+5586999183229"; // Formato: código do país + DDD + número
       
       const mensagem = formatarMensagemWhatsApp();
       const mensagemEncoded = encodeURIComponent(mensagem);
