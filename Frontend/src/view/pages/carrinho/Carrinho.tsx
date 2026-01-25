@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     alignItems:"center",
     justifyContent: 'flex-start',
     paddingTop: 10,
-    paddingBottom: 100,
+    paddingBottom: 10,
   },
   logo: {
     width: 110,
@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
   botao4: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    height:"10%",
+    height:65,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -514,7 +514,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 6,
-    marginBottom: 20,
+    //marginBottom: 20,
+    marginVertical: 16,
+    paddingVertical: 0, // padding vertical zero para não crescer
+    paddingHorizontal: 16,
   },
   botaoPressionado4: {
     backgroundColor: "#ff9ebf",
@@ -529,7 +532,7 @@ const styles = StyleSheet.create({
     gap: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: "5%"
+    marginBottom:10,
   },
   botaoPressionado5: {
     backgroundColor: "#ff9ebf",
