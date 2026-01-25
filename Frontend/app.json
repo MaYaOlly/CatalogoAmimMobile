@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Frontend",
+    "name": "Amim",
     "slug": "Frontend",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "orientation": "portrait",
     "icon": "./assets/systemicons/icon.png",
     "userInterfaceStyle": "light",
@@ -16,14 +16,16 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 3,
+      "versionCode": 6,
+      "usesCleartextTraffic": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/systemicons/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.rn.expo.Frontend"
+      "package": "com.rn.expo.Amim",
+      "permissions": ["INTERNET"] 
     },
     "web": {
       "favicon": "./assets/systemicons/favicon.png"
@@ -35,6 +37,7 @@
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "owner": "rn.expo"
   }
 }
