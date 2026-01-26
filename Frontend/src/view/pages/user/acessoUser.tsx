@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent:"space-between",
+    width: '100%',
   },
 
   optionText: {
@@ -198,7 +199,7 @@ const styles = StyleSheet.create({
   },
 
   BotaodeSair: {
-    backgroundColor: "transparent",
+    backgroundColor: "trnasparent",
     borderWidth: 1,
     borderColor: "#a3214d",
     padding: 22,
@@ -236,7 +237,10 @@ const styles = StyleSheet.create({
 
   footer: {
     backgroundColor: "#fcfbfc",
-    
+      //paddingBottom: 16,
+      alignItems: "center",
+      justifyContent: "center",
+
   },
   botao4: {
     width: '100%',

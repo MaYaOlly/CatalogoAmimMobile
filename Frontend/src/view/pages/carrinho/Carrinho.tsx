@@ -227,7 +227,9 @@ export const Carrinho = ({ navigation }: Props) => {
       />
       </View>
       </TouchableOpacity>
+      </ScrollView>
 
+      <View style={styles.areaDoBotao}>
       <TouchableOpacity 
           style={[ styles.botao4, pressionado4 && styles.botaoPressionado4
           ]}
@@ -238,7 +240,7 @@ export const Carrinho = ({ navigation }: Props) => {
         >
         <Text style={styles.textoDoBotao}>CONTINUAR PEDIDO </Text>
         </TouchableOpacity>
-    </ScrollView>
+        </View>
 
     {/* Modal de Cupom */}
     <Modal
@@ -502,6 +504,13 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     marginRight:-20,
   },
+  areaDoBotao:{
+    //paddingHorizontal: 16,
+    paddingBottom: 16,
+    //backgroundColor: 'transparent',
+    alignItems: "center",
+    justifyContent: "center",
+  },
   botao4: {
     backgroundColor: "#ff4da6", 
     width: "95%",
@@ -515,9 +524,9 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 6,
     //marginBottom: 20,
-    marginVertical: 16,
+    //marginVertical: 16,
     paddingVertical: 0, // padding vertical zero para não crescer
-    paddingHorizontal: 16,
+    //paddingHorizontal: 16,
   },
   botaoPressionado4: {
     backgroundColor: "#ff9ebf",
