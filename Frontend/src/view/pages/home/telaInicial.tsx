@@ -402,7 +402,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     padding: 24,
     width: "90%",
-    maxHeight: "100%",
+    maxHeight: "200%",
     elevation: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
