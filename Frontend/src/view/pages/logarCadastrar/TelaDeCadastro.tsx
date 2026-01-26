@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   botao2: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    minHeight: 65,
+    minHeight: 56,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",

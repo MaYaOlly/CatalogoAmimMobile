@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   botao: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    height:"10%",
+    height:56,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   botao2: {
     backgroundColor: "#fcfbfc", 
     width: "95%",
-    height:"10%",
+    height:56,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",

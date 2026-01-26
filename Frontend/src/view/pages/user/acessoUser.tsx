@@ -184,9 +184,8 @@ const styles = StyleSheet.create({
 
   DetalhesDoBotaodeSair: {
     backgroundColor: "transparent", 
-    paddingVertical: 10,
+    //paddingVertical: 10,
     borderRadius: 30,
-    
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent:"space-between",
@@ -203,11 +202,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#a3214d",
     padding: 22,
-    paddingVertical:12,
+    //paddingVertical:12,
     borderRadius: 30,
     marginHorizontal: 16,
     marginBottom: 16,
     justifyContent:"center",
+    height:96,
+    
 
   },
 

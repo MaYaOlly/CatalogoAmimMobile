@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   botaoContinuar: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    height:"8%",
+    height:56,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -226,6 +226,7 @@ const styles = StyleSheet.create({
   textoDoBotaoContinuar: {
     fontWeight: 'bold',
     color: "#ffffff",
+    fontSize:16,
   },
   botaoPressionadoContinuar: {
     backgroundColor: "#ff9ebf",
@@ -325,11 +326,12 @@ const styles = StyleSheet.create({
     marginRight:20,
   },
   areaDoContinuar:{
-    backgroundColor: '#ff4da6',
+    //backgroundColor: 'red',
     width: '85%',
     flexDirection: 'column',
     alignItems: 'center',   
-    marginLeft: 16,  
+    marginLeft: 16,
+    height:30,  
   },
   areaDaSeta:{
     //backgroundColor: '#ff4da6',
@@ -340,7 +342,8 @@ const styles = StyleSheet.create({
     //width: '95%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical:24,
+    //paddingVertical:24,
+    height:56,
     
   },
   inputComErro: {

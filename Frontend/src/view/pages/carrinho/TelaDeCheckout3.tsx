@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
   botaoContinuar: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    height:"10%",
+    height:56,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -284,12 +284,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 6,
-    marginTop: 20,
-  
+    marginTop: 30,
+    marginBottom: 30,
   },
   textoDoBotaoContinuar: {
     fontWeight: 'bold',
     color: "#ffffff",
+    fontSize:16,
   },
   botaoPressionadoContinuar: {
     backgroundColor: "#ff9ebf",

@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
   botao4: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    height:65,
+    height:56,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
