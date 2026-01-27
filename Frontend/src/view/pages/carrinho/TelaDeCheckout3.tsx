@@ -143,7 +143,7 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
                     activeOpacity={0.8}
                     onPressIn={() => setPressionado4(true)}
                     onPressOut={() => setPressionado4(false)}
-                    onPress={() => navigation.popToTop()}
+                    onPress={() => navigation.replace("TelaDeCheckout1")}
         >
     <View style={styles.areaDeDadosDoConsumidor}>
       <View style={styles.containerEsquerdo}>
@@ -226,7 +226,8 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
       </View>
 
 
-
+</ScrollView>
+<View style={styles.areaDoBotao}>
 <TouchableOpacity
   style={[
     styles.botaoContinuar,
@@ -247,9 +248,9 @@ export const TelaDeCheckout3 = ({ navigation }: Props) => {
     <Text style={styles.textoDoBotaoContinuar}>ENVIAR PEDIDO</Text>
   )}
 </TouchableOpacity>
+</View>
 
 
-    </ScrollView>
     </SafeAreaView>
   );
 }
@@ -272,10 +273,17 @@ const styles = StyleSheet.create({
     padding:20,
     marginBottom:-10,
   },
+  areaDoBotao:{
+    //paddingHorizontal: 16,
+    paddingBottom: 16,
+    backgroundColor: '#fcfbfc',
+    alignItems: "center",
+    justifyContent: "center",
+  },
   botaoContinuar: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    height:"10%",
+    height:56,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -284,12 +292,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 6,
-    marginTop: 20,
-  
+    //marginTop: 30,
+    //marginBottom: 30,
   },
   textoDoBotaoContinuar: {
     fontWeight: 'bold',
     color: "#ffffff",
+    fontSize:16,
   },
   botaoPressionadoContinuar: {
     backgroundColor: "#ff9ebf",

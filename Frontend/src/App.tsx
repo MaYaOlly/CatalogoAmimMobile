@@ -22,11 +22,23 @@ function App() {
       <CarrinhoProvider>
         <CheckoutProvider>
           <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="Home" component={BottomTabs} />
-              <Stack.Screen name="Login" component={TelaDeLogin} />
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
 
-          <Stack.Screen name="Cadastrar" component={TelaDeCadastro} />
+          <Stack.Screen 
+          name="Home" 
+          component={BottomTabs}
+          />
+
+          <Stack.Screen 
+          name="Login" 
+          component={TelaDeLogin} 
+          />
+
+          <Stack.Screen 
+          name="Cadastrar" 
+          component={TelaDeCadastro}
+          options={{ headerShown: true, title: "Cadastrar" }} 
+          />
 
           <Stack.Screen
             name="Carrinho"
@@ -37,25 +49,25 @@ function App() {
           <Stack.Screen
             name="TelaDeCheckout1"
             component={TelaDeCheckout1}
-            options={{ headerShown: true, title: "Tela De Checkout 1" }}
+            options={{ headerShown: true, title: "Checkout" }}
           />
 
           <Stack.Screen
             name="TelaDeCheckout2"
             component={TelaDeCheckout2}
-            options={{ headerShown: true, title: "Tela De Checkout 2" }}
+            options={{ headerShown: true, title: "Checkout" }}
           />
 
           <Stack.Screen
             name="TelaDeCheckout3"
             component={TelaDeCheckout3}
-            options={{ headerShown: true, title: "Tela De Checkout 3" }}
+            options={{ headerShown: true, title: "Checkout" }}
           />
 
           <Stack.Screen
             name="QuemSomos"
             component={QuemSomos}
-            options={{ headerShown: true, title: "QuemSomos" }}
+            options={{ headerShown: true, title: "Quem somos" }}
           />
 
           <Stack.Screen

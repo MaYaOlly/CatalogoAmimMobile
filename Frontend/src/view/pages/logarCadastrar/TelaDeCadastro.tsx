@@ -59,11 +59,11 @@ const TelaDeCadastro = ({ navigation }: Props) => {
   }; 
 
   return (
-  <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc'  }}>
+  <SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc'  }}edges={['bottom']}>
     <KeyboardAwareScrollView
       contentContainerStyle={styles.container}
       enableOnAndroid
-      extraScrollHeight={24}
+      extraScrollHeight={100}
       keyboardShouldPersistTaps="handled"
     >
       <Text style ={styles.texto}>Insira as seguintes informações para criar uma conta</Text>
@@ -158,7 +158,8 @@ const TelaDeCadastro = ({ navigation }: Props) => {
         keyboardType="phone-pad"
         editable={!carregando}
       />
-
+</KeyboardAwareScrollView>
+<View style={styles.areaDoBotao}>
       <TouchableOpacity
         style={[
           styles.botao2,
@@ -177,8 +178,8 @@ const TelaDeCadastro = ({ navigation }: Props) => {
           <Text style={styles.textoDoBotao}>CADASTRAR</Text>
         )}
       </TouchableOpacity>
-
-    </KeyboardAwareScrollView>
+      </View>
+    
     </SafeAreaView>
   );
 }
@@ -192,7 +193,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: '#fcfbfc',
     alignItems:"center",
-    paddingTop: 20,
+    paddingTop: 10,
   },
   texto: {
     color:"#a3214d",
@@ -209,10 +210,17 @@ const styles = StyleSheet.create({
     color: '#a3214d',
     fontWeight: 'bold',
   },
+  areaDoBotao:{
+    //paddingHorizontal: 16,
+    paddingBottom: 16,
+    backgroundColor: '#fcfbfc',
+    alignItems: "center",
+    justifyContent: "center",
+  },
   botao2: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    minHeight: 65,
+    minHeight: 56,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -221,8 +229,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 6,
-    marginTop: 60,
-    marginBottom: 40, // espaço para teclado
+    //marginTop: 60,
+    //marginBottom: 16, // espaço para teclado
 
   },
   textoDoBotao: {

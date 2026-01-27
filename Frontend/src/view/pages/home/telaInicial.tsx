@@ -237,11 +237,11 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 120,
-    height: 60,
+    width: 110,
+    height: 50,
     alignSelf: "center",
+    marginTop: 50,
     marginBottom: 20,
-    marginTop:10, 
   },
 
   carouselContainer: {
@@ -402,7 +402,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     padding: 24,
     width: "90%",
-    maxHeight: "100%",
+    maxHeight: "200%",
     elevation: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },

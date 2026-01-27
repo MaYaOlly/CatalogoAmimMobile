@@ -169,25 +169,27 @@ const styles = StyleSheet.create({
   
   scrollContent: {
     padding: 16,
-    paddingBottom: 20,
+    //paddingBottom: 20,
     width:"100%",
     alignItems:"center",
   },
 
   logo: {
-    width: 120,
-    height: 60,
-    marginBottom: "10%",
+    width: 110,
+    height: 50,
+    alignSelf: "center",
+    marginTop: 25,
+    marginBottom: 20,
   },
 
   DetalhesDoBotaodeSair: {
     backgroundColor: "transparent", 
-    paddingVertical: 10,
+    //paddingVertical: 10,
     borderRadius: 30,
-    
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent:"space-between",
+    width: '100%',
   },
 
   optionText: {
@@ -197,15 +199,17 @@ const styles = StyleSheet.create({
   },
 
   BotaodeSair: {
-    backgroundColor: "transparent",
+    backgroundColor: "trnasparent",
     borderWidth: 1,
     borderColor: "#a3214d",
     padding: 22,
-    paddingVertical:12,
+    //paddingVertical:12,
     borderRadius: 30,
     marginHorizontal: 16,
     marginBottom: 16,
     justifyContent:"center",
+    height:96,
+    
 
   },
 
@@ -233,7 +237,10 @@ const styles = StyleSheet.create({
 
   footer: {
     backgroundColor: "#fcfbfc",
-    
+      //paddingBottom: 16,
+      alignItems: "center",
+      justifyContent: "center",
+
   },
   botao4: {
     width: '100%',

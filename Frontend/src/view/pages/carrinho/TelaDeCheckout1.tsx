@@ -62,7 +62,7 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
     <KeyboardAwareScrollView
       contentContainerStyle={styles.container}
       enableOnAndroid
-      extraScrollHeight={24}
+      extraScrollHeight={150}
       keyboardShouldPersistTaps="handled"
     >
 
@@ -152,7 +152,8 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
         value={endereco.complemento}
         onChangeText={(text) => atualizarEndereco('complemento', text)}
       />
-
+</KeyboardAwareScrollView>
+<View style={styles.areaDoBotao}>
 <TouchableOpacity
   style={[
     styles.botaoContinuar,
@@ -175,8 +176,9 @@ export const TelaDeCheckout1 = ({ navigation }: Props) => {
   </View>
   </View>
 </TouchableOpacity>
+</View>
 
-</KeyboardAwareScrollView>
+
     </SafeAreaView>
   );
 }
@@ -208,10 +210,17 @@ const styles = StyleSheet.create({
     color: '#a3214d',
     fontWeight: 'bold',
   },
+  areaDoBotao:{
+    //paddingHorizontal: 16,
+    paddingBottom: 16,
+    backgroundColor: '#fcfbfc',
+    alignItems: "center",
+    justifyContent: "center",
+  },
   botaoContinuar: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    height:"8%",
+    height:56,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -220,12 +229,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 6,
-    marginTop: 30,
-    marginBottom: 30,
+    //marginTop: 30,
+    //marginBottom: 30,
   },
   textoDoBotaoContinuar: {
     fontWeight: 'bold',
     color: "#ffffff",
+    fontSize:16,
   },
   botaoPressionadoContinuar: {
     backgroundColor: "#ff9ebf",
@@ -325,11 +335,12 @@ const styles = StyleSheet.create({
     marginRight:20,
   },
   areaDoContinuar:{
-    backgroundColor: '#ff4da6',
+    //backgroundColor: 'red',
     width: '85%',
     flexDirection: 'column',
     alignItems: 'center',   
-    marginLeft: 16,  
+    marginLeft: 16,
+    height:30,  
   },
   areaDaSeta:{
     //backgroundColor: '#ff4da6',
@@ -340,7 +351,8 @@ const styles = StyleSheet.create({
     //width: '95%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical:24,
+    //paddingVertical:24,
+    height:56,
     
   },
   inputComErro: {

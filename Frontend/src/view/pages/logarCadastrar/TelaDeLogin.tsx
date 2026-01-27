@@ -117,7 +117,11 @@ const TelaDeLogin = ({ navigation }: Props) => {
           <Text style={styles.textoDoBotao}>ENTRAR</Text>
         )}
       </TouchableOpacity>
+      </ScrollView>
 
+
+
+      <View style={styles.areaDoBotao}>
       <TouchableOpacity
   style={[
     styles.botao2,
@@ -130,8 +134,8 @@ const TelaDeLogin = ({ navigation }: Props) => {
 >
   <Text style={styles.textoDoBotao2}>Criar uma nova conta</Text>
 </TouchableOpacity>
-      
-</ScrollView>
+</View>
+
 </SafeAreaView>
   );
 }
@@ -150,7 +154,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: "95%",
-    height:"8%",
+    height:"9%",
     backgroundColor: '#fce4ec',
     borderRadius: 30,
     padding: 20,
@@ -161,7 +165,7 @@ const styles = StyleSheet.create({
   botao: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    height:"10%",
+    height:56,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -176,10 +180,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffb3d1",
     opacity: 0.7,
   },
+  areaDoBotao:{
+    //paddingHorizontal: 16,
+    paddingBottom: 16,
+    backgroundColor: '#fcfbfc',
+    alignItems: "center",
+    justifyContent: "center",
+  },
   botao2: {
     backgroundColor: "#fcfbfc", 
     width: "95%",
-    height:"10%",
+    height:56,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -189,8 +200,8 @@ const styles = StyleSheet.create({
     //shadowRadius: 5,
     //elevation: 6,
     //marginTop: 55,
-    position:"absolute",
-    bottom:30,
+    //position:"absolute",
+    //bottom:30,
     borderWidth:2,
     borderColor:"#a3214d",
 
@@ -213,7 +224,7 @@ const styles = StyleSheet.create({
   },
   containerSenha: {
     width: '95%',
-    height: '8%',
+    height: '9%',
     backgroundColor: '#fce4ec',
     borderRadius: 30,
     marginVertical: 6,

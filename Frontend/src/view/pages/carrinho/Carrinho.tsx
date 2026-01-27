@@ -227,7 +227,9 @@ export const Carrinho = ({ navigation }: Props) => {
       />
       </View>
       </TouchableOpacity>
+      </ScrollView>
 
+      <View style={styles.areaDoBotao}>
       <TouchableOpacity 
           style={[ styles.botao4, pressionado4 && styles.botaoPressionado4
           ]}
@@ -238,7 +240,7 @@ export const Carrinho = ({ navigation }: Props) => {
         >
         <Text style={styles.textoDoBotao}>CONTINUAR PEDIDO </Text>
         </TouchableOpacity>
-    </ScrollView>
+        </View>
 
     {/* Modal de Cupom */}
     <Modal
@@ -308,12 +310,14 @@ const styles = StyleSheet.create({
     alignItems:"center",
     justifyContent: 'flex-start',
     paddingTop: 10,
-    paddingBottom: 100,
+    paddingBottom: 10,
   },
   logo: {
-    width: 120,
-    height: 60,
-    marginBottom: "10%",
+    width: 110,
+    height: 50,
+    alignSelf: "center",
+    marginTop: 40,
+    marginBottom: 20,
   },
   suaSacolaELimpar: {
     backgroundColor: '#fcfbfc',
@@ -500,10 +504,17 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     marginRight:-20,
   },
+  areaDoBotao:{
+    //paddingHorizontal: 16,
+    paddingBottom: 16,
+    //backgroundColor: 'transparent',
+    alignItems: "center",
+    justifyContent: "center",
+  },
   botao4: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    height:"10%",
+    height:56,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -512,7 +523,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 6,
-    marginBottom: 20,
+    //marginBottom: 20,
+    //marginVertical: 16,
+    paddingVertical: 0, // padding vertical zero para não crescer
+    //paddingHorizontal: 16,
   },
   botaoPressionado4: {
     backgroundColor: "#ff9ebf",
@@ -527,7 +541,7 @@ const styles = StyleSheet.create({
     gap: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: "5%"
+    marginBottom:10,
   },
   botaoPressionado5: {
     backgroundColor: "#ff9ebf",

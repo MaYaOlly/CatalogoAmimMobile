@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useCheckoutViewModel } from '../../../ViewModel/useCheckoutViewModel';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type TelaDeCheckout2NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -35,9 +36,11 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
   };
 
   return (
-    <ScrollView
-    contentContainerStyle={styles.container}
-    showsVerticalScrollIndicator={false}>
+<SafeAreaView style={{ flex: 1, backgroundColor: '#fcfbfc' }} edges={['bottom']}>
+<ScrollView
+  contentContainerStyle={styles.container}
+  showsVerticalScrollIndicator={false}
+>
     
 
     <View style={styles.balao}>
@@ -137,8 +140,8 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
   <Text style={styles.textoPix}>Cartão de crédito</Text>
 </TouchableOpacity>
 </View>
-
-
+</ScrollView>
+<View style={styles.areaDoBotao}>
 <TouchableOpacity
   style={[
     styles.botaoContinuar,
@@ -161,8 +164,8 @@ export const TelaDeCheckout2 = ({ navigation }: Props) => {
   </View>
   </View>
 </TouchableOpacity>
-
-    </ScrollView>
+</View>
+</SafeAreaView>
   );
 }
 
@@ -183,10 +186,17 @@ const styles = StyleSheet.create({
     padding:20,
     marginBottom:-10,
   },
+  areaDoBotao:{
+    //paddingHorizontal: 16,
+    paddingBottom: 16,
+    backgroundColor: '#fcfbfc',
+    alignItems: "center",
+    justifyContent: "center",
+  },
   botaoContinuar: {
     backgroundColor: "#ff4da6", 
     width: "95%",
-    height:"8%",
+    height:56,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -195,11 +205,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 6,
-    marginTop: 20,
+    //marginTop: 30,
+    //marginBottom: 30,
   },
   textoDoBotaoContinuar: {
     fontWeight: 'bold',
     color: "#ffffff",
+    fontSize:16,
   },
   botaoPressionadoContinuar: {
     backgroundColor: "#ff9ebf",
@@ -364,11 +376,12 @@ const styles = StyleSheet.create({
     marginRight:20,
   },
   areaDoContinuar:{
-    backgroundColor: '#ff4da6',
+    //backgroundColor: 'red',
     width: '85%',
     flexDirection: 'column',
     alignItems: 'center',   
-    marginLeft: 16,  
+    marginLeft: 16,
+    height:30,  
   },
   areaDaSeta:{
     //backgroundColor: '#ff4da6',
@@ -379,8 +392,8 @@ const styles = StyleSheet.create({
     //width: '95%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical:24,
-    
+    //paddingVertical:24,
+    height:56,
   },
   
 });
